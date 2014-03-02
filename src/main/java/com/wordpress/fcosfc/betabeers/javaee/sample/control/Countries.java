@@ -1,6 +1,7 @@
 package com.wordpress.fcosfc.betabeers.javaee.sample.control;
 
 import com.wordpress.fcosfc.betabeers.javaee.sample.control.util.JsfUtil;
+import com.wordpress.fcosfc.betabeers.javaee.sample.control.util.PaginationHelper;
 import com.wordpress.fcosfc.betabeers.javaee.sample.entity.Country;
 import com.wordpress.fcosfc.betabeers.javaee.sample.facade.CountryFacade;
 import java.io.Serializable;
@@ -9,8 +10,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.model.DataModel;
-import javax.faces.model.ListDataModel;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -26,9 +25,10 @@ public class Countries implements Serializable {
 
     @Inject
     private CountryFacade countryFacade;
-    private DataModel<Country> countries;
+    private PaginationHelper<Country> paginationHelper;
     private Country currentCountry;
     private boolean creating, editing;
+    private int currentPageIndex;
 
     public Countries() {
         creating = false;
@@ -38,6 +38,7 @@ public class Countries implements Serializable {
     @PostConstruct
     protected void init() {
         try {
+            paginationHelper = null;
             refreshCountries();
         } catch (Exception ex) {
             JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/com/wordpress/fcosfc/betabeers/javaee/sample/resource/label").getString("messageErrorDetected"));
@@ -45,20 +46,12 @@ public class Countries implements Serializable {
         }
     }
 
-    public DataModel<Country> getCountries() {
-        return countries;
-    }
-
-    public void setCountries(DataModel<Country> countries) {
-        this.countries = countries;
-    }
+    public PaginationHelper<Country> getPaginationHelper() {
+        return paginationHelper;
+    }       
 
     public Country getCurrentCountry() {
         return currentCountry;
-    }
-
-    public void setCurrentCountry(Country currentCountry) {
-        this.currentCountry = currentCountry;
     }
 
     public boolean isCreating() {
@@ -101,7 +94,7 @@ public class Countries implements Serializable {
     }
 
     public String prepareEdit() {
-        currentCountry = countries.getRowData();
+        currentCountry = paginationHelper.getCurrentPage().getRowData();
         setEditing(true);
         setCreating(false);
 
@@ -125,7 +118,7 @@ public class Countries implements Serializable {
     
     public String remove() {
         try {
-            currentCountry = countries.getRowData();
+            currentCountry = paginationHelper.getCurrentPage().getRowData();
             countryFacade.remove(currentCountry);
             setCreating(false);
             setEditing(false);
@@ -148,6 +141,11 @@ public class Countries implements Serializable {
     }
     
     protected void refreshCountries() {
-        countries = new ListDataModel<Country>(countryFacade.findAll());
+        if (paginationHelper == null) {
+            currentPageIndex = 1;
+        } else {
+            currentPageIndex = paginationHelper.getCurrentPageIndex();
+        }
+        paginationHelper = new PaginationHelper<Country>(Country.class, countryFacade.findAll(), currentPageIndex);
     }
 }
