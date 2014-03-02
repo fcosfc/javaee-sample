@@ -12,34 +12,11 @@
 
     <ui:define name="list">
         <h:form id="countryForm">
-            <h:panelGroup id="messages" layout="block">
-                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
-            </h:panelGroup>
-            <h:panelGroup id="editPanel" layout="block" rendered="#{countries.creating || countries.editing}">
-                <h:outputLabel value="#{label.countryIsoCode}: " for="countryIsoCode"/>
-                <h:inputText id="countryIsoCode" value="#{countries.currentCountry.isoCode}" title="#{label.countryIsoCode}"/><br/>
-                <h:outputLabel value="#{label.countryName}: " for="countryName"/>
-                <h:inputText id="countryName" value="#{countries.currentCountry.name}" title="#{label.countryName}"/><br/>
-                <h:commandButton action="#{countries.create()}" value="#{label.buttonCreate}" rendered="#{countries.creating}">
-                    <f:ajax render="@form" execute="countryIsoCode countryName"/>
-                </h:commandButton>
-                <h:commandButton action="#{countries.update()}" value="#{label.buttonUpdate}" rendered="#{countries.editing}">
-                    <f:ajax render="@form" execute="countryIsoCode countryName"/>
-                </h:commandButton>
-                <h:commandButton type="reset" value="#{label.buttonReset}"/>
-                <h:commandButton action="#{countries.cancel()}" value="#{label.buttonCancel}">
-                    <f:ajax render="@form"/>
-                </h:commandButton>
-                <br/>
-            </h:panelGroup>
             <h:commandButton action="#{countries.prepareCreate()}" value="#{label.buttonNew}">
                 <f:ajax render="@form"/>
             </h:commandButton>
             <br/>
             <h:outputText value="#{label.noData}" rendered="#{countries.paginationHelper.currentPage.rowCount == 0}"/>
-            <h:commandLink action="#{countries.paginationHelper.previousPage()}" value="#{label.pagePrevious}" rendered="#{countries.paginationHelper.hasPreviousPage}">
-                <f:ajax render="@form"/>             
-            </h:commandLink>
             <h:dataTable value="#{countries.paginationHelper.currentPage}" var="country" rendered="#{countries.paginationHelper.currentPage.rowCount > 0}">
                 <h:column>
                     <f:facet name="header">
@@ -64,9 +41,33 @@
                     </h:commandLink>
                 </h:column>
             </h:dataTable>
-            <h:commandLink action="#{countries.paginationHelper.nextPage()}" value="#{label.pageNext}" rendered="#{countries.paginationHelper.hasNextPage}">
+            <h:commandButton image="/resources/images/icons/prev.png" action="#{countries.paginationHelper.previousPage()}" rendered="#{countries.paginationHelper.hasPreviousPage}">
                 <f:ajax render="@form"/>             
-            </h:commandLink>             
+            </h:commandButton>  
+            <h:commandButton image="/resources/images/icons/next.png" action="#{countries.paginationHelper.nextPage()}" rendered="#{countries.paginationHelper.hasNextPage}">
+                <f:ajax render="@form"/>             
+            </h:commandButton> 
+            <h:panelGroup id="editPanel" layout="block" rendered="#{countries.creating || countries.editing}">
+                <br/>
+                <h:outputLabel value="#{label.countryIsoCode}: " for="countryIsoCode"/>
+                <h:inputText id="countryIsoCode" value="#{countries.currentCountry.isoCode}" title="#{label.countryIsoCode}"/><br/>
+                <h:outputLabel value="#{label.countryName}: " for="countryName"/>
+                <h:inputText id="countryName" value="#{countries.currentCountry.name}" title="#{label.countryName}"/><br/>
+                <h:commandButton action="#{countries.create()}" value="#{label.buttonCreate}" rendered="#{countries.creating}">
+                    <f:ajax render="@form" execute="countryIsoCode countryName"/>
+                </h:commandButton>
+                <h:commandButton action="#{countries.update()}" value="#{label.buttonUpdate}" rendered="#{countries.editing}">
+                    <f:ajax render="@form" execute="countryIsoCode countryName"/>
+                </h:commandButton>
+                <h:commandButton type="reset" value="#{label.buttonReset}"/>
+                <h:commandButton action="#{countries.cancel()}" value="#{label.buttonCancel}">
+                    <f:ajax render="@form"/>
+                </h:commandButton>
+            </h:panelGroup>  
+            <h:panelGroup id="messages" layout="block">
+                <br/>
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>       
         </h:form>
     </ui:define>
 
