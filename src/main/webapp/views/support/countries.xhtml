@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="./../../WEB-INF/templates/template-example.xhtml">
+
+    <ui:define name="head">
+        #{label.countriesTitle}
+    </ui:define>
+
+    <ui:define name="list">
+        <h:form id="countryForm">
+            <h:panelGroup id="messages" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:panelGroup id="editPanel" layout="block" rendered="#{countries.creating || countries.editing}">
+                <h:outputLabel value="#{label.countryIsoCode}: " for="countryIsoCode"/>
+                <h:inputText id="countryIsoCode" value="#{countries.currentCountry.isoCode}" title="#{label.countryIsoCode}"/><br/>
+                <h:outputLabel value="#{label.countryName}: " for="countryName"/>
+                <h:inputText id="countryName" value="#{countries.currentCountry.name}" title="#{label.countryName}"/><br/>
+                <h:commandButton action="#{countries.create()}" value="#{label.buttonCreate}" rendered="#{countries.creating}">
+                    <f:ajax render="@form" execute="countryIsoCode countryName"/>
+                </h:commandButton>
+                <h:commandButton action="#{countries.update()}" value="#{label.buttonUpdate}" rendered="#{countries.editing}">
+                    <f:ajax render="@form" execute="countryIsoCode countryName"/>
+                </h:commandButton>
+                <h:commandButton type="reset" value="#{label.buttonReset}"/>
+                <h:commandButton action="#{countries.cancel()}" value="#{label.buttonCancel}">
+                    <f:ajax render="@form"/>
+                </h:commandButton>
+                <br/>
+            </h:panelGroup>
+            <h:commandButton action="#{countries.prepareCreate()}" value="#{label.buttonNew}">
+                <f:ajax render="@form"/>
+            </h:commandButton>
+             <br/>
+            <h:outputText value="#{label.noData}" rendered="#{countries.countries.rowCount == 0}"/>
+            <h:dataTable value="#{countries.countries}" var="country" rendered="#{countries.countries.rowCount > 0}">
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{label.countryIsoCode}"/>
+                    </f:facet>
+                    <h:outputText value="#{country.isoCode}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{label.countryName}"/>
+                    </f:facet>
+                    <h:outputText value="#{country.name}"/>
+                </h:column>
+                <h:column>
+                    <h:commandLink action="#{countries.prepareEdit()}" value="#{label.buttonEdit}">
+                        <f:ajax render="@form"/>
+                    </h:commandLink>
+                </h:column>
+                <h:column>
+                    <h:commandLink action="#{countries.remove()}" value="#{label.buttonRemove}">
+                        <f:ajax render="@form"/>
+                    </h:commandLink>
+                </h:column>
+            </h:dataTable>
+        </h:form>
+    </ui:define>
+
+</ui:composition>
