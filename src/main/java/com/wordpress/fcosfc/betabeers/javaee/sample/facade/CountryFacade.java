@@ -32,4 +32,13 @@ public class CountryFacade extends AbstractFacade<Country> implements Serializab
     public List<Country> findAll() {
         return getEntityManager().createQuery("SELECT c FROM Country c ORDER BY c.name").getResultList();
     }
+    
+    public List<Country> findByFilter(String nameFilter) {
+        return getEntityManager().createQuery("SELECT c "
+                + "FROM Country c "
+                + "WHERE upper(c.name) like upper(:nameFilter) "
+                + "ORDER BY c.name")
+                .setParameter("nameFilter", nameFilter)
+                .getResultList();
+    }
 }

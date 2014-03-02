@@ -10,19 +10,18 @@ import javax.faces.model.ListDataModel;
  */
 public class PaginationHelper<T> {
     
+    private final static int PAGE_SIZE = 5;
+    
     private Class<T> entityClass;
     private List<T> entities;
     private DataModel<T> currentPage;
-    private int pageSize;
-    private int currentPageIndex;
-    private int pageCount;
+    private int currentPageIndex, pageCount;
 
     public PaginationHelper(Class<T> entityClass, List<T> entities, int currentPageIndex) {
         this.entityClass = entityClass;
         this.entities = entities;
         this.currentPageIndex = currentPageIndex;
-        pageSize = 5;
-        pageCount = ((entities.size() - 1) / pageSize) + 1;        
+        pageCount = ((entities.size() - 1) / PAGE_SIZE) + 1;        
         if (this.currentPageIndex > pageCount) {
             this.currentPageIndex = pageCount;
         }
@@ -63,10 +62,6 @@ public class PaginationHelper<T> {
         }
     }
 
-    public int getPageSize() {
-        return pageSize;
-    }
-
     public int getCurrentPageIndex() {
         return currentPageIndex;
     }
@@ -76,12 +71,12 @@ public class PaginationHelper<T> {
     }
     
     private void refresh() {
-        int lastIndex = ((currentPageIndex - 1) * pageSize) + pageSize;
+        int lastIndex = ((currentPageIndex - 1) * PAGE_SIZE) + PAGE_SIZE;
         
         if (lastIndex > entities.size()) {
             lastIndex = entities.size();
         } 
                       
-        currentPage = new ListDataModel<T>(entities.subList((currentPageIndex - 1) * pageSize, lastIndex));
+        currentPage = new ListDataModel<T>(entities.subList((currentPageIndex - 1) * PAGE_SIZE, lastIndex));
     }
 }

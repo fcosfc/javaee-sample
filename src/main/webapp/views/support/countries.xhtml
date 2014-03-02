@@ -16,6 +16,12 @@
                 <f:ajax render="@form"/>
             </h:commandButton>
             <br/>
+            <h:outputLabel value="#{label.countryNameFilter}: " for="countryNameFilter"/>
+            <h:inputText id="countryNameFilter" value="#{countries.nameFilter}" title="#{label.countryNameFilter}" required="true" requiredMessage="#{label.filterRequired}"/>
+            <h:commandButton action="#{countries.filter()}" value="#{label.buttonFilter}">
+                <f:ajax execute="countryNameFilter" render="@form"/>
+            </h:commandButton>
+            <br/>
             <h:outputText value="#{label.noData}" rendered="#{countries.paginationHelper.currentPage.rowCount == 0}"/>
             <h:dataTable value="#{countries.paginationHelper.currentPage}" var="country" rendered="#{countries.paginationHelper.currentPage.rowCount > 0}">
                 <h:column>

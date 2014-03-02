@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -26,8 +27,11 @@ public class Countries implements Serializable {
     @Inject
     private CountryFacade countryFacade;
     private PaginationHelper<Country> paginationHelper;
+    private String nameFilter;
     private Country currentCountry;
     private boolean creating, editing;
+    @Resource
+    private int pageSize;
     private int currentPageIndex;
 
     public Countries() {
@@ -39,6 +43,7 @@ public class Countries implements Serializable {
     protected void init() {
         try {
             paginationHelper = null;
+            nameFilter = "%";
             refreshCountries();
         } catch (Exception ex) {
             JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/com/wordpress/fcosfc/betabeers/javaee/sample/resource/label").getString("messageErrorDetected"));
@@ -49,6 +54,14 @@ public class Countries implements Serializable {
     public PaginationHelper<Country> getPaginationHelper() {
         return paginationHelper;
     }       
+
+    public String getNameFilter() {
+        return nameFilter;
+    }
+
+    public void setNameFilter(String nameFilter) {
+        this.nameFilter = nameFilter;
+    }
 
     public Country getCurrentCountry() {
         return currentCountry;
@@ -70,6 +83,13 @@ public class Countries implements Serializable {
         this.editing = editing;
     }
 
+    public String filter() {
+        setCreating(false);
+        setEditing(false);
+        refreshCountries();
+        
+        return null;
+    }
     public String prepareCreate() {
         currentCountry = new Country();
         setCreating(true);
@@ -146,6 +166,6 @@ public class Countries implements Serializable {
         } else {
             currentPageIndex = paginationHelper.getCurrentPageIndex();
         }
-        paginationHelper = new PaginationHelper<Country>(Country.class, countryFacade.findAll(), currentPageIndex);
+        paginationHelper = new PaginationHelper<Country>(Country.class, countryFacade.findByFilter(nameFilter), currentPageIndex);
     }
 }
