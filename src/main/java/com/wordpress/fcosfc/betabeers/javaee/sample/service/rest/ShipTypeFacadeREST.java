@@ -15,7 +15,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 /**
- * Ship type entity REST facade
+ * Ship type entity REST shipTypeFacade
  * 
  * @author Paco
  */

@@ -1,6 +1,7 @@
 package com.wordpress.fcosfc.betabeers.javaee.sample.facade;
 
 import com.wordpress.fcosfc.betabeers.javaee.sample.entity.Ship;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -9,7 +10,7 @@ import javax.persistence.PersistenceContext;
  * 
  * @author Paco Saucedo
  */
-public class ShipFacade extends AbstractFacade<Ship> {
+public class ShipFacade extends CRUDFacade<Ship> {
     
     @PersistenceContext
     private EntityManager em;
@@ -21,6 +22,11 @@ public class ShipFacade extends AbstractFacade<Ship> {
     @Override
     protected EntityManager getEntityManager() {
         return em;
+    }
+    
+    @Override
+    public List<Ship> findByFilter(String filter) {
+        throw new UnsupportedOperationException();
     }
     
 }

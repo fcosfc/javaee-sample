@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="./../../WEB-INF/templates/template-example.xhtml">
+
+    <ui:define name="head">
+        #{label.shipTypesTitle}
+    </ui:define>
+
+    <ui:define name="list">
+        <h:form id="countryForm">
+            <h:commandButton action="#{shipTypes.prepareCreate()}" value="#{label.buttonNew}">
+                <f:ajax render="@form"/>
+            </h:commandButton>
+            <br/>
+            <h:outputLabel value="#{label.shipTypeDescriptionFilter}: " for="filterCriteria"/>
+            <h:inputText id="filterCriteria" value="#{shipTypes.filterCriteria}" title="#{label.shipTypeDescriptionFilter}" required="true" requiredMessage="#{label.filterCriteriaRequired}"/>
+            <h:commandButton action="#{shipTypes.filter()}" value="#{label.buttonFilter}">
+                <f:ajax execute="filterCriteria" render="@form"/>
+            </h:commandButton>
+            <br/>
+            <h:outputText value="#{label.noData}" rendered="#{shipTypes.paginationHelper.currentPage.rowCount == 0}"/>
+            <h:dataTable value="#{shipTypes.paginationHelper.currentPage}" var="shipType" rendered="#{shipTypes.paginationHelper.currentPage.rowCount > 0}">
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{label.shipTypeCode}"/>
+                    </f:facet>
+                    <h:outputText value="#{shipType.shipTypeCode}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{label.shipTypeDescription}"/>
+                    </f:facet>
+                    <h:outputText value="#{shipType.description}"/>
+                </h:column>
+                <h:column>
+                    <h:commandLink action="#{shipTypes.prepareEdit()}" value="#{label.buttonEdit}">
+                        <f:ajax render="@form"/>
+                    </h:commandLink>
+                </h:column>
+                <h:column>
+                    <h:commandLink action="#{shipTypes.remove()}" value="#{label.buttonRemove}">
+                        <f:ajax render="@form"/>
+                    </h:commandLink>
+                </h:column>
+            </h:dataTable>
+            <h:commandButton image="/resources/images/icons/prev.png" action="#{shipTypes.paginationHelper.previousPage()}" rendered="#{shipTypes.paginationHelper.hasPreviousPage}">
+                <f:ajax render="@form"/>             
+            </h:commandButton>  
+            <h:commandButton image="/resources/images/icons/next.png" action="#{shipTypes.paginationHelper.nextPage()}" rendered="#{shipTypes.paginationHelper.hasNextPage}">
+                <f:ajax render="@form"/>             
+            </h:commandButton> 
+            <h:panelGroup id="editPanel" layout="block" rendered="#{shipTypes.creating || shipTypes.editing}">
+                <h3>
+                    <h:outputText value="#{label.newRecord}" rendered="#{shipTypes.creating}"/>
+                    <h:outputText value="#{label.editRecord}" rendered="#{shipTypes.editing}"/>
+                </h3>
+                <h:outputLabel value="#{label.shipTypeCode}: " for="shipTypeCode"/>
+                <h:inputText id="shipTypeCode" value="#{shipTypes.currentEntity.shipTypeCode}" title="#{label.shipTypeCode}" label="#{label.shipTypeCode}"/><br/>
+                <h:outputLabel value="#{label.shipTypeDescription}: " for="shipTypeDescription"/>
+                <h:inputText id="shipTypeDescription" value="#{shipTypes.currentEntity.description}" title="#{label.shipTypeDescription}" label="#{label.shipTypeDescription}"/><br/>
+                <h:commandButton action="#{shipTypes.create()}" value="#{label.buttonCreate}" rendered="#{shipTypes.creating}">
+                    <f:ajax render="@form" execute="shipTypeCode shipTypeDescription"/>
+                </h:commandButton>
+                <h:commandButton action="#{shipTypes.update()}" value="#{label.buttonUpdate}" rendered="#{shipTypes.editing}">
+                    <f:ajax render="@form" execute="shipTypeCode shipTypeDescription"/>
+                </h:commandButton>
+                <h:commandButton type="reset" value="#{label.buttonReset}"/>
+                <h:commandButton action="#{shipTypes.cancel()}" value="#{label.buttonCancel}">
+                    <f:ajax render="@form"/>
+                </h:commandButton>
+            </h:panelGroup>  
+            <h:panelGroup id="messages" layout="block">
+                <br/>
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>       
+        </h:form>
+    </ui:define>
+
+</ui:composition>

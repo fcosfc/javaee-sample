@@ -17,7 +17,7 @@
             </h:commandButton>
             <br/>
             <h:outputLabel value="#{label.countryNameFilter}: " for="countryNameFilter"/>
-            <h:inputText id="countryNameFilter" value="#{countries.nameFilter}" title="#{label.countryNameFilter}" required="true" requiredMessage="#{label.filterRequired}"/>
+            <h:inputText id="countryNameFilter" value="#{countries.filterCriteria}" title="#{label.countryNameFilter}" required="true" requiredMessage="#{label.filterCriteriaRequired}"/>
             <h:commandButton action="#{countries.filter()}" value="#{label.buttonFilter}">
                 <f:ajax execute="countryNameFilter" render="@form"/>
             </h:commandButton>
@@ -54,11 +54,14 @@
                 <f:ajax render="@form"/>             
             </h:commandButton> 
             <h:panelGroup id="editPanel" layout="block" rendered="#{countries.creating || countries.editing}">
-                <br/>
+                <h3>
+                    <h:outputText value="#{label.newRecord}" rendered="#{countries.creating}"/>
+                    <h:outputText value="#{label.editRecord}" rendered="#{countries.editing}"/>
+                </h3>
                 <h:outputLabel value="#{label.countryIsoCode}: " for="countryIsoCode"/>
-                <h:inputText id="countryIsoCode" value="#{countries.currentCountry.isoCode}" title="#{label.countryIsoCode}"/><br/>
+                <h:inputText id="countryIsoCode" value="#{countries.currentEntity.isoCode}" title="#{label.countryIsoCode}" label="#{label.countryIsoCode}"/><br/>
                 <h:outputLabel value="#{label.countryName}: " for="countryName"/>
-                <h:inputText id="countryName" value="#{countries.currentCountry.name}" title="#{label.countryName}"/><br/>
+                <h:inputText id="countryName" value="#{countries.currentEntity.name}" title="#{label.countryName}" label="#{label.countryName}"/><br/>
                 <h:commandButton action="#{countries.create()}" value="#{label.buttonCreate}" rendered="#{countries.creating}">
                     <f:ajax render="@form" execute="countryIsoCode countryName"/>
                 </h:commandButton>

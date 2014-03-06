@@ -6,7 +6,6 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.CriteriaQuery;
 
 /**
  * Country entity facade
@@ -14,7 +13,7 @@ import javax.persistence.criteria.CriteriaQuery;
  * @author Paco Saucedo
  */
 @Stateless
-public class CountryFacade extends AbstractFacade<Country> implements Serializable{
+public class CountryFacade extends CRUDFacade<Country> implements Serializable{
     
     @PersistenceContext
     private EntityManager em;
@@ -33,12 +32,12 @@ public class CountryFacade extends AbstractFacade<Country> implements Serializab
         return getEntityManager().createQuery("SELECT c FROM Country c ORDER BY c.name").getResultList();
     }
     
-    public List<Country> findByFilter(String nameFilter) {
+    public List<Country> findByFilter(String filter) {
         return getEntityManager().createQuery("SELECT c "
                 + "FROM Country c "
                 + "WHERE upper(c.name) like upper(:nameFilter) "
                 + "ORDER BY c.name")
-                .setParameter("nameFilter", nameFilter)
+                .setParameter("nameFilter", filter)
                 .getResultList();
     }
 }

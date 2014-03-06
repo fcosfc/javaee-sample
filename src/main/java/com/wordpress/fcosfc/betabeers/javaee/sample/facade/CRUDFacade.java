@@ -7,15 +7,16 @@ import javax.persistence.criteria.Root;
 import javax.persistence.EntityManager;
 
 /**
- * Abstract facade for persistence management
- * 
- * @author Paco Saucedo
- */
-public abstract class AbstractFacade<T> {
+* Abstract facade for persistence management
+*
+* @author Paco Saucedo
+ * @param <T>
+*/
+public abstract class CRUDFacade<T> {
     
-    private Class<T> entityClass;
+    private final Class<T> entityClass;
 
-    public AbstractFacade(Class<T> entityClass) {
+    public CRUDFacade(Class<T> entityClass) {
         this.entityClass = entityClass;
     }
 
@@ -60,4 +61,5 @@ public abstract class AbstractFacade<T> {
         return ((Long) q.getSingleResult()).intValue();
     }
     
+    public abstract List<T> findByFilter(String filter);    
 }
