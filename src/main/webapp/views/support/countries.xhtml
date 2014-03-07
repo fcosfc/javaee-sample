@@ -59,9 +59,11 @@
                     <h:outputText value="#{label.editRecord}" rendered="#{countries.editing}"/>
                 </h3>
                 <h:outputLabel value="#{label.countryIsoCode}: " for="countryIsoCode"/>
-                <h:inputText id="countryIsoCode" value="#{countries.currentEntity.isoCode}" title="#{label.countryIsoCode}" label="#{label.countryIsoCode}"/><br/>
+                <h:inputText id="countryIsoCode" value="#{countries.currentEntity.isoCode}" title="#{label.countryIsoCode}" label="#{label.countryIsoCode}" disabled="#{countries.editing}"/>
+                <h:message for="countryIsoCode" errorClass="errormsg" infoClass="infomsg"/><br/>
                 <h:outputLabel value="#{label.countryName}: " for="countryName"/>
-                <h:inputText id="countryName" value="#{countries.currentEntity.name}" title="#{label.countryName}" label="#{label.countryName}"/><br/>
+                <h:inputText id="countryName" value="#{countries.currentEntity.name}" title="#{label.countryName}" label="#{label.countryName}"/>
+                <h:message for="countryName" errorClass="errormsg" infoClass="infomsg"/><br/>
                 <h:commandButton action="#{countries.create()}" value="#{label.buttonCreate}" rendered="#{countries.creating}">
                     <f:ajax render="@form" execute="countryIsoCode countryName"/>
                 </h:commandButton>
@@ -75,7 +77,7 @@
             </h:panelGroup>  
             <h:panelGroup id="messages" layout="block">
                 <br/>
-                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                <h:messages errorClass="errormsg" infoClass="infomsg" layout="table" globalOnly="true"/>
             </h:panelGroup>       
         </h:form>
     </ui:define>

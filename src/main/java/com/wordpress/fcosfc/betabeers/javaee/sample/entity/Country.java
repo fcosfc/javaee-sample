@@ -5,6 +5,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -19,8 +20,9 @@ public class Country implements Serializable {
     
     @Id
     @Column(name = "ISO_CODE", length = 2)
+    @Size(min = 2, max = 2)
     private String isoCode;
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     private String name;
 
     public Country() {

@@ -59,9 +59,11 @@
                     <h:outputText value="#{label.editRecord}" rendered="#{shipTypes.editing}"/>
                 </h3>
                 <h:outputLabel value="#{label.shipTypeCode}: " for="shipTypeCode"/>
-                <h:inputText id="shipTypeCode" value="#{shipTypes.currentEntity.shipTypeCode}" title="#{label.shipTypeCode}" label="#{label.shipTypeCode}"/><br/>
+                <h:inputText id="shipTypeCode" value="#{shipTypes.currentEntity.shipTypeCode}" title="#{label.shipTypeCode}" label="#{label.shipTypeCode}" disabled="#{shipTypes.editing}"/>
+                <h:message for="shipTypeCode" errorClass="errormsg" infoClass="infomsg"/><br/>
                 <h:outputLabel value="#{label.shipTypeDescription}: " for="shipTypeDescription"/>
-                <h:inputText id="shipTypeDescription" value="#{shipTypes.currentEntity.description}" title="#{label.shipTypeDescription}" label="#{label.shipTypeDescription}"/><br/>
+                <h:inputText id="shipTypeDescription" value="#{shipTypes.currentEntity.description}" title="#{label.shipTypeDescription}" label="#{label.shipTypeDescription}"/>
+                <h:message for="shipTypeDescription" errorClass="errormsg" infoClass="infomsg"/><br/>
                 <h:commandButton action="#{shipTypes.create()}" value="#{label.buttonCreate}" rendered="#{shipTypes.creating}">
                     <f:ajax render="@form" execute="shipTypeCode shipTypeDescription"/>
                 </h:commandButton>
@@ -75,7 +77,7 @@
             </h:panelGroup>  
             <h:panelGroup id="messages" layout="block">
                 <br/>
-                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                <h:messages errorClass="errormsg" infoClass="infomsg" layout="table"/>
             </h:panelGroup>       
         </h:form>
     </ui:define>

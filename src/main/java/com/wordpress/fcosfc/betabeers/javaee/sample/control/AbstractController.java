@@ -98,7 +98,7 @@ public abstract class AbstractController<T> {
     public String create() {
         try {
             getFacade().create(currentEntity);
-            setCreating(false);
+            currentEntity = getNewEntity();
             refreshData();
 
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/com/wordpress/fcosfc/betabeers/javaee/sample/resource/label").getString("messageRecordCreated"));

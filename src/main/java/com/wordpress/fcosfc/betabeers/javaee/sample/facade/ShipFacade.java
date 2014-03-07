@@ -1,6 +1,8 @@
 package com.wordpress.fcosfc.betabeers.javaee.sample.facade;
 
+import com.wordpress.fcosfc.betabeers.javaee.sample.entity.Country;
 import com.wordpress.fcosfc.betabeers.javaee.sample.entity.Ship;
+import com.wordpress.fcosfc.betabeers.javaee.sample.entity.ShipType;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -26,7 +28,17 @@ public class ShipFacade extends CRUDFacade<Ship> {
     
     @Override
     public List<Ship> findByFilter(String filter) {
-        throw new UnsupportedOperationException();
+        return em.createNamedQuery("Ship.FindByName")
+                .setParameter("nameFilter", filter)
+                .getResultList();
+    }
+    
+    public List<Country> getAllCountries() {
+        return em.createQuery("SELECT c FROM Country c ORDER BY c.name").getResultList();
+    }
+    
+    public List<ShipType> getAllShipTypes() {
+        return em.createNamedQuery("SELECT s FROM ShipType s ORDER BY s.description").getResultList();
     }
     
 }

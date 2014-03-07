@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.validation.constraints.Max;
@@ -24,6 +26,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "SHIPS")
 @XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "Ship.FindAll", query = "SELECT s FROM Ship s ORDER BY s.name"),
+    @NamedQuery(name = "Ship.FindByName", query = "SELECT s FROM Ship s WHERE upper(s.name) like upper(:nameFilter) ORDER BY s.name")})
 public class Ship implements Serializable {
     
     @Id
