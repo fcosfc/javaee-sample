@@ -11,15 +11,15 @@
     </ui:define>
 
     <ui:define name="list">
-        <h:form id="countryForm">
+        <h:form id="listForm">
             <h:commandButton action="#{countries.prepareCreate()}" value="#{label.buttonNew}">
-                <f:ajax render="@form"/>
+                <f:ajax render=":editForm :messagesForm"/>
             </h:commandButton>
             <br/>
             <h:outputLabel value="#{label.countryNameFilter}: " for="countryNameFilter"/>
             <h:inputText id="countryNameFilter" value="#{countries.filterCriteria}" title="#{label.countryNameFilter}" required="true" requiredMessage="#{label.filterCriteriaRequired}"/>
             <h:commandButton action="#{countries.filter()}" value="#{label.buttonFilter}">
-                <f:ajax execute="countryNameFilter" render="@form"/>
+                <f:ajax execute="countryNameFilter" render=":listForm :messagesForm"/>
             </h:commandButton>
             <br/>
             <h:outputText value="#{label.noData}" rendered="#{countries.paginationHelper.currentPage.rowCount == 0}"/>
@@ -38,21 +38,23 @@
                 </h:column>
                 <h:column>
                     <h:commandLink action="#{countries.prepareEdit()}" value="#{label.buttonEdit}">
-                        <f:ajax render="@form"/>
+                        <f:ajax render=":editForm :messagesForm"/>
                     </h:commandLink>
                 </h:column>
                 <h:column>
                     <h:commandLink action="#{countries.remove()}" value="#{label.buttonRemove}">
-                        <f:ajax render="@form"/>
+                        <f:ajax render=":editForm :listForm :messagesForm"/>
                     </h:commandLink>
                 </h:column>
             </h:dataTable>
             <h:commandButton image="/resources/images/icons/prev.png" action="#{countries.paginationHelper.previousPage()}" rendered="#{countries.paginationHelper.hasPreviousPage}">
-                <f:ajax render="@form"/>             
+                <f:ajax render=":listForm :messagesForm"/>             
             </h:commandButton>  
             <h:commandButton image="/resources/images/icons/next.png" action="#{countries.paginationHelper.nextPage()}" rendered="#{countries.paginationHelper.hasNextPage}">
-                <f:ajax render="@form"/>             
-            </h:commandButton> 
+                <f:ajax render=":listForm :messagesForm"/>             
+            </h:commandButton>   
+        </h:form>
+        <h:form id="editForm">
             <h:panelGroup id="editPanel" layout="block" rendered="#{countries.creating || countries.editing}">
                 <h3>
                     <h:outputText value="#{label.newRecord}" rendered="#{countries.creating}"/>
@@ -65,20 +67,19 @@
                 <h:inputText id="countryName" value="#{countries.currentEntity.name}" title="#{label.countryName}" label="#{label.countryName}"/>
                 <h:message for="countryName" errorClass="errormsg" infoClass="infomsg"/><br/>
                 <h:commandButton action="#{countries.create()}" value="#{label.buttonCreate}" rendered="#{countries.creating}">
-                    <f:ajax render="@form" execute="countryIsoCode countryName"/>
+                    <f:ajax render=":listForm :editForm :messagesForm" execute="countryIsoCode countryName"/>
                 </h:commandButton>
                 <h:commandButton action="#{countries.update()}" value="#{label.buttonUpdate}" rendered="#{countries.editing}">
-                    <f:ajax render="@form" execute="countryIsoCode countryName"/>
+                    <f:ajax render=":listForm :editForm :messagesForm" execute="countryIsoCode countryName"/>
                 </h:commandButton>
                 <h:commandButton type="reset" value="#{label.buttonReset}"/>
                 <h:commandButton action="#{countries.cancel()}" value="#{label.buttonCancel}">
-                    <f:ajax render="@form"/>
+                    <f:ajax render=":listForm :editForm :messagesForm"/>
                 </h:commandButton>
-            </h:panelGroup>  
-            <h:panelGroup id="messages" layout="block">
-                <br/>
-                <h:messages errorClass="errormsg" infoClass="infomsg" layout="table" globalOnly="true"/>
-            </h:panelGroup>       
+            </h:panelGroup> 
+        </h:form>
+        <h:form id="messagesForm">
+            <h:messages errorClass="errormsg" infoClass="infomsg" layout="table" globalOnly="true"/>
         </h:form>
     </ui:define>
 
