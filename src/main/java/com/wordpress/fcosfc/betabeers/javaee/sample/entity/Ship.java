@@ -1,5 +1,6 @@
 package com.wordpress.fcosfc.betabeers.javaee.sample.entity;
 
+import com.wordpress.fcosfc.betabeers.javaee.sample.validation.ImoCode;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
@@ -38,6 +39,7 @@ public class Ship implements Serializable {
     
     @Column(name = "IMO_CODE", nullable = false, unique = true)
     @NotNull
+    @ImoCode
     private Integer imoCode;
     
     @Column(name = "NAME", nullable = false, length = 50)
