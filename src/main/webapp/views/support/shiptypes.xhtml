@@ -60,19 +60,25 @@
                     <h:outputText value="#{label.newRecord}" rendered="#{shipTypes.creating}"/>
                     <h:outputText value="#{label.editRecord}" rendered="#{shipTypes.editing}"/>
                 </h3>
+                
                 <h:outputLabel value="#{label.shipTypeCode}: " for="shipTypeCode"/>
                 <h:inputText id="shipTypeCode" value="#{shipTypes.currentEntity.shipTypeCode}" title="#{label.shipTypeCode}" label="#{label.shipTypeCode}" disabled="#{shipTypes.editing}"/>
                 <h:message for="shipTypeCode" errorClass="errormsg" infoClass="infomsg"/><br/>
+                
                 <h:outputLabel value="#{label.shipTypeDescription}: " for="shipTypeDescription"/>
                 <h:inputText id="shipTypeDescription" value="#{shipTypes.currentEntity.description}" title="#{label.shipTypeDescription}" label="#{label.shipTypeDescription}"/>
                 <h:message for="shipTypeDescription" errorClass="errormsg" infoClass="infomsg"/><br/>
+                
                 <h:commandButton action="#{shipTypes.create()}" value="#{label.buttonCreate}" rendered="#{shipTypes.creating}">
                     <f:ajax render=":listForm :editForm :messagesForm" execute="shipTypeCode shipTypeDescription"/>
                 </h:commandButton>
+                
                 <h:commandButton action="#{shipTypes.update()}" value="#{label.buttonUpdate}" rendered="#{shipTypes.editing}">
                     <f:ajax render=":listForm :editForm :messagesForm" execute="shipTypeCode shipTypeDescription"/>
                 </h:commandButton>
+                
                 <h:commandButton type="reset" value="#{label.buttonReset}"/>
+                
                 <h:commandButton action="#{shipTypes.cancel()}" value="#{label.buttonCancel}">
                     <f:ajax render=":listForm :editForm :messagesForm"/>
                 </h:commandButton>

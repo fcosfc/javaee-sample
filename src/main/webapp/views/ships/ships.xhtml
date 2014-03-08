@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="./../../WEB-INF/templates/template-example.xhtml">
+
+    <ui:define name="head">
+        #{label.shipsTitle}
+    </ui:define>
+
+    <ui:define name="list">
+        <h:form id="listForm">
+            <h:commandButton action="#{ships.prepareCreate()}" value="#{label.buttonNew}">
+                <f:ajax render=":editForm :messagesForm"/>
+            </h:commandButton>
+            <br/>
+            
+            <h:outputLabel value="#{label.shipNameFilter}: " for="filterCriteria"/>
+            <h:inputText id="filterCriteria" value="#{ships.filterCriteria}" title="#{label.shipNameFilter}" required="true" requiredMessage="#{label.filterCriteriaRequired}"/>
+            <h:commandButton action="#{ships.filter()}" value="#{label.buttonFilter}">
+                <f:ajax execute="filterCriteria" render=":listForm :messagesForm"/>
+            </h:commandButton>
+            <br/>
+            
+            <h:outputText value="#{label.noData}" rendered="#{ships.paginationHelper.currentPage.rowCount == 0}"/>
+            <h:dataTable value="#{ships.paginationHelper.currentPage}" var="ship" rendered="#{ships.paginationHelper.currentPage.rowCount > 0}">
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{label.shipImoCode}"/>
+                    </f:facet>
+                    <h:outputText value="#{ship.imoCode}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{label.shipName}"/>
+                    </f:facet>
+                    <h:outputText value="#{ship.name}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{label.shipGrossTons}"/>
+                    </f:facet>
+                    <h:outputText value="#{ship.grossTons}">
+                        <f:convertNumber type="number"/>
+                    </h:outputText>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{label.shipDateBuilt}">
+                            <f:convertDateTime type="date" dateStyle="short"/>
+                        </h:outputText>
+                    </f:facet>
+                    <h:outputText value="#{ship.dateBuilt}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{label.shipFlag}"/>
+                    </f:facet>
+                    <h:outputText value="#{ship.flag.name}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{label.shipShipType}"/>
+                    </f:facet>
+                    <h:outputText value="#{ship.shipType.description}"/>
+                </h:column>
+                <h:column>
+                    <h:commandLink action="#{ships.prepareEdit()}" value="#{label.buttonEdit}">
+                        <f:ajax render=":editForm :messagesForm"/>
+                    </h:commandLink>
+                </h:column>
+                <h:column>
+                    <h:commandLink action="#{ships.remove()}" value="#{label.buttonRemove}">
+                        <f:ajax render=":editForm :listForm :messagesForm"/>
+                    </h:commandLink>
+                </h:column>
+            </h:dataTable>
+            <h:commandButton image="/resources/images/icons/prev.png" action="#{ships.paginationHelper.previousPage()}" rendered="#{ships.paginationHelper.hasPreviousPage}">
+                <f:ajax render=":listForm :messagesForm"/>         
+            </h:commandButton>  
+            <h:commandButton image="/resources/images/icons/next.png" action="#{ships.paginationHelper.nextPage()}" rendered="#{ships.paginationHelper.hasNextPage}">
+                <f:ajax render=":listForm :messagesForm"/>            
+            </h:commandButton>  
+        </h:form>
+        <h:form id="editForm">
+            <script type="text/javascript" src="#{request.contextPath}/resources/js/jquery-ui-setup.js"/>
+            <h:panelGroup id="editPanel" layout="block" rendered="#{ships.creating || ships.editing}">
+                <h3>
+                    <h:outputText value="#{label.newRecord}" rendered="#{ships.creating}"/>
+                    <h:outputText value="#{label.editRecord}" rendered="#{ships.editing}"/>
+                </h3>
+                
+                <h:outputLabel value="#{label.shipImoCode}: " for="shipImoCode"/>
+                <h:inputText id="shipImoCode" value="#{ships.currentEntity.imoCode}" title="#{label.shipImoCode}" label="#{label.shipImoCode}"/>
+                <h:message for="shipImoCode" errorClass="errormsg" infoClass="infomsg"/><br/>
+                
+                <h:outputLabel value="#{label.shipName}: " for="shipName"/>
+                <h:inputText id="shipName" value="#{ships.currentEntity.name}" title="#{label.shipName}" label="#{label.shipName}"/>
+                <h:message for="shipName" errorClass="errormsg" infoClass="infomsg"/><br/>
+                
+                <h:outputLabel value="#{label.shipGrossTons}: " for="shipGrossTons"/>
+                <h:inputText id="shipGrossTons" value="#{ships.currentEntity.grossTons}" title="#{label.shipGrossTons}" label="#{label.shipGrossTons}"/>
+                <h:message for="shipGrossTons" errorClass="errormsg" infoClass="infomsg"/><br/>
+                
+                <h:outputLabel value="#{label.shipDateBuilt}: " for="shipDateBuilt"/>
+                <h:inputText id="shipDateBuilt" value="#{ships.currentEntity.dateBuilt}" title="#{label.shipDateBuilt}" label="#{label.shipDateBuilt}" class="date">
+                    <f:convertDateTime type="date" dateStyle="short"/>
+                </h:inputText>
+                <h:message for="shipDateBuilt" errorClass="errormsg" infoClass="infomsg"/><br/>
+                
+                <h:outputLabel value="#{label.shipFlag}: " for="shipFlag"/>
+                <h:selectOneMenu id="shipFlag" value="#{ships.flag}"  title="#{label.shipFlag}" label="#{label.shipFlag}">
+                    <f:selectItems value="#{ships.allCountries}" var="itemFlag" itemValue="#{itemFlag.isoCode}" itemLabel="#{itemFlag.name}" itemDescription="#{itemFlag.name}"/>
+                </h:selectOneMenu>
+                <h:message for="shipFlag" errorClass="errormsg" infoClass="infomsg"/><br/>
+                
+                <h:outputLabel value="#{label.shipShipType}: " for="shipShipType"/>
+                <h:selectOneMenu id="shipShipType" value="#{ships.shipType}"  title="#{label.shipShipType}" label="#{label.shipShipType}">
+                    <f:selectItems value="#{ships.allShipTypes}" var="itemShipType" itemValue="#{itemShipType.shipTypeCode}" itemLabel="#{itemShipType.description}" itemDescription="#{itemShipType.description}"/>
+                </h:selectOneMenu>
+                <h:message for="shipShipType" errorClass="errormsg" infoClass="infomsg"/><br/>
+                
+                <h:commandButton action="#{ships.create()}" value="#{label.buttonCreate}" rendered="#{ships.creating}">
+                    <f:ajax render=":listForm :editForm :messagesForm" execute="shipImoCode shipName shipGrossTons shipDateBuilt shipFlag shipShipType"/>
+                </h:commandButton>
+                
+                <h:commandButton action="#{ships.update()}" value="#{label.buttonUpdate}" rendered="#{ships.editing}">
+                    <f:ajax render=":listForm :editForm :messagesForm" execute=""/>
+                </h:commandButton>
+                
+                <h:commandButton type="reset" value="#{label.buttonReset}"/>
+                
+                <h:commandButton action="#{ships.cancel()}" value="#{label.buttonCancel}">
+                    <f:ajax render=":listForm :editForm :messagesForm"/>
+                </h:commandButton>
+            </h:panelGroup>  
+        </h:form>
+        <h:form id="messagesForm">
+            <h:messages errorClass="errormsg" infoClass="infomsg" layout="table" globalOnly="true"/>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

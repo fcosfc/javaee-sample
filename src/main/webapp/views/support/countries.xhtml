@@ -60,19 +60,25 @@
                     <h:outputText value="#{label.newRecord}" rendered="#{countries.creating}"/>
                     <h:outputText value="#{label.editRecord}" rendered="#{countries.editing}"/>
                 </h3>
+                
                 <h:outputLabel value="#{label.countryIsoCode}: " for="countryIsoCode"/>
                 <h:inputText id="countryIsoCode" value="#{countries.currentEntity.isoCode}" title="#{label.countryIsoCode}" label="#{label.countryIsoCode}" disabled="#{countries.editing}"/>
                 <h:message for="countryIsoCode" errorClass="errormsg" infoClass="infomsg"/><br/>
+                
                 <h:outputLabel value="#{label.countryName}: " for="countryName"/>
                 <h:inputText id="countryName" value="#{countries.currentEntity.name}" title="#{label.countryName}" label="#{label.countryName}"/>
                 <h:message for="countryName" errorClass="errormsg" infoClass="infomsg"/><br/>
+                
                 <h:commandButton action="#{countries.create()}" value="#{label.buttonCreate}" rendered="#{countries.creating}">
                     <f:ajax render=":listForm :editForm :messagesForm" execute="countryIsoCode countryName"/>
                 </h:commandButton>
+                
                 <h:commandButton action="#{countries.update()}" value="#{label.buttonUpdate}" rendered="#{countries.editing}">
                     <f:ajax render=":listForm :editForm :messagesForm" execute="countryIsoCode countryName"/>
                 </h:commandButton>
+                
                 <h:commandButton type="reset" value="#{label.buttonReset}"/>
+                
                 <h:commandButton action="#{countries.cancel()}" value="#{label.buttonCancel}">
                     <f:ajax render=":listForm :editForm :messagesForm"/>
                 </h:commandButton>

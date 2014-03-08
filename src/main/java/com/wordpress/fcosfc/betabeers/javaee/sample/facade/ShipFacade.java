@@ -1,9 +1,9 @@
 package com.wordpress.fcosfc.betabeers.javaee.sample.facade;
 
-import com.wordpress.fcosfc.betabeers.javaee.sample.entity.Country;
 import com.wordpress.fcosfc.betabeers.javaee.sample.entity.Ship;
-import com.wordpress.fcosfc.betabeers.javaee.sample.entity.ShipType;
+import java.io.Serializable;
 import java.util.List;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -12,7 +12,8 @@ import javax.persistence.PersistenceContext;
  * 
  * @author Paco Saucedo
  */
-public class ShipFacade extends CRUDFacade<Ship> {
+@Stateless
+public class ShipFacade extends CRUDFacade<Ship> implements Serializable{
     
     @PersistenceContext
     private EntityManager em;
@@ -28,17 +29,9 @@ public class ShipFacade extends CRUDFacade<Ship> {
     
     @Override
     public List<Ship> findByFilter(String filter) {
-        return em.createNamedQuery("Ship.FindByName")
+        return em.createNamedQuery("Ship.FindByNameFilter")
                 .setParameter("nameFilter", filter)
                 .getResultList();
-    }
-    
-    public List<Country> getAllCountries() {
-        return em.createQuery("SELECT c FROM Country c ORDER BY c.name").getResultList();
-    }
-    
-    public List<ShipType> getAllShipTypes() {
-        return em.createNamedQuery("SELECT s FROM ShipType s ORDER BY s.description").getResultList();
     }
     
 }

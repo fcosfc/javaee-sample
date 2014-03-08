@@ -20,7 +20,7 @@ public class ShipTypes extends AbstractController<ShipType> implements Serializa
     private static final Logger logger = Logger.getLogger(ShipTypes.class.getName());
     
     @Inject
-    protected ShipTypeFacade facade;
+    private ShipTypeFacade facade;
     
     public ShipTypes() {
         super(ShipType.class);

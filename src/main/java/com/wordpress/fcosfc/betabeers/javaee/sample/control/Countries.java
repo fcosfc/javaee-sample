@@ -20,7 +20,7 @@ public class Countries extends AbstractController<Country> implements Serializab
     private static final Logger logger = Logger.getLogger(ShipTypes.class.getName());
     
     @Inject
-    protected CountryFacade facade;
+    private CountryFacade facade;
     
     public Countries() {
         super(Country.class);
