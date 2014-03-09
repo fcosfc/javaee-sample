@@ -48,11 +48,11 @@
                 </h:column>
                 <h:column>
                     <f:facet name="header">
-                        <h:outputText value="#{label.shipDateBuilt}">
-                            <f:convertDateTime type="date" dateStyle="short"/>
-                        </h:outputText>
+                        <h:outputText value="#{label.shipDateBuilt}"/>
                     </f:facet>
-                    <h:outputText value="#{ship.dateBuilt}"/>
+                    <h:outputText value="#{ship.dateBuilt}">                        
+                        <f:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
@@ -127,7 +127,7 @@
                 </h:commandButton>
                 
                 <h:commandButton action="#{ships.update()}" value="#{label.buttonUpdate}" rendered="#{ships.editing}">
-                    <f:ajax render=":listForm :editForm :messagesForm" execute=""/>
+                    <f:ajax render=":listForm :editForm :messagesForm" execute="shipImoCode shipName shipGrossTons shipDateBuilt shipFlag shipShipType"/>
                 </h:commandButton>
                 
                 <h:commandButton type="reset" value="#{label.buttonReset}"/>

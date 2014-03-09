@@ -15,19 +15,20 @@ public class ImoCodeValidator implements ConstraintValidator<ImoCode, Integer> {
     
     @Override
     public boolean isValid(Integer value, ConstraintValidatorContext context) {
-        char[] charValues = value.toString().toCharArray();
+        String stringValue = value.toString();
         
-        if (charValues.length == 7) {
+        if (stringValue.length() == 7) {
             int result = 0;
-            char[] resultValues;
+            String stringResult;
             
             for (int i = 0, multiplier = 7; i < 6; i++, multiplier--) {
-                result += charValues[i] * multiplier;
+                String v = stringValue.substring(i, i + 1);
+                result += Integer.parseInt(stringValue.substring(i, i + 1)) * multiplier;
             }
             
-            resultValues = (new Integer(result)).toString().toCharArray();
+            stringResult = Integer.toString(result);
             
-            return charValues[6] == resultValues[resultValues.length - 1];
+            return stringValue.substring(6).equals(stringResult.substring(stringResult.length() - 1));
         }
         
         return false;
