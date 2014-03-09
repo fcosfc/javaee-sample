@@ -58,10 +58,10 @@ public class Ship implements Serializable {
     @Past
     private Date dateBuilt;
     
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Country flag;
     
-    @ManyToOne
+    @ManyToOne(optional = false)
     private ShipType shipType;
 
     public Ship() {

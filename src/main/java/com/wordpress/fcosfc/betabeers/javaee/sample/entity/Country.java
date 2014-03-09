@@ -1,12 +1,16 @@
 package com.wordpress.fcosfc.betabeers.javaee.sample.entity;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Basic entity example with table and columns definitions
@@ -22,9 +26,13 @@ public class Country implements Serializable {
     @Column(name = "ISO_CODE", length = 2)
     @Size(min = 2, max = 2)
     private String isoCode;
+    
     @Column(nullable = false, length = 100)
     private String name;
 
+    @OneToMany(mappedBy = "flag", fetch = FetchType.LAZY)
+    private List<Ship> shipList;
+    
     public Country() {
     }
 
@@ -47,6 +55,15 @@ public class Country implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+    
+    @XmlTransient
+    public List<Ship> getShipList() {
+        return shipList;
+    }
+
+    public void setShipList(List<Ship> shipList) {
+        this.shipList = shipList;
     }
 
     @Override
