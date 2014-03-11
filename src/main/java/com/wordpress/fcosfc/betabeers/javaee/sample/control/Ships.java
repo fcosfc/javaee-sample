@@ -89,7 +89,7 @@ public class Ships extends AbstractController<Ship> implements Serializable{
             
             super.create();
         } catch (Exception ex) {
-            JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/com/wordpress/fcosfc/betabeers/javaee/sample/resource/label").getString("messageErrorDetected"));
+            manageException(ex);
             getLogger().log(Level.SEVERE, null, ex);
         }
 
@@ -104,7 +104,7 @@ public class Ships extends AbstractController<Ship> implements Serializable{
             
             super.update();
         } catch (Exception ex) {
-            JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/com/wordpress/fcosfc/betabeers/javaee/sample/resource/label").getString("messageErrorDetected"));
+            manageException(ex);
             getLogger().log(Level.SEVERE, null, ex);
         }
 
