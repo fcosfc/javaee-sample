@@ -1,5 +1,7 @@
 package com.wordpress.fcosfc.betabeers.javaee.sample.control;
 
+import com.wordpress.fcosfc.betabeers.javaee.sample.control.exception.management.DerbyPersistenceExceptionManager;
+import com.wordpress.fcosfc.betabeers.javaee.sample.control.exception.management.PersistenceExceptionManager;
 import com.wordpress.fcosfc.betabeers.javaee.sample.entity.Country;
 import com.wordpress.fcosfc.betabeers.javaee.sample.facade.CRUDFacade;
 import com.wordpress.fcosfc.betabeers.javaee.sample.facade.CountryFacade;
@@ -22,6 +24,10 @@ public class Countries extends AbstractController<Country> implements Serializab
     @Inject
     private CountryFacade facade;
     
+    @Inject
+    @DerbyPersistenceExceptionManager
+    private PersistenceExceptionManager persistenceExceptionManager;
+    
     public Countries() {
         super(Country.class);
     }
@@ -39,5 +45,10 @@ public class Countries extends AbstractController<Country> implements Serializab
     @Override
     protected Logger getLogger() {
         return logger;
+    }
+
+    @Override
+    protected PersistenceExceptionManager getPersistenceExceptionManager() {
+        return persistenceExceptionManager;
     }
 }

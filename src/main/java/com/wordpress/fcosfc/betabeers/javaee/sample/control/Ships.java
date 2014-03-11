@@ -1,5 +1,6 @@
 package com.wordpress.fcosfc.betabeers.javaee.sample.control;
 
+import com.wordpress.fcosfc.betabeers.javaee.sample.control.exception.management.PersistenceExceptionManager;
 import com.wordpress.fcosfc.betabeers.javaee.sample.control.util.JsfUtil;
 import com.wordpress.fcosfc.betabeers.javaee.sample.entity.Country;
 import com.wordpress.fcosfc.betabeers.javaee.sample.entity.Ship;
@@ -30,10 +31,16 @@ public class Ships extends AbstractController<Ship> implements Serializable{
     
     @Inject
     private ShipFacade shipFacade;
+    
     @Inject
     private CountryFacade countryFacade;
+    
     @Inject
     private ShipTypeFacade shipTypeFacade;
+        
+    @Inject
+    private PersistenceExceptionManager persistenceExceptionManager;
+    
     private List<Country> allCountries;
     private List<ShipType> allShipTypes;
     private String flag, shipType;
@@ -116,6 +123,11 @@ public class Ships extends AbstractController<Ship> implements Serializable{
         super.refreshData();
         allCountries = countryFacade.findByFilter("%");
         allShipTypes = shipTypeFacade.findByFilter("%");
+    }
+
+    @Override
+    protected PersistenceExceptionManager getPersistenceExceptionManager() {
+        return persistenceExceptionManager;
     }
     
 }

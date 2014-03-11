@@ -1,5 +1,6 @@
 package com.wordpress.fcosfc.betabeers.javaee.sample.control;
 
+import com.wordpress.fcosfc.betabeers.javaee.sample.control.exception.management.PersistenceExceptionManager;
 import com.wordpress.fcosfc.betabeers.javaee.sample.entity.ShipType;
 import com.wordpress.fcosfc.betabeers.javaee.sample.facade.CRUDFacade;
 import com.wordpress.fcosfc.betabeers.javaee.sample.facade.ShipTypeFacade;
@@ -22,6 +23,9 @@ public class ShipTypes extends AbstractController<ShipType> implements Serializa
     @Inject
     private ShipTypeFacade facade;
     
+    @Inject
+    private PersistenceExceptionManager persistenceExceptionManager;
+    
     public ShipTypes() {
         super(ShipType.class);
     }
@@ -39,6 +43,11 @@ public class ShipTypes extends AbstractController<ShipType> implements Serializa
     @Override
     protected Logger getLogger() {
         return logger;
+    }
+
+    @Override
+    protected PersistenceExceptionManager getPersistenceExceptionManager() {
+        return persistenceExceptionManager;
     }
     
 }

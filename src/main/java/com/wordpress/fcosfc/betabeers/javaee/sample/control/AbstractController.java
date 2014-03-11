@@ -1,5 +1,6 @@
 package com.wordpress.fcosfc.betabeers.javaee.sample.control;
 
+import com.wordpress.fcosfc.betabeers.javaee.sample.control.exception.management.PersistenceExceptionManager;
 import com.wordpress.fcosfc.betabeers.javaee.sample.control.util.JsfUtil;
 import com.wordpress.fcosfc.betabeers.javaee.sample.control.util.PaginationHelper;
 import com.wordpress.fcosfc.betabeers.javaee.sample.facade.CRUDFacade;
@@ -7,6 +8,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.persistence.PersistenceException;
 
 /**
  *
@@ -36,6 +38,8 @@ public abstract class AbstractController<T> {
 
     protected abstract Logger getLogger();
 
+    protected abstract PersistenceExceptionManager getPersistenceExceptionManager();
+    
     @PostConstruct
     protected void init() {
         try {
@@ -173,8 +177,7 @@ public abstract class AbstractController<T> {
         cause = ex.getCause();
         while (cause != null) {
             if (cause.getClass().getName().equals("javax.persistence.PersistenceException")) {
-                JsfUtil.addErrorMessage(ResourceBundle.getBundle("/com/wordpress/fcosfc/betabeers/javaee/sample/resource/label").getString("messagePersistenceError"),
-                    ex.getLocalizedMessage() == null ? ex.getMessage() : ex.getLocalizedMessage());
+                getPersistenceExceptionManager().manageException((PersistenceException) cause);
                 break;
             } else {
                 cause = cause.getCause();
