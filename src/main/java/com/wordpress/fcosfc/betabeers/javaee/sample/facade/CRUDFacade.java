@@ -7,7 +7,9 @@ import javax.persistence.criteria.Root;
 import javax.persistence.EntityManager;
 
 /**
-* Abstract facade for persistence management
+* Abstract facade for persistence management. JPA operations with examples of the Criteria API.
+* 
+* Fachada abstracta para gestión de persistencia. Operaciones JPA con ejemplos de la Criteria API.
 *
 * @author Paco Saucedo
  * @param <T>

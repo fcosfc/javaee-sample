@@ -8,7 +8,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 /**
- * Ship entity facade
+ * Ship entity facade. EJB example with an example of a call to a named query.
+ * 
+ * Fachada para el manejo de la entidad Ship. Es un EJB con un ejemplo de llamada a una consulta almacenada con nombre.
  * 
  * @author Paco Saucedo
  */

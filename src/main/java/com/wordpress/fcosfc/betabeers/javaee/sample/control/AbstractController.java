@@ -9,6 +9,9 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 
 /**
+ * Abstract class for CRUD presentation support.
+ *
+ * Clase abstracta para el soporte en la presentación de formularios CRUD.
  *
  * @author Paco Saucedo
  * @param <T>
@@ -35,7 +38,7 @@ public abstract class AbstractController<T> {
     protected abstract CRUDFacade getFacade();
 
     protected abstract Logger getLogger();
-    
+
     @PostConstruct
     protected void init() {
         try {
@@ -44,7 +47,6 @@ public abstract class AbstractController<T> {
             refreshData();
         } catch (Exception ex) {
             manageException(ex);
-            getLogger().log(Level.SEVERE, null, ex);
         }
     }
 
@@ -81,10 +83,14 @@ public abstract class AbstractController<T> {
     }
 
     public String filter() {
-        setCreating(false);
-        setEditing(false);
-        refreshData();
-
+        try {
+            setCreating(false);
+            setEditing(false);
+            refreshData();
+        } catch (Exception ex) {
+            manageException(ex);
+        }
+        
         return null;
     }
 
@@ -102,10 +108,9 @@ public abstract class AbstractController<T> {
             currentEntity = getNewEntity();
             refreshData();
 
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/com/wordpress/fcosfc/betabeers/javaee/sample/resource/label").getString("messageRecordCreated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/com/wordpress/fcosfc/betabeers/javaee/sample/resource/Labels").getString("messageRecordCreated"));
         } catch (Exception ex) {
             manageException(ex);
-            getLogger().log(Level.SEVERE, null, ex);
         }
 
         return null;
@@ -125,10 +130,9 @@ public abstract class AbstractController<T> {
             setEditing(false);
             refreshData();
 
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/com/wordpress/fcosfc/betabeers/javaee/sample/resource/label").getString("messageRecordUpdated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/com/wordpress/fcosfc/betabeers/javaee/sample/resource/Labels").getString("messageRecordUpdated"));
         } catch (Exception ex) {
             manageException(ex);
-            getLogger().log(Level.SEVERE, null, ex);
         }
 
         return null;
@@ -142,10 +146,9 @@ public abstract class AbstractController<T> {
             setEditing(false);
             refreshData();
 
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/com/wordpress/fcosfc/betabeers/javaee/sample/resource/label").getString("messageRecordRemoved"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/com/wordpress/fcosfc/betabeers/javaee/sample/resource/Labels").getString("messageRecordRemoved"));
         } catch (Exception ex) {
             manageException(ex);
-            getLogger().log(Level.SEVERE, null, ex);
         }
 
         return null;
@@ -173,8 +176,8 @@ public abstract class AbstractController<T> {
         cause = ex.getCause();
         while (cause != null) {
             if (cause.getClass().getName().equals("javax.persistence.PersistenceException")) {
-                JsfUtil.addErrorMessage(ResourceBundle.getBundle("/com/wordpress/fcosfc/betabeers/javaee/sample/resource/label").getString("messagePersistenceError"),
-                    cause.getLocalizedMessage() == null ? cause.getMessage() : cause.getLocalizedMessage());
+                JsfUtil.addErrorMessage(ResourceBundle.getBundle("/com/wordpress/fcosfc/betabeers/javaee/sample/resource/Labels").getString("messagePersistenceError"),
+                        cause.getLocalizedMessage() == null ? cause.getMessage() : cause.getLocalizedMessage());
                 break;
             } else {
                 cause = cause.getCause();
@@ -183,9 +186,11 @@ public abstract class AbstractController<T> {
 
         if (cause == null) {
             cause = ex.getCause();
-            
-            JsfUtil.addErrorMessage(ResourceBundle.getBundle("/com/wordpress/fcosfc/betabeers/javaee/sample/resource/label").getString("messageErrorDetected"),
+
+            JsfUtil.addErrorMessage(ResourceBundle.getBundle("/com/wordpress/fcosfc/betabeers/javaee/sample/resource/Labels").getString("messageErrorDetected"),
                     cause.getLocalizedMessage() == null ? cause.getMessage() : cause.getLocalizedMessage());
         }
+
+        getLogger().log(Level.SEVERE, null, ex);
     }
 }

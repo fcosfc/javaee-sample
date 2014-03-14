@@ -10,7 +10,10 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
 /**
- *
+ * Non CDI life cycle managed bean example. Java EE 7 has a CDI ViewScoped annotation.
+ * 
+ * Ejemplo de ciclo de vida estándar JSF, no CDI. Java EE 7 tiene este ciclo de vida como CDI.
+ * 
  * @author Paco Saucedo
  */
 @ManagedBean

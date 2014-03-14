@@ -6,7 +6,9 @@ import javax.persistence.Id;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Basic entity example
+ * Basic JPA entity example, with JAXB annotations.
+ * 
+ * Ejemplo básico de entidad JPA, con anotaciones para la serialización JAXB.
  * 
  * @author Paco Saucedo
  */

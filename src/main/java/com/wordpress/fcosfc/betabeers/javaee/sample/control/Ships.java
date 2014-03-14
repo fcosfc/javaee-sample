@@ -10,13 +10,15 @@ import com.wordpress.fcosfc.betabeers.javaee.sample.facade.ShipFacade;
 import com.wordpress.fcosfc.betabeers.javaee.sample.facade.ShipTypeFacade;
 import java.io.Serializable;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.inject.Inject;
 
 /**
- *
+ * CDI Example, with the use of a custom stereotype.
+ * 
+ * Ejemplo CDI, con el uso de un estereotipo.
+ * 
  * @author Paco Saucedo
  */
 @CRUDController
@@ -89,7 +91,6 @@ public class Ships extends AbstractController<Ship> implements Serializable{
             super.create();
         } catch (Exception ex) {
             manageException(ex);
-            getLogger().log(Level.SEVERE, null, ex);
         }
 
         return null;
@@ -104,7 +105,6 @@ public class Ships extends AbstractController<Ship> implements Serializable{
             super.update();
         } catch (Exception ex) {
             manageException(ex);
-            getLogger().log(Level.SEVERE, null, ex);
         }
 
         return null;
@@ -113,8 +113,8 @@ public class Ships extends AbstractController<Ship> implements Serializable{
     @Override
     protected void refreshData() {
         super.refreshData();
-        allCountries = countryFacade.findByFilter("%");
-        allShipTypes = shipTypeFacade.findByFilter("%");
+        allCountries = countryFacade.findAll();
+        allShipTypes = shipTypeFacade.findAll();
     }
     
 }

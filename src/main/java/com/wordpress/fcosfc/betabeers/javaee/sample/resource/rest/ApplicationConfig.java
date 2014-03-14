@@ -1,10 +1,12 @@
-package com.wordpress.fcosfc.betabeers.javaee.sample.service.rest;
+package com.wordpress.fcosfc.betabeers.javaee.sample.resource.rest;
 
 import java.util.Set;
 import javax.ws.rs.core.Application;
 
 /**
- * Netbeans generated code
+ * Application config class for REST resources.
+ * 
+ * Clase de configuración necesaria para los ejemplos de recursos REST.
  * 
  * @author Paco Saucedo
  */
@@ -25,9 +27,9 @@ public class ApplicationConfig extends Application {
      * If required, comment out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
-        resources.add(com.wordpress.fcosfc.betabeers.javaee.sample.service.rest.CountryFacadeREST.class);
-        resources.add(com.wordpress.fcosfc.betabeers.javaee.sample.service.rest.ShipFacadeREST.class);
-        resources.add(com.wordpress.fcosfc.betabeers.javaee.sample.service.rest.ShipTypeFacadeREST.class);
+        resources.add(com.wordpress.fcosfc.betabeers.javaee.sample.resource.rest.CountryFacadeREST.class);
+        resources.add(com.wordpress.fcosfc.betabeers.javaee.sample.resource.rest.ShipFacadeREST.class);
+        resources.add(com.wordpress.fcosfc.betabeers.javaee.sample.resource.rest.ShipTypeFacadeREST.class);
     }
     
 }

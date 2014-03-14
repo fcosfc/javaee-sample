@@ -1,4 +1,4 @@
-package com.wordpress.fcosfc.betabeers.javaee.sample.service.rest;
+package com.wordpress.fcosfc.betabeers.javaee.sample.resource.rest;
 
 import com.wordpress.fcosfc.betabeers.javaee.sample.entity.Ship;
 import com.wordpress.fcosfc.betabeers.javaee.sample.facade.ShipFacade;
@@ -15,7 +15,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 /**
- * Ship entity REST facade
+ * Ship entity REST facade. It's a stateless EJB.
+ * 
+ * Fachada del recurso REST para la entidad Ship.
  * 
  * @author Paco
  */

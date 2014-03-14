@@ -5,10 +5,11 @@
                 template="./../WEB-INF/templates/template-example.xhtml">
 
     <ui:define name="head">
+        ${label.indexWelcome}
     </ui:define>
 
     <ui:define name="list"> 
-        <h3>${label.indexWelcome}</h3>
+        <p>${label.appDescription}</p>
     </ui:define>
 
 </ui:composition>

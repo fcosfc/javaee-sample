@@ -20,7 +20,9 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Full entity example, with table/columns definitions and bean validations, 
+ * Full JPA entity example, with table/columns definitions, bean validations and named queries.
+ * 
+ * Ejemplo completo de entidad JPA, con definiciones de tabla/columnas, validaciones y consultas almacenadas.
  * 
  * @author Paco Saucedo
  */

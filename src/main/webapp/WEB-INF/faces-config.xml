@@ -9,7 +9,7 @@
 
     <application>
         <resource-bundle>
-            <base-name>com.wordpress.fcosfc.betabeers.javaee.sample.resource.label</base-name>
+            <base-name>com.wordpress.fcosfc.betabeers.javaee.sample.resource.Labels</base-name>
             <var>label</var>
         </resource-bundle> 
     </application>

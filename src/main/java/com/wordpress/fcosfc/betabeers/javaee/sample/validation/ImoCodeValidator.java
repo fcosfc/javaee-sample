@@ -4,8 +4,12 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 /**
- *
+ * Implementation for the custom validator example.
+ * 
+ * Implementación para el ejemplo de validador personalizado.
+ * 
  * @author Paco Saucedo
+ * @see http://en.wikipedia.org/wiki/IMO_numbers
  */
 public class ImoCodeValidator implements ConstraintValidator<ImoCode, Integer> {
     

@@ -11,7 +11,10 @@ import javax.enterprise.inject.Stereotype;
 import javax.inject.Named;
 
 /**
- *
+ * Stereotype example.
+ * 
+ * Ejemplo de estereotipo.
+ * 
  * @author Paco Saucedo
  */
 @Named

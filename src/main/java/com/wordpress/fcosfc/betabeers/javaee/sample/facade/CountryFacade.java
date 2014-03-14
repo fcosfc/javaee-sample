@@ -8,7 +8,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 /**
- * Country entity facade
+ * Country entity facade. EJB example with example of the Persistence Query Language.
+ * 
+ * Fachada para el manejo de la entidad Country. Es un EJB con ejemplos del Persistence Query Language.
  * 
  * @author Paco Saucedo
  */
@@ -32,6 +34,7 @@ public class CountryFacade extends CRUDFacade<Country> implements Serializable{
         return getEntityManager().createQuery("SELECT c FROM Country c ORDER BY c.name").getResultList();
     }
     
+    @Override
     public List<Country> findByFilter(String filter) {
         return getEntityManager().createQuery("SELECT c "
                 + "FROM Country c "

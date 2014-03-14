@@ -9,7 +9,10 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 /**
- *
+ * Example of a custom validator annotation. The message should exist on the default resource bundle ValidationMessages.properties
+ * 
+ * Ejemplo de anotación para un validador personalizado. La etiqueda debe de existir en el fichero de recursos por defecto ValidationMessages.properties
+ * 
  * @author Paco Saucedo
  */
 @Documented

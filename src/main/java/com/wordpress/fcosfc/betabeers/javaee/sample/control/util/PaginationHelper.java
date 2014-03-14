@@ -5,14 +5,17 @@ import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 
 /**
- *
+ * Helper JSF presentation class for pagination.
+ * 
+ * Clase de ayuda para la presentación JSF en el campo de la paginación.
+ * 
  * @author Paco Saucedo
  */
 public class PaginationHelper<T> {
     
     private final static int PAGE_SIZE = 5;
     
-    private Class<T> entityClass;
+    private final Class<T> entityClass;
     private List<T> entities;
     private DataModel<T> currentPage;
     private int currentPageIndex, pageCount;

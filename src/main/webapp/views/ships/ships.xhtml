@@ -66,6 +66,7 @@
                     </f:facet>
                     <h:outputText value="#{ship.shipType.description}"/>
                 </h:column>
+                
                 <h:column>
                     <h:commandLink action="#{ships.prepareEdit()}" value="#{label.buttonEdit}">
                         <f:ajax render=":editForm :messagesForm"/>
@@ -77,6 +78,7 @@
                     </h:commandLink>
                 </h:column>
             </h:dataTable>
+            
             <h:commandButton image="/resources/images/icons/prev.png" action="#{ships.paginationHelper.previousPage()}" rendered="#{ships.paginationHelper.hasPreviousPage}">
                 <f:ajax render=":listForm :messagesForm"/>         
             </h:commandButton>  
@@ -84,6 +86,7 @@
                 <f:ajax render=":listForm :messagesForm"/>            
             </h:commandButton>  
         </h:form>
+        
         <h:form id="editForm">
             <script type="text/javascript" src="#{request.contextPath}/resources/js/jquery-ui-setup.js"/>
             <h:panelGroup id="editPanel" layout="block" rendered="#{ships.creating || ships.editing}">
@@ -137,6 +140,7 @@
                 </h:commandButton>
             </h:panelGroup>  
         </h:form>
+        
         <h:form id="messagesForm">
             <h:messages errorClass="errormsg" infoClass="infomsg" layout="table" globalOnly="true" tooltip="true"/>
         </h:form>

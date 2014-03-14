@@ -7,6 +7,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 
 /**
+ * Helper JSF presentation class.
+ * 
+ * Clase de ayuda para la presentación JSF.
  * 
  * @author NetBeans Team
  */

@@ -16,12 +16,14 @@
                 <f:ajax render=":editForm :messagesForm"/>
             </h:commandButton>
             <br/>
+            
             <h:outputLabel value="#{label.shipTypeDescriptionFilter}: " for="filterCriteria"/>
             <h:inputText id="filterCriteria" value="#{shipTypes.filterCriteria}" title="#{label.shipTypeDescriptionFilter}" required="true" requiredMessage="#{label.filterCriteriaRequired}"/>
             <h:commandButton action="#{shipTypes.filter()}" value="#{label.buttonFilter}">
                 <f:ajax execute="filterCriteria" render=":listForm :messagesForm"/>
             </h:commandButton>
             <br/>
+            
             <h:outputText value="#{label.noData}" rendered="#{shipTypes.paginationHelper.currentPage.rowCount == 0}"/>
             <h:dataTable value="#{shipTypes.paginationHelper.currentPage}" var="shipType" rendered="#{shipTypes.paginationHelper.currentPage.rowCount > 0}">
                 <h:column>
@@ -36,6 +38,7 @@
                     </f:facet>
                     <h:outputText value="#{shipType.description}"/>
                 </h:column>
+                
                 <h:column>
                     <h:commandLink action="#{shipTypes.prepareEdit()}" value="#{label.buttonEdit}">
                         <f:ajax render=":editForm :messagesForm"/>
@@ -47,6 +50,7 @@
                     </h:commandLink>
                 </h:column>
             </h:dataTable>
+            
             <h:commandButton image="/resources/images/icons/prev.png" action="#{shipTypes.paginationHelper.previousPage()}" rendered="#{shipTypes.paginationHelper.hasPreviousPage}">
                 <f:ajax render=":listForm :messagesForm"/>         
             </h:commandButton>  
@@ -54,6 +58,7 @@
                 <f:ajax render=":listForm :messagesForm"/>            
             </h:commandButton>  
         </h:form>
+        
         <h:form id="editForm">
             <h:panelGroup id="editPanel" layout="block" rendered="#{shipTypes.creating || shipTypes.editing}">
                 <h3>
@@ -84,6 +89,7 @@
                 </h:commandButton>
             </h:panelGroup>  
         </h:form>
+        
         <h:form id="messagesForm">
             <h:messages errorClass="errormsg" infoClass="infomsg" layout="table" globalOnly="true" tooltip="true"/>
         </h:form>

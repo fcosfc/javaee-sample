@@ -13,7 +13,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- * Basic entity example with table and columns definitions
+ * Basic JPA entity example with table and columns definitions, plus a relation with another entity.
+ * 
+ * Ejemplo básico de entidad JPA con definiciones de columnas y tabla, además de una relación con otra entidad.
  * 
  * @author Paco Saucedo
  */

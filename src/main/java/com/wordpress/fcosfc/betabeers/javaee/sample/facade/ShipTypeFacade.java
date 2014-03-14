@@ -8,7 +8,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 /**
- * Ship type entity facade
+ * Ship type entity facade. EJB example with example of the Persistence Query Language.
+ * 
+ * Fachada para el manejo de la entidad ShipType. Es un EJB con ejemplos del Persistence Query Language.
  * 
  * @author Paco Saucedo
  */
@@ -25,6 +27,11 @@ public class ShipTypeFacade extends CRUDFacade<ShipType> implements Serializable
     @Override
     protected EntityManager getEntityManager() {
         return em;
+    }
+    
+    @Override
+    public List<ShipType> findAll() {
+        return getEntityManager().createQuery("SELECT s FROM ShipType s ORDER BY s.description").getResultList();
     }
     
     @Override

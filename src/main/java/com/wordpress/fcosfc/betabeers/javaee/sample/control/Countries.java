@@ -10,7 +10,10 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
- *
+ * Basic CDI example. A class with a dependency injected and a life cycle. Supports the presentation.
+ * 
+ * Ejemplo básico de CDI. Una clase con una dependencia y un ciclo de vida determinado. Da soporte a la presenteación.
+ * 
  * @author Paco Saucedo
  */
 @Named
