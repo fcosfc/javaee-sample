@@ -1,7 +1,6 @@
 package com.wordpress.fcosfc.betabeers.javaee.sample.control;
 
-import com.wordpress.fcosfc.betabeers.javaee.sample.control.exception.management.PersistenceExceptionManager;
-import com.wordpress.fcosfc.betabeers.javaee.sample.control.util.JsfUtil;
+import com.wordpress.fcosfc.betabeers.javaee.sample.control.stereotype.CRUDController;
 import com.wordpress.fcosfc.betabeers.javaee.sample.entity.Country;
 import com.wordpress.fcosfc.betabeers.javaee.sample.entity.Ship;
 import com.wordpress.fcosfc.betabeers.javaee.sample.entity.ShipType;
@@ -11,20 +10,16 @@ import com.wordpress.fcosfc.betabeers.javaee.sample.facade.ShipFacade;
 import com.wordpress.fcosfc.betabeers.javaee.sample.facade.ShipTypeFacade;
 import java.io.Serializable;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.enterprise.context.SessionScoped;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 
 /**
  *
  * @author Paco Saucedo
  */
-@Named
-@SessionScoped
+@CRUDController
 public class Ships extends AbstractController<Ship> implements Serializable{
 
     private static final Logger logger = Logger.getLogger(Ships.class.getName());
@@ -37,9 +32,6 @@ public class Ships extends AbstractController<Ship> implements Serializable{
     
     @Inject
     private ShipTypeFacade shipTypeFacade;
-        
-    @Inject
-    private PersistenceExceptionManager persistenceExceptionManager;
     
     private List<Country> allCountries;
     private List<ShipType> allShipTypes;
@@ -123,11 +115,6 @@ public class Ships extends AbstractController<Ship> implements Serializable{
         super.refreshData();
         allCountries = countryFacade.findByFilter("%");
         allShipTypes = shipTypeFacade.findByFilter("%");
-    }
-
-    @Override
-    protected PersistenceExceptionManager getPersistenceExceptionManager() {
-        return persistenceExceptionManager;
     }
     
 }

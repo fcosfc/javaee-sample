@@ -1,20 +1,23 @@
-package com.wordpress.fcosfc.betabeers.javaee.sample.control.exception.management;
+package com.wordpress.fcosfc.betabeers.javaee.sample.control.stereotype;
 
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.ElementType.FIELD;
-import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
-import javax.inject.Qualifier;
+import javax.enterprise.context.SessionScoped;
+import javax.enterprise.inject.Stereotype;
+import javax.inject.Named;
 
 /**
  *
  * @author Paco Saucedo
  */
-@Qualifier
+@Named
+@SessionScoped
+@Stereotype
 @Retention(RUNTIME)
-@Target({METHOD, FIELD, PARAMETER, TYPE})
-public @interface DerbyPersistenceExceptionManager {
+@Target({METHOD, FIELD, TYPE})
+public @interface CRUDController {
 }

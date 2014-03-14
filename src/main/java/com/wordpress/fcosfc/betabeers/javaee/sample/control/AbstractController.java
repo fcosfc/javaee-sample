@@ -1,6 +1,5 @@
 package com.wordpress.fcosfc.betabeers.javaee.sample.control;
 
-import com.wordpress.fcosfc.betabeers.javaee.sample.control.exception.management.PersistenceExceptionManager;
 import com.wordpress.fcosfc.betabeers.javaee.sample.control.util.JsfUtil;
 import com.wordpress.fcosfc.betabeers.javaee.sample.control.util.PaginationHelper;
 import com.wordpress.fcosfc.betabeers.javaee.sample.facade.CRUDFacade;
@@ -8,7 +7,6 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import javax.persistence.PersistenceException;
 
 /**
  *
@@ -37,8 +35,6 @@ public abstract class AbstractController<T> {
     protected abstract CRUDFacade getFacade();
 
     protected abstract Logger getLogger();
-
-    protected abstract PersistenceExceptionManager getPersistenceExceptionManager();
     
     @PostConstruct
     protected void init() {
@@ -177,7 +173,8 @@ public abstract class AbstractController<T> {
         cause = ex.getCause();
         while (cause != null) {
             if (cause.getClass().getName().equals("javax.persistence.PersistenceException")) {
-                getPersistenceExceptionManager().manageException((PersistenceException) cause);
+                JsfUtil.addErrorMessage(ResourceBundle.getBundle("/com/wordpress/fcosfc/betabeers/javaee/sample/resource/label").getString("messagePersistenceError"),
+                    cause.getLocalizedMessage() == null ? cause.getMessage() : cause.getLocalizedMessage());
                 break;
             } else {
                 cause = cause.getCause();
@@ -185,8 +182,10 @@ public abstract class AbstractController<T> {
         }
 
         if (cause == null) {
+            cause = ex.getCause();
+            
             JsfUtil.addErrorMessage(ResourceBundle.getBundle("/com/wordpress/fcosfc/betabeers/javaee/sample/resource/label").getString("messageErrorDetected"),
-                    ex.getLocalizedMessage() == null ? ex.getMessage() : ex.getLocalizedMessage());
+                    cause.getLocalizedMessage() == null ? cause.getMessage() : cause.getLocalizedMessage());
         }
     }
 }
