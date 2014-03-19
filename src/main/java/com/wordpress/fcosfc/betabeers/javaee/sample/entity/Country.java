@@ -8,14 +8,15 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- * Basic JPA entity example with table and columns definitions, plus a relation with another entity.
+ * Basic JPA entity example with table/columns definitions, bean validations, plus a relation with another entity.
  * 
- * Ejemplo básico de entidad JPA con definiciones de columnas y tabla, además de una relación con otra entidad.
+ * Ejemplo básico de entidad JPA con definiciones de tabla/columnas, validaciones, además de una relación con otra entidad.
  * 
  * @author Paco Saucedo
  */
@@ -30,6 +31,8 @@ public class Country implements Serializable {
     private String isoCode;
     
     @Column(nullable = false, length = 100)
+    @NotNull
+    @Size(min = 2, max = 100)
     private String name;
 
     @OneToMany(mappedBy = "flag", fetch = FetchType.LAZY)

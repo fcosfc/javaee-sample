@@ -5,6 +5,7 @@ import com.wordpress.fcosfc.betabeers.javaee.sample.facade.ShipFacade;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -33,14 +34,14 @@ public class ShipFacadeREST {
 
     @POST
     @Consumes({"application/xml", "application/json"})
-    public void create(Ship entity) {
+    public void create(@Valid Ship entity) {
         shipFacade.create(entity);
     }
 
     @PUT
     @Path("{id}")
     @Consumes({"application/xml", "application/json"})
-    public void edit(@PathParam("id") Long id, Ship entity) {
+    public void edit(@PathParam("id") Long id, @Valid Ship entity) {
         shipFacade.update(entity);
     }
 
