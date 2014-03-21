@@ -3,7 +3,7 @@
 
     <groupId>com.wordpress.fcosfc.betabeers</groupId>
     <artifactId>javaee-sample</artifactId>
-    <version>1.0</version>
+    <version>1.1-SNAPSHOT</version>
     <packaging>war</packaging>
 
     <name>javaee-sample</name>
