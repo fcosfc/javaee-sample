@@ -84,9 +84,9 @@ public abstract class AbstractController<T> {
 
     public String filter() {
         try {
+            refreshData();
             setCreating(false);
             setEditing(false);
-            refreshData();
         } catch (Exception ex) {
             manageException(ex);
         }
@@ -177,6 +177,10 @@ public abstract class AbstractController<T> {
         while (cause != null) {
             if (cause.getClass().getName().equals("javax.persistence.PersistenceException")) {
                 JsfUtil.addErrorMessage(ResourceBundle.getBundle("/com/wordpress/fcosfc/betabeers/javaee/sample/resource/Labels").getString("messagePersistenceError"),
+                        cause.getLocalizedMessage() == null ? cause.getMessage() : cause.getLocalizedMessage());
+                break;
+            } else if (cause.getClass().getName().equals("org.eclipse.persistence.exceptions.OptimisticLockException")) {
+                JsfUtil.addErrorMessage(ResourceBundle.getBundle("/com/wordpress/fcosfc/betabeers/javaee/sample/resource/Labels").getString("messagePersistenceLockError"),
                         cause.getLocalizedMessage() == null ? cause.getMessage() : cause.getLocalizedMessage());
                 break;
             } else {

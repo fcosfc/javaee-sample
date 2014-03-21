@@ -20,7 +20,7 @@
             <h:outputLabel value="#{label.shipNameFilter}: " for="filterCriteria"/>
             <h:inputText id="filterCriteria" value="#{ships.filterCriteria}" title="#{label.shipNameFilter}" required="true" requiredMessage="#{label.filterCriteriaRequired}"/>
             <h:commandButton action="#{ships.filter()}" value="#{label.buttonFilter}">
-                <f:ajax execute="filterCriteria" render=":listForm :messagesForm"/>
+                <f:ajax execute="filterCriteria" render=":listForm :editForm :messagesForm"/>
             </h:commandButton>
             <br/>
             

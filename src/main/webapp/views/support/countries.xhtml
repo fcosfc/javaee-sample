@@ -20,7 +20,7 @@
             <h:outputLabel value="#{label.countryNameFilter}: " for="countryNameFilter"/>
             <h:inputText id="countryNameFilter" value="#{countries.filterCriteria}" title="#{label.countryNameFilter}" required="true" requiredMessage="#{label.filterCriteriaRequired}"/>
             <h:commandButton action="#{countries.filter()}" value="#{label.buttonFilter}">
-                <f:ajax execute="countryNameFilter" render=":listForm :messagesForm"/>
+                <f:ajax execute="countryNameFilter" render=":listForm :editForm :messagesForm"/>
             </h:commandButton>
             <br/>
             

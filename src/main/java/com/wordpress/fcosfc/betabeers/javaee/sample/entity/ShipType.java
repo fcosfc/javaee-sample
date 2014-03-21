@@ -3,6 +3,7 @@ package com.wordpress.fcosfc.betabeers.javaee.sample.entity;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -19,6 +20,8 @@ public class ShipType implements Serializable {
     @Id
     private String shipTypeCode;
     private String description;
+    @Version
+    private Long version;
 
     public ShipType() {
     }
@@ -42,6 +45,10 @@ public class ShipType implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Long getVersion() {
+        return version;
     }
 
     @Override

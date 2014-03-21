@@ -12,6 +12,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.Version;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -65,6 +66,9 @@ public class Ship implements Serializable {
     
     @ManyToOne(optional = false)
     private ShipType shipType;
+    
+    @Version
+    private Long version;
 
     public Ship() {
     }
@@ -132,6 +136,10 @@ public class Ship implements Serializable {
 
     public void setShipType(ShipType shipType) {
         this.shipType = shipType;
+    }
+
+    public Long getVersion() {
+        return version;
     }
 
     @Override

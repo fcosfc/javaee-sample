@@ -8,6 +8,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -34,6 +35,9 @@ public class Country implements Serializable {
     @NotNull
     @Size(min = 2, max = 100)
     private String name;
+    
+    @Version
+    private Long version;
 
     @OneToMany(mappedBy = "flag", fetch = FetchType.LAZY)
     private List<Ship> shipList;
@@ -69,6 +73,10 @@ public class Country implements Serializable {
 
     public void setShipList(List<Ship> shipList) {
         this.shipList = shipList;
+    }
+
+    public Long getVersion() {
+        return version;
     }
 
     @Override
