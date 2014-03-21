@@ -6,6 +6,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.jws.WebMethod;
+import javax.jws.WebParam;
 import javax.jws.WebService;
 
 /**
@@ -26,22 +27,22 @@ public class ShipTypeService {
     }
 
     @WebMethod
-    public void create(ShipType entity) {
+    public void create(@WebParam(name = "entity") ShipType entity) {
         shipTypeFacade.create(entity);
     }
 
     @WebMethod
-    public void edit(String id, ShipType entity) {
+    public void edit(@WebParam(name = "id") String id, @WebParam(name = "entity") ShipType entity) {
         shipTypeFacade.update(entity);
     }
 
     @WebMethod
-    public void remove(String id) {
+    public void remove(@WebParam(name = "id") String id) {
         shipTypeFacade.remove(shipTypeFacade.find(id));
     }
 
     @WebMethod
-    public ShipType find(String id) {
+    public ShipType find(@WebParam(name = "id") String id) {
         return shipTypeFacade.find(id);
     }
 
@@ -51,7 +52,7 @@ public class ShipTypeService {
     }
 
     @WebMethod
-    public List<ShipType> findRange(Integer from, Integer to) {
+    public List<ShipType> findRange(@WebParam(name = "from") Integer from, @WebParam(name = "to") Integer to) {
         return shipTypeFacade.findRange(new int[]{from, to});
     }
 

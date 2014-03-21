@@ -6,6 +6,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.jws.WebMethod;
+import javax.jws.WebParam;
 import javax.jws.WebService;
 
 /**
@@ -26,22 +27,22 @@ public class CountryService {
     }
     
     @WebMethod    
-    public void create(Country entity) {
+    public void create(@WebParam(name = "entity") Country entity) {
         countryFacade.create(entity);
     }
     
     @WebMethod
-    public void edit(String id, Country entity) {
+    public void edit(@WebParam(name = "id") String id, @WebParam(name = "entity") Country entity) {
         countryFacade.update(entity);
     }
     
     @WebMethod
-    public void remove(String id) {
+    public void remove(@WebParam(name = "id") String id) {
         countryFacade.remove(countryFacade.find(id));
     }
     
     @WebMethod
-    public Country find(String id) {
+    public Country find(@WebParam(name = "id") String id) {
         return countryFacade.find(id);
     }
     
@@ -51,7 +52,7 @@ public class CountryService {
     }
     
     @WebMethod
-    public List<Country> findRange(Integer from, Integer to) {
+    public List<Country> findRange(@WebParam(name = "from") Integer from, @WebParam(name = "to") Integer to) {
         return countryFacade.findRange(new int[]{from, to});
     }
     
