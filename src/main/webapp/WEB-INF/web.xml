@@ -29,4 +29,43 @@
     <welcome-file-list>
         <welcome-file>faces/views/index.xhtml</welcome-file>
     </welcome-file-list>
+    <!---
+    <security-constraint>
+        <display-name>AdminConstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>support</web-resource-name>
+            <description/>
+            <url-pattern>/faces/views/support/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>admin</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>OperatorConstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>ships</web-resource-name>
+            <description/>
+            <url-pattern>/faces/views/ships/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>admin</role-name>
+            <role-name>operator</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <login-config>
+        <auth-method>BASIC</auth-method>
+        <realm-name>file</realm-name>
+    </login-config>
+    <security-role>
+        <description/>
+        <role-name>admin</role-name>
+    </security-role>
+    <security-role>
+        <description/>
+        <role-name>operator</role-name>
+    </security-role>
+    -->
 </web-app>
