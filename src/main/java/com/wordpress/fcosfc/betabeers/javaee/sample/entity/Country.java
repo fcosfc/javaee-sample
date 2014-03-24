@@ -15,9 +15,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- * Basic JPA entity example with table/columns definitions, bean validations, plus a relation with another entity.
+ * Basic JPA entity example with table/columns definitions, plus a relation with another entity.
  * 
- * Ejemplo básico de entidad JPA con definiciones de tabla/columnas, validaciones, además de una relación con otra entidad.
+ * Ejemplo básico de entidad JPA con definiciones de tabla/columnas, además de una relación con otra entidad.
  * 
  * @author Paco Saucedo
  */
@@ -28,12 +28,9 @@ public class Country implements Serializable {
     
     @Id
     @Column(name = "ISO_CODE", length = 2)
-    @Size(min = 2, max = 2)
     private String isoCode;
     
     @Column(nullable = false, length = 100)
-    @NotNull
-    @Size(min = 2, max = 100)
     private String name;
     
     @Version
