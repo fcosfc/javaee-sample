@@ -53,7 +53,7 @@ public class Ship implements Serializable {
     @Column(name = "GROSS_TONS", nullable = false)
     @NotNull
     @Min(1)
-    @Max(50000)
+    @Max(200000)
     private Integer grossTons;
     
     @Temporal(javax.persistence.TemporalType.DATE)

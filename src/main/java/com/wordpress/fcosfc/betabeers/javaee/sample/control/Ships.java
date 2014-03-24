@@ -97,6 +97,15 @@ public class Ships extends AbstractController<Ship> implements Serializable{
     }
     
     @Override
+    public String prepareEdit() {
+        super.prepareEdit();
+        flag = getCurrentEntity().getFlag().getIsoCode();
+        shipType = getCurrentEntity().getShipType().getShipTypeCode();
+
+        return null;
+    }
+    
+    @Override
     public String update() {
         try {
             getCurrentEntity().setFlag(countryFacade.find(flag));
