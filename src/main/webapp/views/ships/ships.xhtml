@@ -114,14 +114,14 @@
                 <h:message for="shipDateBuilt" errorClass="errormsg" infoClass="infomsg"/><br/>
                 
                 <h:outputLabel value="#{label.shipFlag}: " for="shipFlag"/>
-                <h:selectOneMenu id="shipFlag" value="#{ships.flag}"  title="#{label.shipFlag}" label="#{label.shipFlag}">
-                    <f:selectItems value="#{ships.allCountries}" var="itemFlag" itemValue="#{itemFlag.isoCode}" itemLabel="#{itemFlag.name}" itemDescription="#{itemFlag.name}"/>
+                <h:selectOneMenu id="shipFlag" value="#{ships.currentEntity.flag}"  title="#{label.shipFlag}" label="#{label.shipFlag}" converter="#{countryConverter}">
+                    <f:selectItems value="#{ships.allCountries}" var="itemFlag" itemValue="#{itemFlag}" itemLabel="#{itemFlag.name}"/>
                 </h:selectOneMenu>
                 <h:message for="shipFlag" errorClass="errormsg" infoClass="infomsg"/><br/>
                 
                 <h:outputLabel value="#{label.shipShipType}: " for="shipShipType"/>
-                <h:selectOneMenu id="shipShipType" value="#{ships.shipType}"  title="#{label.shipShipType}" label="#{label.shipShipType}">
-                    <f:selectItems value="#{ships.allShipTypes}" var="itemShipType" itemValue="#{itemShipType.shipTypeCode}" itemLabel="#{itemShipType.description}" itemDescription="#{itemShipType.description}"/>
+                <h:selectOneMenu id="shipShipType" value="#{ships.currentEntity.shipType}"  title="#{label.shipShipType}" label="#{label.shipShipType}" converter="#{shipTypeConverter}">
+                    <f:selectItems value="#{ships.allShipTypes}" var="itemShipType" itemValue="#{itemShipType}" itemLabel="#{itemShipType.description}"/>
                 </h:selectOneMenu>
                 <h:message for="shipShipType" errorClass="errormsg" infoClass="infomsg"/><br/>
                 
