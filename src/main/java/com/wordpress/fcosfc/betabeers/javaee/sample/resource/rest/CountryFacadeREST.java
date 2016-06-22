@@ -33,14 +33,14 @@ public class CountryFacadeREST {
     }
 
     @POST
-    @Consumes({"application/xml", "application/json"})
+    @Consumes({"application/json"})
     public void create(@Valid Country entity) {
         countryFacade.create(entity);
     }
 
     @PUT
     @Path("{id}")
-    @Consumes({"application/xml", "application/json"})
+    @Consumes({"application/json"})
     public void edit(@PathParam("id") String id, @Valid Country entity) {
         countryFacade.update(entity);
     }
@@ -53,20 +53,20 @@ public class CountryFacadeREST {
 
     @GET
     @Path("{id}")
-    @Produces({"application/xml", "application/json"})
+    @Produces({"application/json"})
     public Country find(@PathParam("id") String id) {
         return countryFacade.find(id);
     }
 
     @GET
-    @Produces({"application/xml", "application/json"})
+    @Produces({"application/json"})
     public List<Country> findAll() {
         return countryFacade.findAll();
     }
 
     @GET
     @Path("{from}/{to}")
-    @Produces({"application/xml", "application/json"})
+    @Produces({"application/json"})
     public List<Country> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
         return countryFacade.findRange(new int[]{from, to});
     }

@@ -33,14 +33,14 @@ public class ShipFacadeREST {
     }
 
     @POST
-    @Consumes({"application/xml", "application/json"})
+    @Consumes({"application/json"})
     public void create(@Valid Ship entity) {
         shipFacade.create(entity);
     }
 
     @PUT
     @Path("{id}")
-    @Consumes({"application/xml", "application/json"})
+    @Consumes({"application/json"})
     public void edit(@PathParam("id") Long id, @Valid Ship entity) {
         shipFacade.update(entity);
     }
@@ -53,20 +53,20 @@ public class ShipFacadeREST {
 
     @GET
     @Path("{id}")
-    @Produces({"application/xml", "application/json"})
+    @Produces({"application/json"})
     public Ship find(@PathParam("id") Long id) {
         return shipFacade.find(id);
     }
 
     @GET
-    @Produces({"application/xml", "application/json"})
+    @Produces({"application/json"})
     public List<Ship> findAll() {
         return shipFacade.findAll();
     }
 
     @GET
     @Path("{from}/{to}")
-    @Produces({"application/xml", "application/json"})
+    @Produces({"application/json"})
     public List<Ship> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
         return shipFacade.findRange(new int[]{from, to});
     }
