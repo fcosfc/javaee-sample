@@ -3,7 +3,6 @@ package com.wordpress.fcosfc.betabeers.javaee.sample.entity;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -20,8 +19,6 @@ public class ShipType implements Serializable {
     @Id
     private String shipTypeCode;
     private String description;
-    @Version
-    private Long version;
 
     public ShipType() {
     }
@@ -47,20 +44,18 @@ public class ShipType implements Serializable {
         this.description = description;
     }
 
-    public Long getVersion() {
-        return version;
-    }
-
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 89 * hash + (this.shipTypeCode != null ? this.shipTypeCode.hashCode() : 0);
-        hash = 89 * hash + (this.description != null ? this.description.hashCode() : 0);
+        int hash = 3;
+        hash = 79 * hash + (this.shipTypeCode != null ? this.shipTypeCode.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
         if (obj == null) {
             return false;
         }
@@ -73,6 +68,8 @@ public class ShipType implements Serializable {
         }
         return true;
     }
+
+    
 
     @Override
     public String toString() {

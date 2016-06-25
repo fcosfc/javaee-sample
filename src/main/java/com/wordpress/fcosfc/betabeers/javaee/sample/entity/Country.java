@@ -1,16 +1,11 @@
 package com.wordpress.fcosfc.betabeers.javaee.sample.entity;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Basic JPA entity example with table/columns definitions, plus a relation with another entity.
@@ -30,13 +25,7 @@ public class Country implements Serializable {
     
     @Column(nullable = false, length = 100)
     private String name;
-    
-    @Version
-    private Long version;
-
-    @OneToMany(mappedBy = "flag", fetch = FetchType.LAZY)
-    private List<Ship> shipList;
-    
+        
     public Country() {
     }
 
@@ -59,19 +48,6 @@ public class Country implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-    
-    @XmlTransient
-    public List<Ship> getShipList() {
-        return shipList;
-    }
-
-    public void setShipList(List<Ship> shipList) {
-        this.shipList = shipList;
-    }
-
-    public Long getVersion() {
-        return version;
     }
 
     @Override

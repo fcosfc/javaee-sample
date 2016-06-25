@@ -4,8 +4,11 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- *
- * @author paco
+ * Unit test for the IMO Code Validator
+ * 
+ * Test unitario para el validador de códigos IMO de buques
+ * 
+ * @author Paco Saucedo
  */
 public class ImoCodeValidatorTest {
     
