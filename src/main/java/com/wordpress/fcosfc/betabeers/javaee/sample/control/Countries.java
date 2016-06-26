@@ -18,9 +18,10 @@ import javax.inject.Named;
  */
 @Named
 @SessionScoped
-public class Countries extends AbstractController<Country> implements Serializable{
+public class Countries extends AbstractController<Country> implements Serializable {
 
-    private static final Logger logger = Logger.getLogger(ShipTypes.class.getName());
+    @Inject
+    private Logger logger;
     
     @Inject
     private CountryFacade facade;

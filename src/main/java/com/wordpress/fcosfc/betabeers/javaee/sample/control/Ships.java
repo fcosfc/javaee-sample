@@ -29,9 +29,10 @@ import javax.inject.Inject;
  * @author Paco Saucedo
  */
 @CRUDController
-public class Ships extends AbstractController<Ship> implements Serializable{
+public class Ships extends AbstractController<Ship> implements Serializable {
 
-    private static final Logger logger = Logger.getLogger(Ships.class.getName());
+    @Inject
+    private Logger logger;
     
     @Inject
     private ShipFacade shipFacade;
@@ -75,6 +76,9 @@ public class Ships extends AbstractController<Ship> implements Serializable{
     @FacesConverter(forClass = ShipType.class)
     public static class ShipTypeConverter implements Converter {
 
+        @Inject
+        private Logger logger;
+        
         @Override
         public Object getAsObject(FacesContext context, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
@@ -109,6 +113,9 @@ public class Ships extends AbstractController<Ship> implements Serializable{
     @FacesConverter(forClass = Country.class)
     public static class CountryConverter implements Converter {
 
+        @Inject
+        private Logger logger;
+        
         @Override
         public Object getAsObject(FacesContext context, UIComponent component, String value) {
             if (value == null || value.length() == 0) {

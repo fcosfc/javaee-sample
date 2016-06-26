@@ -18,9 +18,10 @@ import javax.inject.Inject;
  */
 @ManagedBean
 @ViewScoped
-public class ShipTypes extends AbstractController<ShipType> implements Serializable{
+public class ShipTypes extends AbstractController<ShipType> implements Serializable {
 
-    private static final Logger logger = Logger.getLogger(ShipTypes.class.getName());
+    @Inject
+    private Logger logger;
     
     @Inject
     private ShipTypeFacade facade;
