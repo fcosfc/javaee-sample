@@ -28,7 +28,7 @@ public class CountryFacadeTest {
     public static WebArchive deployment() {
         return JavaEESampleTestDeployment.deployment()                
                 .addClass(com.wordpress.fcosfc.betabeers.javaee.sample.entity.Country.class)
-                .addClass(com.wordpress.fcosfc.betabeers.javaee.sample.facade.CRUDFacade.class)
+                .addClass(com.wordpress.fcosfc.betabeers.javaee.sample.facade.CrudFacade.class)
                 .addClass(com.wordpress.fcosfc.betabeers.javaee.sample.facade.CountryFacade.class);
     }
     

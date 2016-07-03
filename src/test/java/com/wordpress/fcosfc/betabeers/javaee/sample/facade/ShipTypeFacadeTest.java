@@ -28,7 +28,7 @@ public class ShipTypeFacadeTest {
     public static WebArchive deployment() {
         return JavaEESampleTestDeployment.deployment()                
                 .addClass(com.wordpress.fcosfc.betabeers.javaee.sample.entity.ShipType.class)
-                .addClass(com.wordpress.fcosfc.betabeers.javaee.sample.facade.CRUDFacade.class)
+                .addClass(com.wordpress.fcosfc.betabeers.javaee.sample.facade.CrudFacade.class)
                 .addClass(com.wordpress.fcosfc.betabeers.javaee.sample.facade.ShipTypeFacade.class);
     }
 

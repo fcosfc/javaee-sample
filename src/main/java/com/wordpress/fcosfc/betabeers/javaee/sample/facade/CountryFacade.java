@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
  * @author Paco Saucedo
  */
 @Stateless
-public class CountryFacade extends CRUDFacade<Country> implements Serializable{
+public class CountryFacade extends CrudFacade<Country> implements Serializable{
     
     @PersistenceContext
     private EntityManager em;

@@ -4,7 +4,7 @@ import com.wordpress.fcosfc.betabeers.javaee.sample.control.stereotype.CRUDContr
 import com.wordpress.fcosfc.betabeers.javaee.sample.entity.Country;
 import com.wordpress.fcosfc.betabeers.javaee.sample.entity.Ship;
 import com.wordpress.fcosfc.betabeers.javaee.sample.entity.ShipType;
-import com.wordpress.fcosfc.betabeers.javaee.sample.facade.CRUDFacade;
+import com.wordpress.fcosfc.betabeers.javaee.sample.facade.CrudFacade;
 import com.wordpress.fcosfc.betabeers.javaee.sample.facade.CountryFacade;
 import com.wordpress.fcosfc.betabeers.javaee.sample.facade.ShipFacade;
 import com.wordpress.fcosfc.betabeers.javaee.sample.facade.ShipTypeFacade;
@@ -56,7 +56,7 @@ public class Ships extends AbstractController<Ship> implements Serializable {
     }
 
     @Override
-    protected CRUDFacade getFacade() {
+    protected CrudFacade getFacade() {
         return shipFacade;
     }
 

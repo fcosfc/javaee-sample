@@ -14,11 +14,11 @@ import javax.persistence.EntityManager;
 * @author Paco Saucedo
  * @param <T>
 */
-public abstract class CRUDFacade<T> {
+public abstract class CrudFacade<T> {
     
     private final Class<T> entityClass;
 
-    public CRUDFacade(Class<T> entityClass) {
+    public CrudFacade(Class<T> entityClass) {
         this.entityClass = entityClass;
     }
 

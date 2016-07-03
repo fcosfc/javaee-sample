@@ -1,7 +1,7 @@
 package com.wordpress.fcosfc.betabeers.javaee.sample.control;
 
 import com.wordpress.fcosfc.betabeers.javaee.sample.entity.Country;
-import com.wordpress.fcosfc.betabeers.javaee.sample.facade.CRUDFacade;
+import com.wordpress.fcosfc.betabeers.javaee.sample.facade.CrudFacade;
 import com.wordpress.fcosfc.betabeers.javaee.sample.facade.CountryFacade;
 import java.io.Serializable;
 import java.util.logging.Logger;
@@ -36,7 +36,7 @@ public class Countries extends AbstractController<Country> implements Serializab
     }
 
     @Override
-    protected CRUDFacade getFacade() {
+    protected CrudFacade getFacade() {
         return facade;
     }
 

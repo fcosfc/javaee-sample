@@ -37,7 +37,7 @@ public class ShipFacadeTest {
     public static WebArchive deployment() {
         return JavaEESampleTestDeployment.deployment()                
                 .addPackage(com.wordpress.fcosfc.betabeers.javaee.sample.entity.Ship.class.getPackage())
-                .addPackage(com.wordpress.fcosfc.betabeers.javaee.sample.facade.CRUDFacade.class.getPackage());
+                .addPackage(com.wordpress.fcosfc.betabeers.javaee.sample.facade.CrudFacade.class.getPackage());
     }
 
     @Test

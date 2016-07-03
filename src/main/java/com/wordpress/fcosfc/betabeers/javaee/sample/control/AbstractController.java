@@ -2,7 +2,7 @@ package com.wordpress.fcosfc.betabeers.javaee.sample.control;
 
 import com.wordpress.fcosfc.betabeers.javaee.sample.control.util.JsfUtil;
 import com.wordpress.fcosfc.betabeers.javaee.sample.control.util.PaginationHelper;
-import com.wordpress.fcosfc.betabeers.javaee.sample.facade.CRUDFacade;
+import com.wordpress.fcosfc.betabeers.javaee.sample.facade.CrudFacade;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,7 +35,7 @@ public abstract class AbstractController<T> {
 
     protected abstract T getNewEntity();
 
-    protected abstract CRUDFacade getFacade();
+    protected abstract CrudFacade getFacade();
 
     protected abstract Logger getLogger();
 

@@ -1,7 +1,7 @@
 package com.wordpress.fcosfc.betabeers.javaee.sample.control;
 
 import com.wordpress.fcosfc.betabeers.javaee.sample.entity.ShipType;
-import com.wordpress.fcosfc.betabeers.javaee.sample.facade.CRUDFacade;
+import com.wordpress.fcosfc.betabeers.javaee.sample.facade.CrudFacade;
 import com.wordpress.fcosfc.betabeers.javaee.sample.facade.ShipTypeFacade;
 import java.io.Serializable;
 import java.util.logging.Logger;
@@ -36,7 +36,7 @@ public class ShipTypes extends AbstractController<ShipType> implements Serializa
     }
 
     @Override
-    protected CRUDFacade getFacade() {
+    protected CrudFacade getFacade() {
         return facade;
     }
 

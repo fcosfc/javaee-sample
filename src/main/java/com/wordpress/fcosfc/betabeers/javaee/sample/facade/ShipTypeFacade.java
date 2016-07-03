@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
  * @author Paco Saucedo
  */
 @Stateless
-public class ShipTypeFacade extends CRUDFacade<ShipType> implements Serializable {
+public class ShipTypeFacade extends CrudFacade<ShipType> implements Serializable {
     
     @PersistenceContext
     private EntityManager em;
