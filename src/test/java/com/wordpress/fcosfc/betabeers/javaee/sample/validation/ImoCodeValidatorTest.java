@@ -24,4 +24,17 @@ public class ImoCodeValidatorTest {
         assertFalse(validator.isValid(9043954, null));
     }
     
+    @Test
+    public void testNullIsNotValid() {
+        ImoCodeValidator validator = new ImoCodeValidator();
+        assertFalse(validator.isValid(null, null));
+    }
+    
+    @Test
+    public void testTooSmallOrTooLongNumbersAreNotValid() {
+        ImoCodeValidator validator = new ImoCodeValidator();
+        assertFalse(validator.isValid(123, null));
+        assertFalse(validator.isValid(904395478, null));
+    }
+    
 }
