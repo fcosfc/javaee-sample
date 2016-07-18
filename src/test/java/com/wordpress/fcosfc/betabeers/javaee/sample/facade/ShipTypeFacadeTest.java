@@ -21,6 +21,15 @@ import org.junit.runner.RunWith;
 @RunWith(Arquillian.class)
 public class ShipTypeFacadeTest {
     
+    private static final String SHIP_TYPE_CODE = "BLK";
+    private static final String SHIP_TYPE_DESCRIPTION = "Bulk Carrier";
+    private static final String SHIP_TYPE_DESCRIPTION_UPDATED = "BULK CARRIER";
+    private static final String FILTER = "F%";
+    private static final String FIRST_SHIP_TYPE_IN_FILTERED_LIST = "Fast Ferry";
+    private static final Integer SHIP_TYPE_LIST_SIZE = 3;
+    private static final Integer RANGE_SHIP_TYPE_LIST_SIZE = 2;
+    private static final Integer FILTERED_SHIP_TYPE_LIST_SIZE = 2;
+    
     @Inject
     private ShipTypeFacade shipTypeFacade;
     
@@ -35,55 +44,71 @@ public class ShipTypeFacadeTest {
     @Test
     @InSequence(2)
     public void testCreate() throws Exception {
-        shipTypeFacade.create(new ShipType("BLK", "Bulk Carrier"));
+        shipTypeFacade.create(new ShipType(SHIP_TYPE_CODE, SHIP_TYPE_DESCRIPTION));
     }
 
     @Test
     @InSequence(3)
     public void testUpdate() throws Exception {
-        ShipType bulkCarrier = shipTypeFacade.find("BLK");
-        bulkCarrier.setDescription("BULK CARRIER");
+        ShipType bulkCarrier = shipTypeFacade.find(SHIP_TYPE_CODE);
+        bulkCarrier.setDescription(SHIP_TYPE_DESCRIPTION_UPDATED);
         shipTypeFacade.update(bulkCarrier);
     }
 
     @Test
     @InSequence(4)
     public void testFind() throws Exception {
-        Assert.assertTrue(shipTypeFacade.find("BLK").getDescription().equals("BULK CARRIER"));
+        Assert.assertEquals("Wrong ship type found",
+                SHIP_TYPE_DESCRIPTION_UPDATED,
+                shipTypeFacade.find(SHIP_TYPE_CODE).getDescription());
     }
 
     @Test
     @InSequence(5)
     public void testRemove() throws Exception {
-        ShipType bulkCarrier = shipTypeFacade.find("BLK");
+        ShipType bulkCarrier = shipTypeFacade.find(SHIP_TYPE_CODE);
         shipTypeFacade.remove(bulkCarrier);
-        Assert.assertNull(shipTypeFacade.find("BLK"));
+        Assert.assertEquals("No ship type expected after removing the item",
+                null,
+                shipTypeFacade.find(SHIP_TYPE_CODE));
     }
 
     @Test
     @InSequence(1)
     public void testFindAll() throws Exception {
-        Assert.assertTrue(shipTypeFacade.findAll().size() == 3);
+        Assert.assertEquals("Wrong number of ship types found", 
+                SHIP_TYPE_LIST_SIZE,
+                (Integer) shipTypeFacade.findAll().size());
     }
 
     @Test
     @InSequence(1)
     public void testFindRange() throws Exception {
-        Assert.assertTrue(shipTypeFacade.findRange(new int[] {0, 1}).size() == 2);
+        Assert.assertEquals("Wrong number of ship types found in range query",
+                RANGE_SHIP_TYPE_LIST_SIZE,
+                (Integer) shipTypeFacade.findRange(new int[] {0, 1}).size());
     }
 
     @Test
     @InSequence(1)
     public void testFindByFilter() throws Exception {
-        Assert.assertTrue(shipTypeFacade.findByFilter("%").size() == 3);
-        Assert.assertTrue(shipTypeFacade.findByFilter("F%").size() == 2); 
-        Assert.assertTrue(shipTypeFacade.findByFilter("F%").get(0).getDescription().equals("Fast Ferry"));        
+        Assert.assertEquals("Wrong number of ship types found in no filter query",
+                SHIP_TYPE_LIST_SIZE,
+                (Integer) shipTypeFacade.findByFilter("%").size());
+        Assert.assertEquals("Wrong number of ship types found in filtered query",
+                FILTERED_SHIP_TYPE_LIST_SIZE,
+                (Integer) shipTypeFacade.findByFilter(FILTER).size()); 
+        Assert.assertEquals("Wrong order of ship types found in filtered query",
+                FIRST_SHIP_TYPE_IN_FILTERED_LIST,
+                shipTypeFacade.findByFilter(FILTER).get(0).getDescription());        
     }
 
     @Test
     @InSequence(1)
     public void testCount() throws Exception {
-        Assert.assertTrue(shipTypeFacade.count() == 3);
+        Assert.assertEquals("Wrong count of ship types",
+                SHIP_TYPE_LIST_SIZE,
+                (Integer) shipTypeFacade.count());
     }
     
 }

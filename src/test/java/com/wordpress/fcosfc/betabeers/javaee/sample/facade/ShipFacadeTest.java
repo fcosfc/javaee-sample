@@ -24,6 +24,14 @@ import org.junit.runner.RunWith;
 @RunWith(Arquillian.class)
 public class ShipFacadeTest {
     
+    private static final Long SHIP_ID = -2L;
+    private static final String SHIP_NAME = "ALBAYCIN";
+    private static final String FILTER = "%M%";
+    private static final String FIRST_SHIP_IN_FILTERED_LIST = "Caroline Maersk";
+    private static final Integer SHIP_LIST_SIZE = 5;
+    private static final Integer RANGE_SHIP_LIST_SIZE = 3;
+    private static final Integer FILTERED_SHIP_LIST_SIZE = 3;
+    
     @Inject
     private ShipFacade shipFacade;
     
@@ -57,49 +65,65 @@ public class ShipFacadeTest {
     @Test
     @InSequence(3)
     public void testUpdate() throws Exception {
-        Ship albaycin = shipFacade.find(new Long(-2));
-        albaycin.setName("ALBAYCIN");
-        shipFacade.update(albaycin);
+        Ship ship = shipFacade.find(SHIP_ID);
+        ship.setName(SHIP_NAME);
+        shipFacade.update(ship);
     }
 
     @Test
     @InSequence(4)
     public void testFind() throws Exception {
-        Assert.assertTrue(shipFacade.find(new Long(-2)).getName().equals("ALBAYCIN"));
+        Assert.assertEquals("Wrong ship found",
+                SHIP_NAME,
+                shipFacade.find(SHIP_ID).getName());
     }
 
     @Test
     @InSequence(5)
     public void testRemove() throws Exception {
-        Ship albaycin = shipFacade.find(new Long(-2));
-        shipFacade.remove(albaycin);
-        Assert.assertNull(shipFacade.find(new Long(-2)));
+        Ship ship = shipFacade.find(SHIP_ID);
+        shipFacade.remove(ship);
+        Assert.assertEquals("No ship expected after removing the item",
+                null,
+                shipFacade.find(SHIP_ID));
     }
 
     @Test
     @InSequence(1)
     public void testFindAll() throws Exception {
-        Assert.assertTrue(shipFacade.findAll().size() == 5);
+        Assert.assertEquals("Wrong number of ships found",
+                SHIP_LIST_SIZE,
+                (Integer) shipFacade.findAll().size());
     }
 
     @Test
     @InSequence(1)
     public void testFindRange() throws Exception {
-        Assert.assertTrue(shipFacade.findRange(new int[] {0, 2}).size() == 3);
+        Assert.assertEquals("Wrong number of ships found in range query",
+                RANGE_SHIP_LIST_SIZE,
+                (Integer) shipFacade.findRange(new int[] {0, 2}).size());
     }
 
     @Test
     @InSequence(1)
     public void testFindByFilter() throws Exception {
-        Assert.assertTrue(shipFacade.findByFilter("%").size() == 5);
-        Assert.assertTrue(shipFacade.findByFilter("%M%").size() == 3); 
-        Assert.assertTrue(shipFacade.findByFilter("%M%").get(0).getName().equals("Caroline Maersk"));        
+        Assert.assertEquals("Wrong number of ships found in no filter query",
+                SHIP_LIST_SIZE,
+                (Integer) shipFacade.findByFilter("%").size());
+        Assert.assertEquals("Wrong number of ships found in filtered query",
+                FILTERED_SHIP_LIST_SIZE,
+                (Integer) shipFacade.findByFilter(FILTER).size()); 
+        Assert.assertEquals("Wrong order of ships found in filtered query",
+                FIRST_SHIP_IN_FILTERED_LIST,
+                shipFacade.findByFilter(FILTER).get(0).getName());        
     }
 
     @Test
     @InSequence(1)
     public void testCount() throws Exception {
-        Assert.assertTrue(shipFacade.count() == 5);
+        Assert.assertEquals("Wrong count of ships",
+                SHIP_LIST_SIZE,
+                (Integer) shipFacade.count());
     }
     
 }
