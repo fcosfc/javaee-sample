@@ -25,9 +25,11 @@ public class Countries extends AbstractController<Country> implements Serializab
     
     @Inject
     private CountryFacade facade;
-    
-    public Countries() {
-        super(Country.class);
+
+    @Override
+    protected void refreshData() {
+        setElements(getFacade().findAll());
+        setFilteredElements(null);
     }
 
     @Override

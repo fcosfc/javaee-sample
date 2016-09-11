@@ -1,98 +1,95 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core"
-                template="./../../WEB-INF/templates/template-example.xhtml">
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../../WEB-INF/templates/example.xhtml">
 
-    <ui:define name="head">
-        #{label.shipTypesTitle}
-    </ui:define>
+    <ui:define name="body">
+        <h:form id="ListForm">
+            <p:panel header="#{label.shipTypesTitle}">
+                <p:dataTable id="dataList" 
+                             value="#{shipTypes.elements}" 
+                             var="item"
+                             selectionMode="single" 
+                             selection="#{shipTypes.currentEntity}"
+                             paginatorTemplate="{ActionButtons} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {exportButtons}"
+                             paginator="true"
+                             rowKey="#{item.shipTypeCode}"
+                             rows="20"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                             emptyMessage="#{label.noData}"
+                             filteredValue="#{shipTypes.filteredElements}" 
+                             >
 
-    <ui:define name="list">
-        <h:form id="listForm">
-            <h:commandButton action="#{shipTypes.prepareCreate()}" value="#{label.buttonNew}">
-                <f:ajax render=":editForm :messagesForm"/>
-            </h:commandButton>
-            <br/>
-            
-            <h:outputLabel value="#{label.shipTypeDescriptionFilter}: " for="filterCriteria"/>
-            <h:inputText id="filterCriteria" value="#{shipTypes.filterCriteria}" title="#{label.shipTypeDescriptionFilter}" required="true" requiredMessage="#{label.filterCriteriaRequired}"/>
-            <h:commandButton action="#{shipTypes.filter()}" value="#{label.buttonFilter}">
-                <f:ajax execute="filterCriteria" render=":listForm :editForm :messagesForm"/>
-            </h:commandButton>
-            <br/>
-            
-            <h:outputText value="#{label.noData}" rendered="#{shipTypes.paginationHelper.currentPage.rowCount == 0}"/>
-            <h:dataTable value="#{shipTypes.paginationHelper.currentPage}" var="shipType" rendered="#{shipTypes.paginationHelper.currentPage.rowCount > 0}">
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="#{label.shipTypeCode}"/>
+                    <p:ajax event="rowSelect"   update="updateAction removeAction"/>
+                    <p:ajax event="rowUnselect" update="updateAction removeAction"/>
+
+                    <f:facet name="{ActionButtons}">
+                        <p:commandLink title="#{label.buttonCreate}" actionListener="#{shipTypes.prepareCreate()}" update=":EditForm" oncomplete="PF('EditDialog').show()" styleClass="ui-icon ui-icon-plus" style="float: left; margin: 2">
+                            <p:resetInput target=":EditForm"/>
+                        </p:commandLink>
+                        <p:commandLink id="updateAction" title="#{label.buttonEdit}" actionListener="#{shipTypes.prepareEdit()}" update=":EditForm" oncomplete="PF('EditDialog').show()" styleClass="ui-icon ui-icon-pencil" style="float: left; margin: 2" disabled="#{shipTypes.currentEntity == null}">
+                            <p:resetInput target=":EditForm"/>
+                        </p:commandLink>                      
+                        <p:commandLink id="removeAction" title="#{label.buttonRemove}" actionListener="#{shipTypes.remove()}" update=":growl,dataList" styleClass="ui-icon ui-icon-trash" style="float: left; margin: 2" disabled="#{shipTypes.currentEntity == null}">
+                            <p:confirm header="#{label.confirmationDialogTitle}" message="#{label.confirmationAction}" icon="ui-icon-alert" />
+                        </p:commandLink>
                     </f:facet>
-                    <h:outputText value="#{shipType.shipTypeCode}"/>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="#{label.shipTypeDescription}"/>
+
+                    <f:facet name="{exportButtons}">
+                        <p:commandLink ajax="false" styleClass="ui-icon ui-icon-pdf" style="float: right; margin: 2">
+                            <p:dataExporter type="pdf" target="dataList" fileName="shiptypes" />
+                        </p:commandLink>
+                        <p:commandLink ajax="false" styleClass="ui-icon ui-icon-xlsx" style="float: right; margin: 2">
+                            <p:dataExporter type="xls" target="dataList" fileName="shiptypes" />
+                        </p:commandLink>
                     </f:facet>
-                    <h:outputText value="#{shipType.description}"/>
-                </h:column>
-                
-                <h:column>
-                    <h:commandLink action="#{shipTypes.prepareEdit()}" value="#{label.buttonEdit}">
-                        <f:ajax render=":editForm :messagesForm"/>
-                    </h:commandLink>
-                </h:column>
-                <h:column>
-                    <h:commandLink action="#{shipTypes.remove()}" value="#{label.buttonRemove}">
-                        <f:ajax render=":editForm :listForm :messagesForm"/>
-                    </h:commandLink>
-                </h:column>
-            </h:dataTable>
-            
-            <h:commandButton image="/resources/images/icons/prev.png" action="#{shipTypes.paginationHelper.previousPage()}" rendered="#{shipTypes.paginationHelper.hasPreviousPage}">
-                <f:ajax render=":listForm :messagesForm"/>         
-            </h:commandButton>  
-            <h:commandButton image="/resources/images/icons/next.png" action="#{shipTypes.paginationHelper.nextPage()}" rendered="#{shipTypes.paginationHelper.hasNextPage}">
-                <f:ajax render=":listForm :messagesForm"/>            
-            </h:commandButton>  
+
+                    <p:column headerText="#{label.shipTypeCode}" filterBy="#{item.shipTypeCode}" filterMatchMode="contains" sortBy="#{item.shipTypeCode}">
+                        <h:outputText value="#{item.shipTypeCode}"/>
+                    </p:column>
+
+                    <p:column headerText="#{label.shipTypeDescription}" filterBy="#{item.description}" filterMatchMode="contains" sortBy="#{item.description}">
+                        <h:outputText value="#{item.description}"/>
+                    </p:column>
+
+                </p:dataTable>
+            </p:panel>
         </h:form>
-        
-        <h:form id="editForm">
-            <h:panelGroup id="editPanel" layout="block" rendered="#{shipTypes.creating || shipTypes.editing}">
-                <h3>
-                    <h:outputText value="#{label.newRecord}" rendered="#{shipTypes.creating}"/>
-                    <h:outputText value="#{label.editRecord}" rendered="#{shipTypes.editing}"/>
-                </h3>
-                
-                <h:outputLabel value="#{label.shipTypeCode}: " for="shipTypeCode"/>
-                <h:inputText id="shipTypeCode" value="#{shipTypes.currentEntity.shipTypeCode}" title="#{label.shipTypeCode}" label="#{label.shipTypeCode}" disabled="#{shipTypes.editing}"/>
-                <h:message for="shipTypeCode" errorClass="errormsg" infoClass="infomsg"/><br/>
-                
-                <h:outputLabel value="#{label.shipTypeDescription}: " for="shipTypeDescription"/>
-                <h:inputText id="shipTypeDescription" value="#{shipTypes.currentEntity.description}" title="#{label.shipTypeDescription}" label="#{label.shipTypeDescription}"/>
-                <h:message for="shipTypeDescription" errorClass="errormsg" infoClass="infomsg"/><br/>
-                
-                <h:commandButton action="#{shipTypes.create()}" value="#{label.buttonCreate}" rendered="#{shipTypes.creating}">
-                    <f:ajax render=":listForm :editForm :messagesForm" execute="shipTypeCode shipTypeDescription"/>
-                </h:commandButton>
-                
-                <h:commandButton action="#{shipTypes.update()}" value="#{label.buttonUpdate}" rendered="#{shipTypes.editing}">
-                    <f:ajax render=":listForm :editForm :messagesForm" execute="shipTypeCode shipTypeDescription"/>
-                </h:commandButton>
-                
-                <h:commandButton type="reset" value="#{label.buttonReset}"/>
-                
-                <h:commandButton action="#{shipTypes.cancel()}" value="#{label.buttonCancel}">
-                    <f:ajax render=":listForm :editForm :messagesForm"/>
-                </h:commandButton>
-            </h:panelGroup>  
+
+        <h:form id="ConfirmationForm">
+            <p:confirmDialog global="true" showEffect="explode" hideEffect="explode">                 
+                <p:commandButton value="#{label.confirmationActionYes}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>  
+                <p:commandButton value="#{label.confirmationActionNo}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>       
+            </p:confirmDialog>
         </h:form>
-        
-        <h:form id="messagesForm">
-            <h:messages errorClass="errormsg" infoClass="infomsg" layout="table" globalOnly="true" tooltip="true"/>
-        </h:form>
+
+        <p:dialog widgetVar="EditDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)"
+                  showEffect="clip"
+                  hideEffect="clip" 
+                  closable="false"
+                  header="#{label.rowData}">
+            <h:form id="EditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{shipTypes.currentEntity != null}">
+                        <p:outputLabel for="shipTypeCode" value="#{label.shipTypeCode}"/>
+                        <p:inputText id="shipTypeCode" size="3" maxlength="3" value="#{shipTypes.currentEntity.shipTypeCode}" title="#{label.shipTypeCode}" disabled="#{shipTypes.editing}"/>
+
+                        <p:outputLabel for="description" value="#{label.shipTypeDescription}"/>
+                        <p:inputText id="description" size="80" maxlength="80" value="#{shipTypes.currentEntity.description}" title="#{label.description}"/>                        
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{shipTypes.create()}" value="#{label.buttonSave}" styleClass="ui-priority-primary" icon="ui-icon-disk" update="display,:ListForm:dataList,:growl" oncomplete="if (args &amp;&amp; !args.validationFailed &amp;&amp; !args.errorDetected) PF('EditDialog').hide()" rendered="#{shipTypes.creating}"/>
+                    <p:commandButton actionListener="#{shipTypes.update()}" value="#{label.buttonUpdate}" styleClass="ui-priority-primary" icon="ui-icon-disk" update="display,:ListForm:dataList,:growl" oncomplete="if (args &amp;&amp; !args.validationFailed &amp;&amp; !args.errorDetected) PF('EditDialog').hide()" rendered="#{shipTypes.editing}"/>
+                    <p:commandButton value="#{label.buttonCancel}" icon="ui-icon-cancel" oncomplete="PF('EditDialog').hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
     </ui:define>
 
 </ui:composition>

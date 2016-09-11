@@ -1,0 +1,46 @@
+.ui-widget {
+    font-size: 12px !important;
+}
+.ui-datatable td {
+    font-size: 12px !important;
+}
+.ui-datatable th {
+    font-size: 12px !important;
+}
+.ui-layout-north {
+    z-index: 20 !important;
+    overflow: visible !important;;
+}
+.ui-layout-north .ui-layout-unit-content {
+    overflow: visible !important;
+}
+.ui-widget-header {
+    text-align: center;
+    text-transform: uppercase;
+}
+.ui-datatable-footer .ui-button {
+    float: left;
+    margin-top: 25px !important;
+}
+
+.ui-button {
+    margin-top: 10px !important;
+}
+.ui-icon.ui-icon-xlsx {
+    background: transparent url('images/xlsx.png') no-repeat;
+}
+.ui-icon.ui-icon-pdf {
+    background: transparent url('images/pdf.png') no-repeat;
+}
+
+.ui-layout-pane-north {
+    border: 0;
+}
+
+.ui-layout-pane-center {
+    border: 0;
+}
+
+.sin-borde td, .sin-borde tr {
+    border: none !important; 
+}

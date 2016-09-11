@@ -1,8 +1,9 @@
 package com.wordpress.fcosfc.betabeers.javaee.sample.control;
 
 import com.wordpress.fcosfc.betabeers.javaee.sample.control.util.JsfUtil;
-import com.wordpress.fcosfc.betabeers.javaee.sample.control.util.PaginationHelper;
 import com.wordpress.fcosfc.betabeers.javaee.sample.facade.CrudFacade;
+import java.io.Serializable;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,23 +17,14 @@ import javax.annotation.PostConstruct;
  * @author Paco Saucedo
  * @param <T>
  */
-public abstract class AbstractController<T> {
+public abstract class AbstractController<T> implements Serializable {
 
-    private final Class<T> entityClass;
-    private PaginationHelper<T> paginationHelper;
-    private String filterCriteria;
+    private List<T> elements, filteredElements;
     private T currentEntity;
     private boolean creating, editing;
-    private int currentPageIndex;
 
-    public AbstractController() {
-        entityClass = null;
-    }
-
-    public AbstractController(Class<T> entityClass) {
-        this.entityClass = entityClass;
-    }
-
+    protected abstract void refreshData();
+    
     protected abstract T getNewEntity();
 
     protected abstract CrudFacade getFacade();
@@ -42,28 +34,34 @@ public abstract class AbstractController<T> {
     @PostConstruct
     protected void init() {
         try {
-            paginationHelper = null;
-            filterCriteria = "%";
             refreshData();
         } catch (Exception ex) {
             manageException(ex);
         }
     }
 
-    public PaginationHelper<T> getPaginationHelper() {
-        return paginationHelper;
+    public List<T> getElements() {
+        return elements;
+    }
+
+    public void setElements(List<T> elements) {
+        this.elements = elements;
+    }
+
+    public List<T> getFilteredElements() {
+        return filteredElements;
+    }
+
+    public void setFilteredElements(List<T> filteredElements) {
+        this.filteredElements = filteredElements;
     }
 
     public T getCurrentEntity() {
         return currentEntity;
     }
 
-    public String getFilterCriteria() {
-        return filterCriteria;
-    }
-
-    public void setFilterCriteria(String filterCriteria) {
-        this.filterCriteria = filterCriteria;
+    public void setCurrentEntity(T currentEntity) {
+        this.currentEntity = currentEntity;
     }
 
     public boolean isCreating() {
@@ -82,20 +80,8 @@ public abstract class AbstractController<T> {
         this.editing = editing;
     }
 
-    public String filter() {
-        try {
-            refreshData();
-            setCreating(false);
-            setEditing(false);
-        } catch (Exception ex) {
-            manageException(ex);
-        }
-        
-        return null;
-    }
-
     public String prepareCreate() {
-        currentEntity = getNewEntity();
+        setCurrentEntity(getNewEntity());
         setCreating(true);
         setEditing(false);
 
@@ -104,8 +90,8 @@ public abstract class AbstractController<T> {
 
     public String create() {
         try {
-            getFacade().create(currentEntity);
-            currentEntity = getNewEntity();
+            getFacade().create(getCurrentEntity());
+            setCurrentEntity(null);
             refreshData();
 
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/com/wordpress/fcosfc/betabeers/javaee/sample/resource/Labels").getString("messageRecordCreated"));
@@ -117,7 +103,6 @@ public abstract class AbstractController<T> {
     }
 
     public String prepareEdit() {
-        currentEntity = paginationHelper.getCurrentPage().getRowData();
         setEditing(true);
         setCreating(false);
 
@@ -126,7 +111,8 @@ public abstract class AbstractController<T> {
 
     public String update() {
         try {
-            getFacade().update(currentEntity);
+            getFacade().update(getCurrentEntity());
+            setCurrentEntity(null);
             setEditing(false);
             refreshData();
 
@@ -140,8 +126,7 @@ public abstract class AbstractController<T> {
 
     public String remove() {
         try {
-            currentEntity = paginationHelper.getCurrentPage().getRowData();
-            getFacade().remove(currentEntity);
+            getFacade().remove(getCurrentEntity());
             setCreating(false);
             setEditing(false);
             refreshData();
@@ -154,22 +139,6 @@ public abstract class AbstractController<T> {
         return null;
     }
 
-    public String cancel() {
-        setCreating(false);
-        setEditing(false);
-
-        return null;
-    }
-
-    protected void refreshData() {
-        if (paginationHelper == null) {
-            currentPageIndex = 1;
-        } else {
-            currentPageIndex = paginationHelper.getCurrentPageIndex();
-        }
-        paginationHelper = new PaginationHelper<T>(entityClass, getFacade().findByFilter(filterCriteria), currentPageIndex);
-    }
-
     protected void manageException(Exception ex) {
         Throwable cause;
 
@@ -179,7 +148,7 @@ public abstract class AbstractController<T> {
                 JsfUtil.addErrorMessage(ResourceBundle.getBundle("/com/wordpress/fcosfc/betabeers/javaee/sample/resource/Labels").getString("messagePersistenceError"),
                         cause.getLocalizedMessage() == null ? cause.getMessage() : cause.getLocalizedMessage());
                 break;
-            } else if (cause.getClass().getName().equals("org.eclipse.persistence.exceptions.OptimisticLockException")) {
+            } else if (cause.getClass().getName().equals("javax.persistence.OptimisticLockException")) {
                 JsfUtil.addErrorMessage(ResourceBundle.getBundle("/com/wordpress/fcosfc/betabeers/javaee/sample/resource/Labels").getString("messagePersistenceLockError"),
                         cause.getLocalizedMessage() == null ? cause.getMessage() : cause.getLocalizedMessage());
                 break;

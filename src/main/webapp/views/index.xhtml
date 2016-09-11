@@ -2,14 +2,16 @@
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                template="./../WEB-INF/templates/template-example.xhtml">
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../WEB-INF/templates/example.xhtml">
 
-    <ui:define name="head">
-        ${label.indexWelcome}
-    </ui:define>
-
-    <ui:define name="list"> 
-        <p>${label.appDescription}</p>
+    <ui:define name="body">
+        <h:form>
+            <p:panel>
+                <p:outputLabel value="#{label.appDescription}"/>
+            </p:panel>
+        </h:form>
     </ui:define>
 
 </ui:composition>

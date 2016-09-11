@@ -1,149 +1,131 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core"
-                template="./../../WEB-INF/templates/template-example.xhtml">
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../../WEB-INF/templates/example.xhtml">
 
-    <ui:define name="head">
-        #{label.shipsTitle}
-    </ui:define>
+    <ui:define name="body">
+        <h:form id="ListForm">
+            <p:panel header="#{label.shipsTitle}">
+                <p:dataTable id="dataList" 
+                             value="#{ships.elements}" 
+                             var="item"
+                             selectionMode="single" 
+                             selection="#{ships.currentEntity}"
+                             paginatorTemplate="{ActionButtons} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {exportButtons}"
+                             paginator="true"
+                             rowKey="#{item.imoCode}"
+                             rows="20"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                             emptyMessage="#{label.noData}"
+                             filteredValue="#{ships.filteredElements}" 
+                             >
 
-    <ui:define name="list">
-        <h:form id="listForm">
-            <h:commandButton action="#{ships.prepareCreate()}" value="#{label.buttonNew}">
-                <f:ajax render=":editForm :messagesForm"/>
-            </h:commandButton>
-            <br/>
-            
-            <h:outputLabel value="#{label.shipNameFilter}: " for="filterCriteria"/>
-            <h:inputText id="filterCriteria" value="#{ships.filterCriteria}" title="#{label.shipNameFilter}" required="true" requiredMessage="#{label.filterCriteriaRequired}"/>
-            <h:commandButton action="#{ships.filter()}" value="#{label.buttonFilter}">
-                <f:ajax execute="filterCriteria" render=":listForm :editForm :messagesForm"/>
-            </h:commandButton>
-            <br/>
-            
-            <h:outputText value="#{label.noData}" rendered="#{ships.paginationHelper.currentPage.rowCount == 0}"/>
-            <h:dataTable value="#{ships.paginationHelper.currentPage}" var="ship" rendered="#{ships.paginationHelper.currentPage.rowCount > 0}">
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="#{label.shipImoCode}"/>
+                    <p:ajax event="rowSelect"   update="updateAction removeAction"/>
+                    <p:ajax event="rowUnselect" update="updateAction removeAction"/>
+
+                    <f:facet name="{ActionButtons}">
+                        <p:commandLink title="#{label.buttonCreate}" actionListener="#{ships.prepareCreate()}" update=":EditForm" oncomplete="PF('EditDialog').show()" styleClass="ui-icon ui-icon-plus" style="float: left; margin: 2">
+                            <p:resetInput target=":EditForm"/>
+                        </p:commandLink>
+                        <p:commandLink id="updateAction" title="#{label.buttonEdit}" actionListener="#{ships.prepareEdit()}" update=":EditForm" oncomplete="PF('EditDialog').show()" styleClass="ui-icon ui-icon-pencil" style="float: left; margin: 2" disabled="#{ships.currentEntity == null}">
+                            <p:resetInput target=":EditForm"/>
+                        </p:commandLink>                      
+                        <p:commandLink id="removeAction" title="#{label.buttonRemove}" actionListener="#{ships.remove()}" update=":growl,dataList" styleClass="ui-icon ui-icon-trash" style="float: left; margin: 2" disabled="#{ships.currentEntity == null}">
+                            <p:confirm header="#{label.confirmationDialogTitle}" message="#{label.confirmationAction}" icon="ui-icon-alert" />
+                        </p:commandLink>
                     </f:facet>
-                    <h:outputText value="#{ship.imoCode}"/>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="#{label.shipName}"/>
+
+                    <f:facet name="{exportButtons}">
+                        <p:commandLink ajax="false" styleClass="ui-icon ui-icon-pdf" style="float: right; margin: 2">
+                            <p:dataExporter type="pdf" target="dataList" fileName="ships" />
+                        </p:commandLink>
+                        <p:commandLink ajax="false" styleClass="ui-icon ui-icon-xlsx" style="float: right; margin: 2">
+                            <p:dataExporter type="xls" target="dataList" fileName="ships" />
+                        </p:commandLink>
                     </f:facet>
-                    <h:outputText value="#{ship.name}"/>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="#{label.shipGrossTons}"/>
-                    </f:facet>
-                    <h:outputText value="#{ship.grossTons}">
-                        <f:convertNumber type="number"/>
-                    </h:outputText>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="#{label.shipDateBuilt}"/>
-                    </f:facet>
-                    <h:outputText value="#{ship.dateBuilt}">                        
-                        <f:convertDateTime type="date" dateStyle="short"/>
-                    </h:outputText>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="#{label.shipFlag}"/>
-                    </f:facet>
-                    <h:outputText value="#{ship.flag.name}"/>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="#{label.shipShipType}"/>
-                    </f:facet>
-                    <h:outputText value="#{ship.shipType.description}"/>
-                </h:column>
-                
-                <h:column>
-                    <h:commandLink action="#{ships.prepareEdit()}" value="#{label.buttonEdit}">
-                        <f:ajax render=":editForm :messagesForm"/>
-                    </h:commandLink>
-                </h:column>
-                <h:column>
-                    <h:commandLink action="#{ships.remove()}" value="#{label.buttonRemove}">
-                        <f:ajax render=":editForm :listForm :messagesForm"/>
-                    </h:commandLink>
-                </h:column>
-            </h:dataTable>
-            
-            <h:commandButton image="/resources/images/icons/prev.png" action="#{ships.paginationHelper.previousPage()}" rendered="#{ships.paginationHelper.hasPreviousPage}">
-                <f:ajax render=":listForm :messagesForm"/>         
-            </h:commandButton>  
-            <h:commandButton image="/resources/images/icons/next.png" action="#{ships.paginationHelper.nextPage()}" rendered="#{ships.paginationHelper.hasNextPage}">
-                <f:ajax render=":listForm :messagesForm"/>            
-            </h:commandButton>  
+
+                    <p:column headerText="#{label.shipImoCode}" filterBy="#{item.imoCode}" filterMatchMode="contains" sortBy="#{item.imoCode}">
+                        <h:outputText value="#{item.imoCode}"/>
+                    </p:column>
+
+                    <p:column headerText="#{label.shipName}" filterBy="#{item.name}" filterMatchMode="contains" sortBy="#{item.name}">
+                        <h:outputText value="#{item.name}"/>
+                    </p:column>
+                    
+                    <p:column headerText="#{label.shipGrossTons}">
+                        <h:outputText value="#{item.grossTons}">
+                            <f:convertNumber integerOnly="true"/>
+                        </h:outputText>
+                    </p:column>
+                    
+                    <p:column headerText="#{label.shipDateBuilt}">
+                        <h:outputText value="#{item.dateBuilt}">
+                            <f:convertDateTime type="date" dateStyle="medium"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="#{label.shipFlag}" filterBy="#{item.flag.name}" filterMatchMode="contains" sortBy="#{item.flag.name}">
+                        <h:outputText value="#{item.flag.name}"/>
+                    </p:column>
+
+                    <p:column headerText="#{label.shipShipType}" filterBy="#{item.shipType.description}" filterMatchMode="contains" sortBy="#{item.shipType.description}">
+                        <h:outputText value="#{item.shipType.description}"/>
+                    </p:column>
+
+                </p:dataTable>
+            </p:panel>
         </h:form>
-        
-        <h:form id="editForm">
-            <script type="text/javascript" src="#{request.contextPath}/resources/js/jquery-ui-setup.js"/>
-            <h:panelGroup id="editPanel" layout="block" rendered="#{ships.creating || ships.editing}">
-                <h3>
-                    <h:outputText value="#{label.newRecord}" rendered="#{ships.creating}"/>
-                    <h:outputText value="#{label.editRecord}" rendered="#{ships.editing}"/>
-                </h3>
-                
-                <h:outputLabel value="#{label.shipImoCode}: " for="shipImoCode"/>
-                <h:inputText id="shipImoCode" value="#{ships.currentEntity.imoCode}" title="#{label.shipImoCode}" label="#{label.shipImoCode}"/>
-                <h:message for="shipImoCode" errorClass="errormsg" infoClass="infomsg"/><br/>
-                
-                <h:outputLabel value="#{label.shipName}: " for="shipName"/>
-                <h:inputText id="shipName" value="#{ships.currentEntity.name}" title="#{label.shipName}" label="#{label.shipName}"/>
-                <h:message for="shipName" errorClass="errormsg" infoClass="infomsg"/><br/>
-                
-                <h:outputLabel value="#{label.shipGrossTons}: " for="shipGrossTons"/>
-                <h:inputText id="shipGrossTons" value="#{ships.currentEntity.grossTons}" title="#{label.shipGrossTons}" label="#{label.shipGrossTons}"/>
-                <h:message for="shipGrossTons" errorClass="errormsg" infoClass="infomsg"/><br/>
-                
-                <h:outputLabel value="#{label.shipDateBuilt}: " for="shipDateBuilt"/>
-                <h:inputText id="shipDateBuilt" value="#{ships.currentEntity.dateBuilt}" title="#{label.shipDateBuilt}" label="#{label.shipDateBuilt}" class="date">
-                    <f:convertDateTime type="date" dateStyle="short"/>
-                </h:inputText>
-                <h:message for="shipDateBuilt" errorClass="errormsg" infoClass="infomsg"/><br/>
-                
-                <h:outputLabel value="#{label.shipFlag}: " for="shipFlag"/>
-                <h:selectOneMenu id="shipFlag" value="#{ships.currentEntity.flag}"  title="#{label.shipFlag}" label="#{label.shipFlag}" converter="#{countryConverter}">
-                    <f:selectItems value="#{ships.allCountries}" var="itemFlag" itemValue="#{itemFlag}" itemLabel="#{itemFlag.name}"/>
-                </h:selectOneMenu>
-                <h:message for="shipFlag" errorClass="errormsg" infoClass="infomsg"/><br/>
-                
-                <h:outputLabel value="#{label.shipShipType}: " for="shipShipType"/>
-                <h:selectOneMenu id="shipShipType" value="#{ships.currentEntity.shipType}"  title="#{label.shipShipType}" label="#{label.shipShipType}" converter="#{shipTypeConverter}">
-                    <f:selectItems value="#{ships.allShipTypes}" var="itemShipType" itemValue="#{itemShipType}" itemLabel="#{itemShipType.description}"/>
-                </h:selectOneMenu>
-                <h:message for="shipShipType" errorClass="errormsg" infoClass="infomsg"/><br/>
-                
-                <h:commandButton action="#{ships.create()}" value="#{label.buttonCreate}" rendered="#{ships.creating}">
-                    <f:ajax render=":listForm :editForm :messagesForm" execute="shipImoCode shipName shipGrossTons shipDateBuilt shipFlag shipShipType"/>
-                </h:commandButton>
-                
-                <h:commandButton action="#{ships.update()}" value="#{label.buttonUpdate}" rendered="#{ships.editing}">
-                    <f:ajax render=":listForm :editForm :messagesForm" execute="shipImoCode shipName shipGrossTons shipDateBuilt shipFlag shipShipType"/>
-                </h:commandButton>
-                
-                <h:commandButton type="reset" value="#{label.buttonReset}"/>
-                
-                <h:commandButton action="#{ships.cancel()}" value="#{label.buttonCancel}">
-                    <f:ajax render=":listForm :editForm :messagesForm"/>
-                </h:commandButton>
-            </h:panelGroup>  
+
+        <h:form id="ConfirmationForm">
+            <p:confirmDialog global="true" showEffect="explode" hideEffect="explode">                 
+                <p:commandButton value="#{label.confirmationActionYes}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>  
+                <p:commandButton value="#{label.confirmationActionNo}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>       
+            </p:confirmDialog>
         </h:form>
-        
-        <h:form id="messagesForm">
-            <h:messages errorClass="errormsg" infoClass="infomsg" layout="table" globalOnly="true" tooltip="true"/>
-        </h:form>
+
+        <p:dialog widgetVar="EditDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)"
+                  showEffect="clip"
+                  hideEffect="clip" 
+                  closable="false"
+                  header="#{label.rowData}">
+            <h:form id="EditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{ships.currentEntity != null}">
+                        <p:outputLabel for="shipImoCode" value="#{label.shipImoCode}"/>
+                        <p:inputText id="shipImoCode" size="10" maxlength="10" value="#{ships.currentEntity.imoCode}" title="#{label.shipImoCode}"/>
+
+                        <p:outputLabel for="name" value="#{label.shipName}"/>
+                        <p:inputText id="name" size="50" maxlength="50" value="#{ships.currentEntity.name}" title="#{label.shipName}"/>   
+                        
+                        <p:outputLabel for="grossTons" value="#{label.shipGrossTons}"/>                        
+                        <p:inputNumber id="grossTons" size="6" maxlength="6" value="#{ships.currentEntity.grossTons}" title="#{label.shipGrossTons}" minValue="0" maxValue="200000" decimalPlaces="0"/>
+                        
+                        <p:outputLabel for="dateBuilt" value="#{label.shipDateBuilt}"/>
+                        <p:calendar id="dateBuilt" value="#{ships.currentEntity.dateBuilt}"/>
+                        
+                        <p:outputLabel for="flag" value="#{label.shipFlag}"/>
+                        <p:selectOneMenu id="flag" value="#{ships.currentEntity.flag}" effect="fade" converter="#{countryConverter}">
+                            <f:selectItems value="#{ships.allCountries}" var="countryValue" itemLabel="#{countryValue.name}" itemValue="#{countryValue}"/>
+                        </p:selectOneMenu>
+                        
+                        <p:outputLabel for="shipType" value="#{label.shipShipType}"/>
+                        <p:selectOneMenu id="shipType" value="#{ships.currentEntity.shipType}" effect="fade" converter="#{shipTypeConverter}">
+                            <f:selectItems value="#{ships.allShipTypes}" var="shipTypeValue" itemLabel="#{shipTypeValue.description}" itemValue="#{shipTypeValue}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{ships.create()}" value="#{label.buttonSave}" styleClass="ui-priority-primary" icon="ui-icon-disk" update="display,:ListForm:dataList,:growl" oncomplete="if (args &amp;&amp; !args.validationFailed &amp;&amp; !args.errorDetected) PF('EditDialog').hide()" rendered="#{ships.creating}"/>
+                    <p:commandButton actionListener="#{ships.update()}" value="#{label.buttonUpdate}" styleClass="ui-priority-primary" icon="ui-icon-disk" update="display,:ListForm:dataList,:growl" oncomplete="if (args &amp;&amp; !args.validationFailed &amp;&amp; !args.errorDetected) PF('EditDialog').hide()" rendered="#{ships.editing}"/>
+                    <p:commandButton value="#{label.buttonCancel}" icon="ui-icon-cancel" oncomplete="PF('EditDialog').hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
     </ui:define>
 
 </ui:composition>

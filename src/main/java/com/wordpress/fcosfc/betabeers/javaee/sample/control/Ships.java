@@ -12,6 +12,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -23,9 +24,9 @@ import javax.inject.Inject;
 
 /**
  * CDI Example, with the use of a custom stereotype.
- * 
+ *
  * Ejemplo CDI, con el uso de un estereotipo.
- * 
+ *
  * @author Paco Saucedo
  */
 @CRUDController
@@ -33,21 +34,35 @@ public class Ships extends AbstractController<Ship> implements Serializable {
 
     @Inject
     private Logger logger;
-    
+
     @Inject
     private ShipFacade shipFacade;
-    
+
     @Inject
     private CountryFacade countryFacade;
-    
+
     @Inject
     private ShipTypeFacade shipTypeFacade;
-    
+
     private List<Country> allCountries;
     private List<ShipType> allShipTypes;
-    
-    public Ships() {
-        super(Ship.class);
+
+    @PostConstruct
+    @Override
+    protected void init() {
+        super.init();
+        try {
+            allCountries = countryFacade.findAll();
+            allShipTypes = shipTypeFacade.findAll();
+        } catch (Exception ex) {
+            manageException(ex);
+        }
+    }
+
+    @Override
+    protected void refreshData() {
+        setElements(getFacade().findAll());
+        setFilteredElements(null);
     }
 
     @Override
@@ -64,21 +79,21 @@ public class Ships extends AbstractController<Ship> implements Serializable {
     protected Logger getLogger() {
         return logger;
     }
-    
+
     public List<Country> getAllCountries() {
         return allCountries;
     }
-    
+
     public List<ShipType> getAllShipTypes() {
         return allShipTypes;
     }
-    
+
     @FacesConverter(forClass = ShipType.class)
     public static class ShipTypeConverter implements Converter {
 
         @Inject
         private Logger logger;
-        
+
         @Override
         public Object getAsObject(FacesContext context, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
@@ -109,13 +124,13 @@ public class Ships extends AbstractController<Ship> implements Serializable {
             }
         }
     }
-    
+
     @FacesConverter(forClass = Country.class)
     public static class CountryConverter implements Converter {
 
         @Inject
         private Logger logger;
-        
+
         @Override
         public Object getAsObject(FacesContext context, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
@@ -146,28 +161,21 @@ public class Ships extends AbstractController<Ship> implements Serializable {
             }
         }
     }
-    
-    @Override
-    protected void refreshData() {
-        super.refreshData();
-        allCountries = countryFacade.findAll();
-        allShipTypes = shipTypeFacade.findAll();
-    }
 
     protected ShipType getShipType(String shipTypeCode) {
         try {
-            return shipTypeFacade.find(shipTypeCode);                    
-        }  catch (Exception ex) {
+            return shipTypeFacade.find(shipTypeCode);
+        } catch (Exception ex) {
             manageException(ex);
         }
 
         return null;
     }
-    
+
     protected Country getCountry(String isoCode) {
         try {
-            return countryFacade.find(isoCode);                    
-        }  catch (Exception ex) {
+            return countryFacade.find(isoCode);
+        } catch (Exception ex) {
             manageException(ex);
         }
 

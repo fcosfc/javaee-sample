@@ -5,6 +5,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
+import javax.faces.model.SelectItem;
+import org.primefaces.context.RequestContext;
 
 /**
  * Helper JSF presentation class.
@@ -13,7 +15,26 @@ import javax.faces.convert.Converter;
  * 
  * @author NetBeans Team
  */
+
 public class JsfUtil {
+
+    public static SelectItem[] getSelectItems(List<?> entities, boolean selectOne) {
+        int size = selectOne ? entities.size() + 1 : entities.size();
+        SelectItem[] items = new SelectItem[size];
+        int i = 0;
+        if (selectOne) {
+            items[0] = new SelectItem("", "---");
+            i++;
+        }
+        for (Object x : entities) {
+            items[i++] = new SelectItem(x, x.toString());
+        }
+        return items;
+    }
+
+    public static boolean isValidationFailed() {
+        return FacesContext.getCurrentInstance().isValidationFailed();
+    }
 
     public static void addErrorMessage(Exception ex, String defaultMsg) {
         String msg = ex.getLocalizedMessage();
@@ -33,16 +54,18 @@ public class JsfUtil {
     public static void addErrorMessage(String msg) {
         FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, msg);
         FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+        RequestContext.getCurrentInstance().addCallbackParam("errorDetected", true);
     }
 
     public static void addErrorMessage(String summary, String detail) {
         FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, summary, detail);
         FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+        RequestContext.getCurrentInstance().addCallbackParam("errorDetected", true);
     }
-
+    
     public static void addSuccessMessage(String msg) {
         FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg);
-        FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+        FacesContext.getCurrentInstance().addMessage("successInfo", facesMsg);
     }
 
     public static String getRequestParameter(String key) {
@@ -53,5 +76,10 @@ public class JsfUtil {
         String theId = JsfUtil.getRequestParameter(requestParameterName);
         return converter.getAsObject(FacesContext.getCurrentInstance(), component, theId);
     }
-    
+
+    public static enum PersistAction {
+        CREATE,
+        DELETE,
+        UPDATE
+    }
 }

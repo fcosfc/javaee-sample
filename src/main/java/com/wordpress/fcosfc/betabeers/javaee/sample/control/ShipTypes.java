@@ -25,9 +25,11 @@ public class ShipTypes extends AbstractController<ShipType> implements Serializa
     
     @Inject
     private ShipTypeFacade facade;
-    
-    public ShipTypes() {
-        super(ShipType.class);
+
+    @Override
+    protected void refreshData() {
+        setElements(getFacade().findAll());
+        setFilteredElements(null);
     }
 
     @Override
