@@ -1,6 +1,5 @@
 package com.wordpress.fcosfc.betabeers.javaee.sample.control;
 
-import com.wordpress.fcosfc.betabeers.javaee.sample.control.stereotype.CRUDController;
 import com.wordpress.fcosfc.betabeers.javaee.sample.entity.Country;
 import com.wordpress.fcosfc.betabeers.javaee.sample.entity.Ship;
 import com.wordpress.fcosfc.betabeers.javaee.sample.entity.ShipType;
@@ -14,6 +13,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -23,13 +24,14 @@ import javax.faces.convert.FacesConverter;
 import javax.inject.Inject;
 
 /**
- * CDI Example, with the use of a custom stereotype.
- *
- * Ejemplo CDI, con el uso de un estereotipo.
+ * Non CDI life cycle managed bean example. Java EE 7 has a CDI ViewScoped annotation.
+ * 
+ * Ejemplo de ciclo de vida estándar JSF, no CDI. Java EE 7 tiene este ciclo de vida como CDI.
  *
  * @author Paco Saucedo
  */
-@CRUDController
+@ManagedBean
+@ViewScoped
 public class Ships extends AbstractController<Ship> implements Serializable {
 
     @Inject

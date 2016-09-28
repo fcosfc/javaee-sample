@@ -5,19 +5,19 @@ import com.wordpress.fcosfc.betabeers.javaee.sample.facade.CrudFacade;
 import com.wordpress.fcosfc.betabeers.javaee.sample.facade.CountryFacade;
 import java.io.Serializable;
 import java.util.logging.Logger;
-import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import javax.inject.Named;
 
 /**
- * Basic CDI example. A class with a dependency injected and a life cycle. Supports the presentation.
+ * Non CDI life cycle managed bean example. Java EE 7 has a CDI ViewScoped annotation.
  * 
- * Ejemplo básico de CDI. Una clase con una dependencia y un ciclo de vida determinado. Da soporte a la presenteación.
+ * Ejemplo de ciclo de vida estándar JSF, no CDI. Java EE 7 tiene este ciclo de vida como CDI.
  * 
  * @author Paco Saucedo
  */
-@Named
-@SessionScoped
+@ManagedBean
+@ViewScoped
 public class Countries extends AbstractController<Country> implements Serializable {
 
     @Inject
