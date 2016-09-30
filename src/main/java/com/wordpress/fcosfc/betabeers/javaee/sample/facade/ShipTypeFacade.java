@@ -31,7 +31,10 @@ public class ShipTypeFacade extends CrudFacade<ShipType> implements Serializable
     
     @Override
     public List<ShipType> findAll() {
-        return getEntityManager().createQuery("SELECT s FROM ShipType s ORDER BY s.description").getResultList();
+        return getEntityManager().
+                createQuery("SELECT s FROM ShipType s ORDER BY s.description").
+                setHint("org.hibernate.cacheable", Boolean.TRUE).
+                getResultList();
     }
     
     @Override

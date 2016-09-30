@@ -1,6 +1,7 @@
 package com.wordpress.fcosfc.betabeers.javaee.sample.entity;
 
 import java.io.Serializable;
+import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -14,6 +15,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @XmlRootElement
+@Cacheable
 public class ShipType implements Serializable {
     
     @Id

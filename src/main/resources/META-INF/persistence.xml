@@ -3,9 +3,13 @@
     <persistence-unit name="com.wordpress.fcosfc.betabeers_javaee-sample_war_1.0-SNAPSHOTPU" transaction-type="JTA">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
         <jta-data-source>java:jboss/datasources/JavaeeSampleDS</jta-data-source>
+        <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
         <properties>
             <property name="hibernate.hbm2ddl.auto" value="create-drop" />
-            <property name="hibernate.show_sql" value="true" />
+            <property name="hibernate.show_sql" value="true" />            
+            <property name="hibernate.cache.use_second_level_cache" value="true"/>          
+            <property name="hibernate.cache.region.factory_class" value="org.jboss.as.jpa.hibernate4.infinispan.InfinispanRegionFactory"/>
+            <property name="hibernate.cache.use_query_cache" value="true" />
         </properties>
     </persistence-unit>
 </persistence>

@@ -31,7 +31,10 @@ public class CountryFacade extends CrudFacade<Country> implements Serializable{
 
     @Override
     public List<Country> findAll() {
-        return getEntityManager().createQuery("SELECT c FROM Country c ORDER BY c.name").getResultList();
+        return getEntityManager().
+                createQuery("SELECT c FROM Country c ORDER BY c.name").
+                setHint("org.hibernate.cacheable", Boolean.TRUE).
+                getResultList();
     }
     
     @Override
