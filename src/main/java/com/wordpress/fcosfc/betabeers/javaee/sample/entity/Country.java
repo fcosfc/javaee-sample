@@ -6,12 +6,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Basic JPA entity example with table/columns definitions, plus a relation with another entity.
+ * Basic JPA entity example, with JAXB and cache annotations 
  * 
- * Ejemplo básico de entidad JPA con definiciones de tabla/columnas, además de una relación con otra entidad.
+ * Ejemplo básico de entidad JPA, con anotaciones para la serialización JAXB y caché.
  * 
  * @author Paco Saucedo
  */
@@ -27,7 +28,10 @@ public class Country implements Serializable {
     
     @Column(nullable = false, length = 100)
     private String name;
-        
+
+    @Version
+    private Long version;
+    
     public Country() {
     }
 
@@ -50,6 +54,10 @@ public class Country implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Long getVersion() {
+        return version;
     }
 
     @Override

@@ -4,12 +4,13 @@ import java.io.Serializable;
 import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Basic JPA entity example, with JAXB annotations.
+ * Basic JPA entity example, with JAXB and cache annotations 
  * 
- * Ejemplo básico de entidad JPA, con anotaciones para la serialización JAXB.
+ * Ejemplo básico de entidad JPA, con anotaciones para la serialización JAXB y caché.
  * 
  * @author Paco Saucedo
  */
@@ -20,7 +21,11 @@ public class ShipType implements Serializable {
     
     @Id
     private String shipTypeCode;
+    
     private String description;
+        
+    @Version
+    private Long version;
 
     public ShipType() {
     }
@@ -44,6 +49,10 @@ public class ShipType implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Long getVersion() {
+        return version;
     }
 
     @Override
