@@ -2,7 +2,7 @@ Java EE sample
 ==============
 
 
-This small application simply pretends to show basic uses of some Java EE APIs (JPA, EJB, Bean Validation, JSF, Managed Beans and JAX-RS), through a CRUD example for registering ship data.
+This small application simply pretends to show basic uses of some Java EE APIs (JPA, EJB, Bean Validation, CDI, JSF, Managed Beans and JAX-RS), through a CRUD example for registering ship data.
 
 Esta pequeña aplicación simplemente pretende mostrar usos básicos de algunas de las APIs de Java EE, a través de un ejemplo para el registro de datos de buques.
 
