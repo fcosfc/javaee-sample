@@ -15,3 +15,5 @@ Commands:
     cd javaee-sample
 
     mvn package wildfly:run 
+
+Open http://localhost:8080/javaee-sample using your favourite browser
