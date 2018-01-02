@@ -2,7 +2,6 @@ package com.wordpress.fcosfc.betabeers.javaee.sample.validation;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.junit.Before;
 
 /**
  * Unit test for the IMO Code Validator
@@ -18,12 +17,7 @@ public class ImoCodeValidatorTest {
     private static final int TOO_SMALL_IMO_NUMBER = 123;
     private static final int TOO_BIG_IMO_NUMBER = 904395478;
     
-    private ImoCodeValidator validator;
-    
-    @Before
-    public void createValidator() {
-        validator = new ImoCodeValidator();
-    }
+    private final ImoCodeValidator validator = new ImoCodeValidator();
     
     @Test
     public void forAValidIMO_returnTrue() {
