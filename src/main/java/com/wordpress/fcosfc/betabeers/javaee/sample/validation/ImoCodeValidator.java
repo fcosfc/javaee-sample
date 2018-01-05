@@ -15,6 +15,7 @@ public class ImoCodeValidator implements ConstraintValidator<ImoCode, Integer> {
 
     @Override
     public void initialize(ImoCode constraintAnnotation) {
+        // Nothing to do
     }
 
     @Override
@@ -27,7 +28,6 @@ public class ImoCodeValidator implements ConstraintValidator<ImoCode, Integer> {
                 String stringResult;
 
                 for (int i = 0, multiplier = 7; i < 6; i++, multiplier--) {
-                    String v = stringValue.substring(i, i + 1);
                     result += Integer.parseInt(stringValue.substring(i, i + 1)) * multiplier;
                 }
 
@@ -39,4 +39,5 @@ public class ImoCodeValidator implements ConstraintValidator<ImoCode, Integer> {
 
         return false;
     }
+    
 }
