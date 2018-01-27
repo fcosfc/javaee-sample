@@ -13,6 +13,12 @@ import javax.validation.ConstraintValidatorContext;
  */
 public class ImoCodeValidator implements ConstraintValidator<ImoCode, Integer> {
 
+    private static final int MIN_IMO_NUMBER = 1000000;
+    private static final int MAX_IMO_NUMBER = 9999999;
+    private static final int CONTROL_DIGIT_INDEX = 6;
+    private static final int LENGHT_IMO_CODE = 7;
+    private static final int MAX_INDEX_ARRAY_DIGITS = 6;
+
     @Override
     public void initialize(ImoCode constraintAnnotation) {
         // Nothing to do
@@ -20,24 +26,44 @@ public class ImoCodeValidator implements ConstraintValidator<ImoCode, Integer> {
 
     @Override
     public boolean isValid(Integer value, ConstraintValidatorContext context) {
-        if (value != null) {
-            String stringValue = value.toString();
+        if (value == null || value < MIN_IMO_NUMBER || value > MAX_IMO_NUMBER) {
+            return false;
+        } else {
+            return isEqualsTheExpectedControlDigitToTheActualOne(value);
+        }
+    }
 
-            if (stringValue.length() == 7) {
-                int result = 0;
-                String stringResult;
+    private boolean isEqualsTheExpectedControlDigitToTheActualOne(Integer value) {
+        int[] digits = getDigits(value);
 
-                for (int i = 0, multiplier = 7; i < 6; i++, multiplier--) {
-                    result += Integer.parseInt(stringValue.substring(i, i + 1)) * multiplier;
-                }
+        return digits[CONTROL_DIGIT_INDEX] == calulateExpectedControlDigit(digits);
+    }
 
-                stringResult = Integer.toString(result);
+    private int[] getDigits(Integer value) {
+        int[] digits = new int[LENGHT_IMO_CODE];
 
-                return stringValue.substring(6).equals(stringResult.substring(stringResult.length() - 1));
-            }
+        for (int digitsArrayIndex = MAX_INDEX_ARRAY_DIGITS;
+                value > 0;
+                digitsArrayIndex--) {
+            int quotient = value / 10;
+            digits[digitsArrayIndex] = value - quotient * 10;
+            value = quotient;
         }
 
-        return false;
+        return digits;
     }
-    
+
+    private int calulateExpectedControlDigit(int[] digits) {
+        int controlCalulationResult = 0;
+
+        for (int digitsArrayIndex = 0, multiplier = LENGHT_IMO_CODE;
+                digitsArrayIndex < MAX_INDEX_ARRAY_DIGITS;
+                digitsArrayIndex++, multiplier--) {
+            controlCalulationResult += digits[digitsArrayIndex] * multiplier;
+        }
+
+        int theLastDigitIsTheControlOne = controlCalulationResult - (controlCalulationResult / 10 * 10);
+
+        return theLastDigitIsTheControlOne;
+    }
 }
