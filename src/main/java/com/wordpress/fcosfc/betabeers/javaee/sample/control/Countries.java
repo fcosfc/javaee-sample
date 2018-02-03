@@ -4,6 +4,7 @@ import com.wordpress.fcosfc.betabeers.javaee.sample.entity.Country;
 import com.wordpress.fcosfc.betabeers.javaee.sample.facade.CrudFacade;
 import com.wordpress.fcosfc.betabeers.javaee.sample.facade.CountryFacade;
 import java.io.Serializable;
+import java.util.ResourceBundle;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -24,6 +25,9 @@ public class Countries extends AbstractController<Country> implements Serializab
     
     @Inject
     private Logger logger;
+    
+    @Inject
+    private ResourceBundle resourceBundle;
     
     @Inject
     private CountryFacade facade;
@@ -47,5 +51,10 @@ public class Countries extends AbstractController<Country> implements Serializab
     @Override
     protected Logger getLogger() {
         return logger;
+    }
+    
+    @Override
+    protected ResourceBundle getResourceBundle() {
+        return resourceBundle;
     }
 }

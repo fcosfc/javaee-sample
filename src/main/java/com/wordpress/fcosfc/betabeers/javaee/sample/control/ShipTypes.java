@@ -4,6 +4,7 @@ import com.wordpress.fcosfc.betabeers.javaee.sample.entity.ShipType;
 import com.wordpress.fcosfc.betabeers.javaee.sample.facade.CrudFacade;
 import com.wordpress.fcosfc.betabeers.javaee.sample.facade.ShipTypeFacade;
 import java.io.Serializable;
+import java.util.ResourceBundle;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -27,6 +28,9 @@ public class ShipTypes extends AbstractController<ShipType> implements Serializa
     
     @Inject
     private ShipTypeFacade facade;
+    
+    @Inject
+    private ResourceBundle resourceBundle;
 
     @Override
     protected void refreshData() {
@@ -47,6 +51,11 @@ public class ShipTypes extends AbstractController<ShipType> implements Serializa
     @Override
     protected Logger getLogger() {
         return logger;
+    }
+    
+    @Override
+    protected ResourceBundle getResourceBundle() {
+        return resourceBundle;
     }
     
 }

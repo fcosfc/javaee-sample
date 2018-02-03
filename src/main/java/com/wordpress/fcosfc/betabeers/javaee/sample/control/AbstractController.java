@@ -17,10 +17,7 @@ import javax.annotation.PostConstruct;
  * @param <T>
  */
 public abstract class AbstractController<T> {
-
-    private static final String MESSAGES_BUNDLE
-            = "/com/wordpress/fcosfc/betabeers/javaee/sample/resource/Labels";
-
+    
     private List<T> elements;
     private List<T> filteredElements;
     private T currentEntity;
@@ -34,6 +31,8 @@ public abstract class AbstractController<T> {
     protected abstract CrudFacade getFacade();
 
     protected abstract Logger getLogger();
+    
+    protected abstract ResourceBundle getResourceBundle();
 
     @PostConstruct
     protected void init() {
@@ -99,7 +98,7 @@ public abstract class AbstractController<T> {
             refreshData();
 
             JsfUtil.addSuccessMessage(
-                    ResourceBundle.getBundle(MESSAGES_BUNDLE)
+                    getResourceBundle()
                     .getString("messageRecordCreated"));
         } catch (Exception ex) {
             manageException(ex);
@@ -123,7 +122,7 @@ public abstract class AbstractController<T> {
             refreshData();
 
             JsfUtil.addSuccessMessage(
-                    ResourceBundle.getBundle(MESSAGES_BUNDLE)
+                    getResourceBundle()
                     .getString("messageRecordUpdated"));
         } catch (Exception ex) {
             manageException(ex);
@@ -140,7 +139,7 @@ public abstract class AbstractController<T> {
             refreshData();
 
             JsfUtil.addSuccessMessage(
-                    ResourceBundle.getBundle(MESSAGES_BUNDLE)
+                    getResourceBundle()
                     .getString("messageRecordRemoved"));
         } catch (Exception ex) {
             manageException(ex);
@@ -157,13 +156,13 @@ public abstract class AbstractController<T> {
             
             if (cause instanceof javax.persistence.PersistenceException) {
                 JsfUtil.addErrorMessage(
-                        ResourceBundle.getBundle(MESSAGES_BUNDLE)
+                        getResourceBundle()
                                 .getString("messagePersistenceError"),
                         cause.getLocalizedMessage() == null ? cause.getMessage() : cause.getLocalizedMessage());
                 
                 exceptionManaged = true;
             } else if (cause instanceof javax.persistence.OptimisticLockException) {
-                JsfUtil.addErrorMessage(ResourceBundle.getBundle(MESSAGES_BUNDLE)
+                JsfUtil.addErrorMessage(getResourceBundle()
                         .getString("messagePersistenceLockError"),
                         cause.getLocalizedMessage() == null ? cause.getMessage() : cause.getLocalizedMessage());
                 
@@ -176,7 +175,7 @@ public abstract class AbstractController<T> {
 
         if (!exceptionManaged) {
             JsfUtil.addErrorMessage(
-                    ResourceBundle.getBundle(MESSAGES_BUNDLE)
+                    getResourceBundle()
                             .getString("messageErrorDetected"),
                     ex.getLocalizedMessage() == null ? ex.getMessage()
                             : ex.getLocalizedMessage());

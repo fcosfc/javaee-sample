@@ -9,6 +9,7 @@ import com.wordpress.fcosfc.betabeers.javaee.sample.facade.ShipFacade;
 import com.wordpress.fcosfc.betabeers.javaee.sample.facade.ShipTypeFacade;
 import java.io.Serializable;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -38,6 +39,9 @@ public class Ships extends AbstractController<Ship> implements Serializable {
     
     @Inject
     private Logger logger;
+    
+    @Inject
+    private ResourceBundle resourceBundle;
 
     @Inject
     private ShipFacade shipFacade;
@@ -82,6 +86,11 @@ public class Ships extends AbstractController<Ship> implements Serializable {
     @Override
     protected Logger getLogger() {
         return logger;
+    }
+    
+    @Override
+    protected ResourceBundle getResourceBundle() {
+        return resourceBundle;
     }
 
     public List<Country> getAllCountries() {
