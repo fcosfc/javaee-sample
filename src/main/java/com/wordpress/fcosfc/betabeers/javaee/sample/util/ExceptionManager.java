@@ -1,6 +1,5 @@
 package com.wordpress.fcosfc.betabeers.javaee.sample.util;
 
-import com.wordpress.fcosfc.betabeers.javaee.sample.control.util.JsfUtil;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;

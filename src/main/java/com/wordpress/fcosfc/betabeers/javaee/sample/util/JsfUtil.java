@@ -1,4 +1,4 @@
-package com.wordpress.fcosfc.betabeers.javaee.sample.control.util;
+package com.wordpress.fcosfc.betabeers.javaee.sample.util;
 
 import java.util.List;
 import javax.faces.application.FacesMessage;

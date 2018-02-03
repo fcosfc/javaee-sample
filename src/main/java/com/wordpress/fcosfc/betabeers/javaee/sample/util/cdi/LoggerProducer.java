@@ -1,4 +1,4 @@
-package com.wordpress.fcosfc.betabeers.javaee.sample.util;
+package com.wordpress.fcosfc.betabeers.javaee.sample.util.cdi;
 
 import java.util.logging.Logger;
 import javax.enterprise.inject.Produces;

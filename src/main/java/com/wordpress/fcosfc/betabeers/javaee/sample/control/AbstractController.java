@@ -1,6 +1,6 @@
 package com.wordpress.fcosfc.betabeers.javaee.sample.control;
 
-import com.wordpress.fcosfc.betabeers.javaee.sample.control.util.JsfUtil;
+import com.wordpress.fcosfc.betabeers.javaee.sample.util.JsfUtil;
 import com.wordpress.fcosfc.betabeers.javaee.sample.facade.CrudFacade;
 import com.wordpress.fcosfc.betabeers.javaee.sample.util.ExceptionManager;
 import java.util.List;
