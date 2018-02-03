@@ -18,6 +18,9 @@ import org.primefaces.context.RequestContext;
 
 public class JsfUtil {
 
+    private JsfUtil() {        
+    }
+    
     public static SelectItem[] getSelectItems(List<?> entities, boolean selectOne) {
         int size = selectOne ? entities.size() + 1 : entities.size();
         SelectItem[] items = new SelectItem[size];
@@ -77,7 +80,7 @@ public class JsfUtil {
         return converter.getAsObject(FacesContext.getCurrentInstance(), component, theId);
     }
 
-    public static enum PersistAction {
+    public enum PersistAction {
         CREATE,
         DELETE,
         UPDATE
