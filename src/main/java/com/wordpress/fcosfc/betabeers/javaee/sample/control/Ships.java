@@ -34,6 +34,8 @@ import javax.inject.Inject;
 @ViewScoped
 public class Ships extends AbstractController<Ship> implements Serializable {
 
+    private static final long serialVersionUID = 1905122041950251207L;
+    
     @Inject
     private Logger logger;
 

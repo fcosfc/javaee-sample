@@ -2,7 +2,6 @@ package com.wordpress.fcosfc.betabeers.javaee.sample.control;
 
 import com.wordpress.fcosfc.betabeers.javaee.sample.control.util.JsfUtil;
 import com.wordpress.fcosfc.betabeers.javaee.sample.facade.CrudFacade;
-import java.io.Serializable;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -17,14 +16,19 @@ import javax.annotation.PostConstruct;
  * @author Paco Saucedo
  * @param <T>
  */
-public abstract class AbstractController<T> implements Serializable {
+public abstract class AbstractController<T> {
 
-    private List<T> elements, filteredElements;
+    private static final String MESSAGES_BUNDLE
+            = "/com/wordpress/fcosfc/betabeers/javaee/sample/resource/Labels";
+
+    private List<T> elements;
+    private List<T> filteredElements;
     private T currentEntity;
-    private boolean creating, editing;
+    private boolean creating;
+    private boolean editing;
 
     protected abstract void refreshData();
-    
+
     protected abstract T getNewEntity();
 
     protected abstract CrudFacade getFacade();
@@ -94,7 +98,9 @@ public abstract class AbstractController<T> implements Serializable {
             setCurrentEntity(null);
             refreshData();
 
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/com/wordpress/fcosfc/betabeers/javaee/sample/resource/Labels").getString("messageRecordCreated"));
+            JsfUtil.addSuccessMessage(
+                    ResourceBundle.getBundle(MESSAGES_BUNDLE)
+                    .getString("messageRecordCreated"));
         } catch (Exception ex) {
             manageException(ex);
         }
@@ -116,7 +122,9 @@ public abstract class AbstractController<T> implements Serializable {
             setEditing(false);
             refreshData();
 
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/com/wordpress/fcosfc/betabeers/javaee/sample/resource/Labels").getString("messageRecordUpdated"));
+            JsfUtil.addSuccessMessage(
+                    ResourceBundle.getBundle(MESSAGES_BUNDLE)
+                    .getString("messageRecordUpdated"));
         } catch (Exception ex) {
             manageException(ex);
         }
@@ -131,7 +139,9 @@ public abstract class AbstractController<T> implements Serializable {
             setEditing(false);
             refreshData();
 
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/com/wordpress/fcosfc/betabeers/javaee/sample/resource/Labels").getString("messageRecordRemoved"));
+            JsfUtil.addSuccessMessage(
+                    ResourceBundle.getBundle(MESSAGES_BUNDLE)
+                    .getString("messageRecordRemoved"));
         } catch (Exception ex) {
             manageException(ex);
         }
@@ -140,28 +150,36 @@ public abstract class AbstractController<T> implements Serializable {
     }
 
     protected void manageException(Exception ex) {
-        Throwable cause;
+        Throwable cause = ex.getCause();
+        boolean exceptionManaged = false;
 
-        cause = ex.getCause();
-        while (cause != null) {
-            if (cause.getClass().getName().equals("javax.persistence.PersistenceException")) {
-                JsfUtil.addErrorMessage(ResourceBundle.getBundle("/com/wordpress/fcosfc/betabeers/javaee/sample/resource/Labels").getString("messagePersistenceError"),
+        while (cause != null && !exceptionManaged) {
+            
+            if (cause instanceof javax.persistence.PersistenceException) {
+                JsfUtil.addErrorMessage(
+                        ResourceBundle.getBundle(MESSAGES_BUNDLE)
+                                .getString("messagePersistenceError"),
                         cause.getLocalizedMessage() == null ? cause.getMessage() : cause.getLocalizedMessage());
-                break;
-            } else if (cause.getClass().getName().equals("javax.persistence.OptimisticLockException")) {
-                JsfUtil.addErrorMessage(ResourceBundle.getBundle("/com/wordpress/fcosfc/betabeers/javaee/sample/resource/Labels").getString("messagePersistenceLockError"),
+                
+                exceptionManaged = true;
+            } else if (cause instanceof javax.persistence.OptimisticLockException) {
+                JsfUtil.addErrorMessage(ResourceBundle.getBundle(MESSAGES_BUNDLE)
+                        .getString("messagePersistenceLockError"),
                         cause.getLocalizedMessage() == null ? cause.getMessage() : cause.getLocalizedMessage());
-                break;
+                
+                exceptionManaged = true;
             } else {
                 cause = cause.getCause();
             }
+
         }
 
-        if (cause == null) {
-            cause = ex.getCause();
-
-            JsfUtil.addErrorMessage(ResourceBundle.getBundle("/com/wordpress/fcosfc/betabeers/javaee/sample/resource/Labels").getString("messageErrorDetected"),
-                    cause.getLocalizedMessage() == null ? cause.getMessage() : cause.getLocalizedMessage());
+        if (!exceptionManaged) {
+            JsfUtil.addErrorMessage(
+                    ResourceBundle.getBundle(MESSAGES_BUNDLE)
+                            .getString("messageErrorDetected"),
+                    ex.getLocalizedMessage() == null ? ex.getMessage()
+                            : ex.getLocalizedMessage());
         }
 
         getLogger().log(Level.SEVERE, null, ex);

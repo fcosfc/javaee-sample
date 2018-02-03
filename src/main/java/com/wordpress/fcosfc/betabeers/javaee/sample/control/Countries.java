@@ -20,6 +20,8 @@ import javax.inject.Inject;
 @ViewScoped
 public class Countries extends AbstractController<Country> implements Serializable {
 
+    private static final long serialVersionUID = 2405172041950251807L;
+    
     @Inject
     private Logger logger;
     
