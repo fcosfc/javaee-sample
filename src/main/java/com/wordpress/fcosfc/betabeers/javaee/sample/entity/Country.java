@@ -10,28 +10,29 @@ import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Basic JPA entity example, with JAXB and cache annotations 
- * 
- * Ejemplo básico de entidad JPA, con anotaciones para la serialización JAXB y caché.
- * 
+ * Basic JPA entity example, with JAXB and cache annotations
+ *
+ * Ejemplo básico de entidad JPA, con anotaciones para la serialización JAXB y
+ * caché.
+ *
  * @author Paco Saucedo
  */
 @Entity
-@Table(name="COUNTRIES")
+@Table(name = "COUNTRIES")
 @XmlRootElement
 @Cacheable
 public class Country implements Serializable {
-    
+
     @Id
     @Column(name = "ISO_CODE", length = 2)
     private String isoCode;
-    
+
     @Column(nullable = false, length = 100)
     private String name;
 
     @Version
     private Long version;
-    
+
     public Country() {
     }
 
@@ -62,29 +63,24 @@ public class Country implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 97 * hash + (this.isoCode != null ? this.isoCode.hashCode() : 0);
-        return hash;
+        return 485 + (this.isoCode != null ? this.isoCode.hashCode() : 0);
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
+        } else {
+            final Country other = (Country) obj;
+            
+            return this.isoCode == null ? other.isoCode == null 
+                    : this.isoCode.equals(other.isoCode);
         }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Country other = (Country) obj;
-        if ((this.isoCode == null) ? (other.isoCode != null) : !this.isoCode.equals(other.isoCode)) {
-            return false;
-        }
-        return true;
     }
 
     @Override
     public String toString() {
         return "Country{" + "isoCode=" + isoCode + ", name=" + name + '}';
     }
-    
+
 }

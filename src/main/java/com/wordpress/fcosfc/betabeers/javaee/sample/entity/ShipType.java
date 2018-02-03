@@ -57,31 +57,21 @@ public class ShipType implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 79 * hash + (this.shipTypeCode != null ? this.shipTypeCode.hashCode() : 0);
-        return hash;
+        return 237 + (this.shipTypeCode != null ? this.shipTypeCode.hashCode() : 0);
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
+        } else {
+            final ShipType other = (ShipType) obj;
+            
+            return this.shipTypeCode == null ? other.shipTypeCode == null 
+                    : this.shipTypeCode.equals(other.shipTypeCode);
         }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final ShipType other = (ShipType) obj;
-        if ((this.shipTypeCode == null) ? (other.shipTypeCode != null) : !this.shipTypeCode.equals(other.shipTypeCode)) {
-            return false;
-        }
-        return true;
     }
-
     
-
     @Override
     public String toString() {
         return "ShipType{" + "shipTypeCode=" + shipTypeCode + ", description=" + description + '}';

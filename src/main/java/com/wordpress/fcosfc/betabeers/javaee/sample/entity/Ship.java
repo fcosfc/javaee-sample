@@ -144,24 +144,19 @@ public class Ship implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 23 * hash + (this.imoCode != null ? this.imoCode.hashCode() : 0);
-        return hash;
+        return 161 + (this.imoCode != null ? this.imoCode.hashCode() : 0);
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
+        } else {
+            final Ship other = (Ship) obj;
+            
+            return this.imoCode == null ? other.imoCode == null 
+                    : this.imoCode.equals(other.imoCode);
         }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Ship other = (Ship) obj;
-        if (this.imoCode != other.imoCode && (this.imoCode == null || !this.imoCode.equals(other.imoCode))) {
-            return false;
-        }
-        return true;
     }
 
     @Override
