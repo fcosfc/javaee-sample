@@ -3,6 +3,7 @@ package com.wordpress.fcosfc.betabeers.javaee.sample.control;
 import com.wordpress.fcosfc.betabeers.javaee.sample.entity.Country;
 import com.wordpress.fcosfc.betabeers.javaee.sample.facade.CrudFacade;
 import com.wordpress.fcosfc.betabeers.javaee.sample.facade.CountryFacade;
+import com.wordpress.fcosfc.betabeers.javaee.sample.util.ExceptionManager;
 import java.io.Serializable;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
@@ -31,6 +32,9 @@ public class Countries extends AbstractController<Country> implements Serializab
     
     @Inject
     private CountryFacade facade;
+    
+    @Inject
+    private ExceptionManager exceptionManager;
 
     @Override
     protected void refreshData() {
@@ -56,5 +60,10 @@ public class Countries extends AbstractController<Country> implements Serializab
     @Override
     protected ResourceBundle getResourceBundle() {
         return resourceBundle;
+    }
+    
+    @Override
+    protected ExceptionManager getExceptionManager() {
+        return exceptionManager; 
     }
 }

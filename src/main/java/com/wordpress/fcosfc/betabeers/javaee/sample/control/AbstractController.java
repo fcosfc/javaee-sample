@@ -2,6 +2,7 @@ package com.wordpress.fcosfc.betabeers.javaee.sample.control;
 
 import com.wordpress.fcosfc.betabeers.javaee.sample.control.util.JsfUtil;
 import com.wordpress.fcosfc.betabeers.javaee.sample.facade.CrudFacade;
+import com.wordpress.fcosfc.betabeers.javaee.sample.util.ExceptionManager;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -33,13 +34,15 @@ public abstract class AbstractController<T> {
     protected abstract Logger getLogger();
     
     protected abstract ResourceBundle getResourceBundle();
+    
+    protected abstract ExceptionManager getExceptionManager();
 
     @PostConstruct
     protected void init() {
         try {
             refreshData();
         } catch (Exception ex) {
-            manageException(ex);
+            getExceptionManager().manageException(ex);
         }
     }
 
@@ -101,7 +104,7 @@ public abstract class AbstractController<T> {
                     getResourceBundle()
                     .getString("messageRecordCreated"));
         } catch (Exception ex) {
-            manageException(ex);
+            getExceptionManager().manageException(ex);
         }
 
         return null;
@@ -125,7 +128,7 @@ public abstract class AbstractController<T> {
                     getResourceBundle()
                     .getString("messageRecordUpdated"));
         } catch (Exception ex) {
-            manageException(ex);
+            getExceptionManager().manageException(ex);
         }
 
         return null;
@@ -142,45 +145,10 @@ public abstract class AbstractController<T> {
                     getResourceBundle()
                     .getString("messageRecordRemoved"));
         } catch (Exception ex) {
-            manageException(ex);
+            getExceptionManager().manageException(ex);
         }
 
         return null;
     }
-
-    protected void manageException(Exception ex) {
-        Throwable cause = ex.getCause();
-        boolean exceptionManaged = false;
-
-        while (cause != null && !exceptionManaged) {
-            
-            if (cause instanceof javax.persistence.PersistenceException) {
-                JsfUtil.addErrorMessage(
-                        getResourceBundle()
-                                .getString("messagePersistenceError"),
-                        cause.getLocalizedMessage() == null ? cause.getMessage() : cause.getLocalizedMessage());
-                
-                exceptionManaged = true;
-            } else if (cause instanceof javax.persistence.OptimisticLockException) {
-                JsfUtil.addErrorMessage(getResourceBundle()
-                        .getString("messagePersistenceLockError"),
-                        cause.getLocalizedMessage() == null ? cause.getMessage() : cause.getLocalizedMessage());
-                
-                exceptionManaged = true;
-            } else {
-                cause = cause.getCause();
-            }
-
-        }
-
-        if (!exceptionManaged) {
-            JsfUtil.addErrorMessage(
-                    getResourceBundle()
-                            .getString("messageErrorDetected"),
-                    ex.getLocalizedMessage() == null ? ex.getMessage()
-                            : ex.getLocalizedMessage());
-        }
-
-        getLogger().log(Level.SEVERE, null, ex);
-    }
+    
 }

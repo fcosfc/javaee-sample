@@ -7,6 +7,7 @@ import com.wordpress.fcosfc.betabeers.javaee.sample.facade.CrudFacade;
 import com.wordpress.fcosfc.betabeers.javaee.sample.facade.CountryFacade;
 import com.wordpress.fcosfc.betabeers.javaee.sample.facade.ShipFacade;
 import com.wordpress.fcosfc.betabeers.javaee.sample.facade.ShipTypeFacade;
+import com.wordpress.fcosfc.betabeers.javaee.sample.util.ExceptionManager;
 import java.io.Serializable;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -42,6 +43,9 @@ public class Ships extends AbstractController<Ship> implements Serializable {
     
     @Inject
     private ResourceBundle resourceBundle;
+    
+    @Inject
+    private ExceptionManager exceptionManager;
 
     @Inject
     private ShipFacade shipFacade;
@@ -63,7 +67,7 @@ public class Ships extends AbstractController<Ship> implements Serializable {
             allCountries = countryFacade.findAll();
             allShipTypes = shipTypeFacade.findAll();
         } catch (Exception ex) {
-            manageException(ex);
+            exceptionManager.manageException(ex);
         }
     }
 
@@ -91,6 +95,11 @@ public class Ships extends AbstractController<Ship> implements Serializable {
     @Override
     protected ResourceBundle getResourceBundle() {
         return resourceBundle;
+    }
+    
+    @Override
+    protected ExceptionManager getExceptionManager() {
+        return exceptionManager; 
     }
 
     public List<Country> getAllCountries() {
@@ -179,7 +188,7 @@ public class Ships extends AbstractController<Ship> implements Serializable {
         try {
             return shipTypeFacade.find(shipTypeCode);
         } catch (Exception ex) {
-            manageException(ex);
+            exceptionManager.manageException(ex);
         }
 
         return null;
@@ -189,7 +198,7 @@ public class Ships extends AbstractController<Ship> implements Serializable {
         try {
             return countryFacade.find(isoCode);
         } catch (Exception ex) {
-            manageException(ex);
+            exceptionManager.manageException(ex);
         }
 
         return null;

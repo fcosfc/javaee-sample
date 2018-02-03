@@ -3,6 +3,7 @@ package com.wordpress.fcosfc.betabeers.javaee.sample.control;
 import com.wordpress.fcosfc.betabeers.javaee.sample.entity.ShipType;
 import com.wordpress.fcosfc.betabeers.javaee.sample.facade.CrudFacade;
 import com.wordpress.fcosfc.betabeers.javaee.sample.facade.ShipTypeFacade;
+import com.wordpress.fcosfc.betabeers.javaee.sample.util.ExceptionManager;
 import java.io.Serializable;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
@@ -31,6 +32,9 @@ public class ShipTypes extends AbstractController<ShipType> implements Serializa
     
     @Inject
     private ResourceBundle resourceBundle;
+    
+    @Inject
+    private ExceptionManager exceptionManager;
 
     @Override
     protected void refreshData() {
@@ -56,6 +60,11 @@ public class ShipTypes extends AbstractController<ShipType> implements Serializa
     @Override
     protected ResourceBundle getResourceBundle() {
         return resourceBundle;
+    }
+    
+    @Override
+    protected ExceptionManager getExceptionManager() {
+        return exceptionManager; 
     }
     
 }
