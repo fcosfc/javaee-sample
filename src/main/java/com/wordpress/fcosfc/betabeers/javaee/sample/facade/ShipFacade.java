@@ -1,7 +1,6 @@
 package com.wordpress.fcosfc.betabeers.javaee.sample.facade;
 
 import com.wordpress.fcosfc.betabeers.javaee.sample.entity.Ship;
-import java.io.Serializable;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -15,7 +14,7 @@ import javax.persistence.PersistenceContext;
  * @author Paco Saucedo
  */
 @Stateless
-public class ShipFacade extends CrudFacade<Ship> implements Serializable{
+public class ShipFacade extends CrudFacade<Ship> {
     
     @PersistenceContext
     private EntityManager em;

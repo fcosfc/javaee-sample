@@ -17,7 +17,7 @@ import javax.persistence.EntityManager;
 public abstract class CrudFacade<T> {
     
     private final Class<T> entityClass;
-
+    
     public CrudFacade(Class<T> entityClass) {
         this.entityClass = entityClass;
     }

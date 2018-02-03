@@ -1,7 +1,6 @@
 package com.wordpress.fcosfc.betabeers.javaee.sample.facade;
 
 import com.wordpress.fcosfc.betabeers.javaee.sample.entity.Country;
-import java.io.Serializable;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -15,7 +14,7 @@ import javax.persistence.PersistenceContext;
  * @author Paco Saucedo
  */
 @Stateless
-public class CountryFacade extends CrudFacade<Country> implements Serializable{
+public class CountryFacade extends CrudFacade<Country> {
     
     @PersistenceContext
     private EntityManager em;

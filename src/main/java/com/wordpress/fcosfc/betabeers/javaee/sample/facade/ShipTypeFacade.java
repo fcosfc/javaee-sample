@@ -1,7 +1,6 @@
 package com.wordpress.fcosfc.betabeers.javaee.sample.facade;
 
 import com.wordpress.fcosfc.betabeers.javaee.sample.entity.ShipType;
-import java.io.Serializable;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -15,7 +14,7 @@ import javax.persistence.PersistenceContext;
  * @author Paco Saucedo
  */
 @Stateless
-public class ShipTypeFacade extends CrudFacade<ShipType> implements Serializable {
+public class ShipTypeFacade extends CrudFacade<ShipType> {
     
     @PersistenceContext
     private EntityManager em;
@@ -25,7 +24,7 @@ public class ShipTypeFacade extends CrudFacade<ShipType> implements Serializable
     }
     
     @Override
-    protected EntityManager getEntityManager() {
+    public EntityManager getEntityManager() {
         return em;
     }
     
