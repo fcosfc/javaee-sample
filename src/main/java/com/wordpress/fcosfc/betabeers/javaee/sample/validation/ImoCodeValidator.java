@@ -61,9 +61,11 @@ public class ImoCodeValidator implements ConstraintValidator<ImoCode, Integer> {
                 digitsArrayIndex++, multiplier--) {
             controlCalulationResult += digits[digitsArrayIndex] * multiplier;
         }
-
-        int theLastDigitIsTheControlOne = controlCalulationResult - (controlCalulationResult / 10 * 10);
-
-        return theLastDigitIsTheControlOne;
+        
+        return getLastDigit(controlCalulationResult);
+    }
+    
+    private int getLastDigit(int value) {
+        return value - (value / 10 * 10);
     }
 }
