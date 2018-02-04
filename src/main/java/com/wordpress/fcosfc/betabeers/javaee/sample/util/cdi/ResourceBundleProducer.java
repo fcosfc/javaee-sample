@@ -16,6 +16,7 @@ public class ResourceBundleProducer {
             = "/com/wordpress/fcosfc/betabeers/javaee/sample/resource/Labels";
     
     @Produces
+    @SampleResourceBundle
     public ResourceBundle produce() {
         return ResourceBundle.getBundle(MESSAGES_BUNDLE);
     }

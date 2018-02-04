@@ -1,5 +1,6 @@
 package com.wordpress.fcosfc.betabeers.javaee.sample.util;
 
+import com.wordpress.fcosfc.betabeers.javaee.sample.util.cdi.SampleResourceBundle;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,6 +16,7 @@ public class ExceptionManager {
     private Logger logger;
 
     @Inject
+    @SampleResourceBundle
     private ResourceBundle resourceBundle;
 
     public void manageException(Exception ex) {

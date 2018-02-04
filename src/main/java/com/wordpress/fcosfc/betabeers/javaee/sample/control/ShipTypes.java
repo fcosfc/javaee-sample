@@ -5,6 +5,7 @@ import com.wordpress.fcosfc.betabeers.javaee.sample.entity.ShipType;
 import com.wordpress.fcosfc.betabeers.javaee.sample.facade.CrudFacade;
 import com.wordpress.fcosfc.betabeers.javaee.sample.facade.ShipTypeFacade;
 import com.wordpress.fcosfc.betabeers.javaee.sample.util.ExceptionManager;
+import com.wordpress.fcosfc.betabeers.javaee.sample.util.cdi.SampleResourceBundle;
 import java.io.Serializable;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
@@ -35,6 +36,7 @@ public class ShipTypes extends CrudController<ShipType> implements Serializable 
     private ShipTypeFacade facade;
     
     @Inject
+    @SampleResourceBundle
     private ResourceBundle resourceBundle;
     
     @Inject

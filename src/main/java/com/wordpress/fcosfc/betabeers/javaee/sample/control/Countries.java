@@ -5,6 +5,7 @@ import com.wordpress.fcosfc.betabeers.javaee.sample.entity.Country;
 import com.wordpress.fcosfc.betabeers.javaee.sample.facade.CrudFacade;
 import com.wordpress.fcosfc.betabeers.javaee.sample.facade.CountryFacade;
 import com.wordpress.fcosfc.betabeers.javaee.sample.util.ExceptionManager;
+import com.wordpress.fcosfc.betabeers.javaee.sample.util.cdi.SampleResourceBundle;
 import java.io.Serializable;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
@@ -32,6 +33,7 @@ public class Countries extends CrudController<Country> implements Serializable {
     private Logger logger;
     
     @Inject
+    @SampleResourceBundle
     private ResourceBundle resourceBundle;
     
     @Inject

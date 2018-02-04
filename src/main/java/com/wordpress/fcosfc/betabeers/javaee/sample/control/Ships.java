@@ -9,6 +9,7 @@ import com.wordpress.fcosfc.betabeers.javaee.sample.facade.CountryFacade;
 import com.wordpress.fcosfc.betabeers.javaee.sample.facade.ShipFacade;
 import com.wordpress.fcosfc.betabeers.javaee.sample.facade.ShipTypeFacade;
 import com.wordpress.fcosfc.betabeers.javaee.sample.util.ExceptionManager;
+import com.wordpress.fcosfc.betabeers.javaee.sample.util.cdi.SampleResourceBundle;
 import java.io.Serializable;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -46,6 +47,7 @@ public class Ships extends CrudController<Ship> implements Serializable {
     private Logger logger;
     
     @Inject
+    @SampleResourceBundle
     private ResourceBundle resourceBundle;
     
     @Inject
