@@ -11,17 +11,17 @@
         <h:form id="ListForm">
             <p:panel header="#{label.shipTypesTitle}">
                 <p:dataTable id="dataList" 
-                             value="#{shipTypes.elements}" 
+                             value="#{shipTypes.form.elements}" 
                              var="item"
                              selectionMode="single" 
-                             selection="#{shipTypes.currentEntity}"
+                             selection="#{shipTypes.form.currentEntity}"
                              paginatorTemplate="{ActionButtons} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {exportButtons}"
                              paginator="true"
                              rowKey="#{item.shipTypeCode}"
                              rows="20"
                              rowsPerPageTemplate="10,20,30,40,50"
                              emptyMessage="#{label.noData}"
-                             filteredValue="#{shipTypes.filteredElements}" 
+                             filteredValue="#{shipTypes.form.filteredElements}" 
                              >
 
                     <p:ajax event="rowSelect"   update="updateAction removeAction"/>
@@ -31,10 +31,10 @@
                         <p:commandLink title="#{label.buttonCreate}" actionListener="#{shipTypes.prepareCreate()}" update=":EditForm" oncomplete="PF('EditDialog').show()" styleClass="ui-icon ui-icon-plus" style="float: left; margin: 2">
                             <p:resetInput target=":EditForm"/>
                         </p:commandLink>
-                        <p:commandLink id="updateAction" title="#{label.buttonEdit}" actionListener="#{shipTypes.prepareEdit()}" update=":EditForm" oncomplete="PF('EditDialog').show()" styleClass="ui-icon ui-icon-pencil" style="float: left; margin: 2" disabled="#{shipTypes.currentEntity == null}">
+                        <p:commandLink id="updateAction" title="#{label.buttonEdit}" actionListener="#{shipTypes.prepareEdit()}" update=":EditForm" oncomplete="PF('EditDialog').show()" styleClass="ui-icon ui-icon-pencil" style="float: left; margin: 2" disabled="#{shipTypes.form.currentEntity == null}">
                             <p:resetInput target=":EditForm"/>
                         </p:commandLink>                      
-                        <p:commandLink id="removeAction" title="#{label.buttonRemove}" actionListener="#{shipTypes.remove()}" update=":growl,dataList" styleClass="ui-icon ui-icon-trash" style="float: left; margin: 2" disabled="#{shipTypes.currentEntity == null}">
+                        <p:commandLink id="removeAction" title="#{label.buttonRemove}" actionListener="#{shipTypes.remove()}" update=":growl,dataList" styleClass="ui-icon ui-icon-trash" style="float: left; margin: 2" disabled="#{shipTypes.form.currentEntity == null}">
                             <p:confirm header="#{label.confirmationDialogTitle}" message="#{label.confirmationAction}" icon="ui-icon-alert" />
                         </p:commandLink>
                     </f:facet>
@@ -77,15 +77,15 @@
                   header="#{label.rowData}">
             <h:form id="EditForm">
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{shipTypes.currentEntity != null}">
+                    <p:panelGrid columns="2" rendered="#{shipTypes.form.currentEntity != null}">
                         <p:outputLabel for="shipTypeCode" value="#{label.shipTypeCode}"/>
-                        <p:inputText id="shipTypeCode" size="3" maxlength="3" value="#{shipTypes.currentEntity.shipTypeCode}" title="#{label.shipTypeCode}" disabled="#{shipTypes.editing}"/>
+                        <p:inputText id="shipTypeCode" size="3" maxlength="3" value="#{shipTypes.form.currentEntity.shipTypeCode}" title="#{label.shipTypeCode}" disabled="#{shipTypes.form.editing}"/>
 
                         <p:outputLabel for="description" value="#{label.shipTypeDescription}"/>
-                        <p:inputText id="description" size="80" maxlength="80" value="#{shipTypes.currentEntity.description}" title="#{label.description}"/>                        
+                        <p:inputText id="description" size="80" maxlength="80" value="#{shipTypes.form.currentEntity.description}" title="#{label.description}"/>                        
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{shipTypes.create()}" value="#{label.buttonSave}" styleClass="ui-priority-primary" icon="ui-icon-disk" update="display,:ListForm:dataList,:growl" oncomplete="if (args &amp;&amp; !args.validationFailed &amp;&amp; !args.errorDetected) PF('EditDialog').hide()" rendered="#{shipTypes.creating}"/>
-                    <p:commandButton actionListener="#{shipTypes.update()}" value="#{label.buttonUpdate}" styleClass="ui-priority-primary" icon="ui-icon-disk" update="display,:ListForm:dataList,:growl" oncomplete="if (args &amp;&amp; !args.validationFailed &amp;&amp; !args.errorDetected) PF('EditDialog').hide()" rendered="#{shipTypes.editing}"/>
+                    <p:commandButton actionListener="#{shipTypes.create()}" value="#{label.buttonSave}" styleClass="ui-priority-primary" icon="ui-icon-disk" update="display,:ListForm:dataList,:growl" oncomplete="if (args &amp;&amp; !args.validationFailed &amp;&amp; !args.errorDetected) PF('EditDialog').hide()" rendered="#{shipTypes.form.creating}"/>
+                    <p:commandButton actionListener="#{shipTypes.update()}" value="#{label.buttonUpdate}" styleClass="ui-priority-primary" icon="ui-icon-disk" update="display,:ListForm:dataList,:growl" oncomplete="if (args &amp;&amp; !args.validationFailed &amp;&amp; !args.errorDetected) PF('EditDialog').hide()" rendered="#{shipTypes.form.editing}"/>
                     <p:commandButton value="#{label.buttonCancel}" icon="ui-icon-cancel" oncomplete="PF('EditDialog').hide()"/>
                 </h:panelGroup>
             </h:form>

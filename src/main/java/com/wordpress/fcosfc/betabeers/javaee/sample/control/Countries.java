@@ -1,5 +1,6 @@
 package com.wordpress.fcosfc.betabeers.javaee.sample.control;
 
+import com.wordpress.fcosfc.betabeers.javaee.sample.control.form.CountriesForm;
 import com.wordpress.fcosfc.betabeers.javaee.sample.entity.Country;
 import com.wordpress.fcosfc.betabeers.javaee.sample.facade.CrudFacade;
 import com.wordpress.fcosfc.betabeers.javaee.sample.facade.CountryFacade;
@@ -20,9 +21,12 @@ import javax.inject.Inject;
  */
 @ManagedBean
 @ViewScoped
-public class Countries extends AbstractController<Country> implements Serializable {
+public class Countries extends CrudController<Country> implements Serializable {
 
     private static final long serialVersionUID = 2405172041950251807L;
+    
+    @Inject
+    private CountriesForm form;
     
     @Inject
     private Logger logger;
@@ -34,14 +38,13 @@ public class Countries extends AbstractController<Country> implements Serializab
     private CountryFacade facade;
     
     @Inject
-    private ExceptionManager exceptionManager;
+    private ExceptionManager exceptionManager;    
 
     @Override
-    protected void refreshData() {
-        setElements(getFacade().findAll());
-        setFilteredElements(null);
+    public CountriesForm getForm() {
+        return form;
     }
-
+    
     @Override
     protected Country getNewEntity() {
         return new Country();

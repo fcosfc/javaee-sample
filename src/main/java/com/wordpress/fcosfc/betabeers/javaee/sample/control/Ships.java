@@ -1,5 +1,6 @@
 package com.wordpress.fcosfc.betabeers.javaee.sample.control;
 
+import com.wordpress.fcosfc.betabeers.javaee.sample.control.form.ShipsForm;
 import com.wordpress.fcosfc.betabeers.javaee.sample.entity.Country;
 import com.wordpress.fcosfc.betabeers.javaee.sample.entity.Ship;
 import com.wordpress.fcosfc.betabeers.javaee.sample.entity.ShipType;
@@ -34,9 +35,12 @@ import javax.inject.Inject;
  */
 @ManagedBean
 @ViewScoped
-public class Ships extends AbstractController<Ship> implements Serializable {
+public class Ships extends CrudController<Ship> implements Serializable {
 
     private static final long serialVersionUID = 1905122041950251207L;
+    
+    @Inject
+    private ShipsForm form;
     
     @Inject
     private Logger logger;
@@ -70,11 +74,10 @@ public class Ships extends AbstractController<Ship> implements Serializable {
             exceptionManager.manageException(ex);
         }
     }
-
+    
     @Override
-    protected void refreshData() {
-        setElements(getFacade().findAll());
-        setFilteredElements(null);
+    public ShipsForm getForm() {
+        return form;
     }
 
     @Override

@@ -11,17 +11,17 @@
         <h:form id="ListForm">
             <p:panel header="#{label.shipsTitle}">
                 <p:dataTable id="dataList" 
-                             value="#{ships.elements}" 
+                             value="#{ships.form.elements}" 
                              var="item"
                              selectionMode="single" 
-                             selection="#{ships.currentEntity}"
+                             selection="#{ships.form.currentEntity}"
                              paginatorTemplate="{ActionButtons} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {exportButtons}"
                              paginator="true"
                              rowKey="#{item.imoCode}"
                              rows="20"
                              rowsPerPageTemplate="10,20,30,40,50"
                              emptyMessage="#{label.noData}"
-                             filteredValue="#{ships.filteredElements}" 
+                             filteredValue="#{ships.form.filteredElements}" 
                              >
 
                     <p:ajax event="rowSelect"   update="updateAction removeAction"/>
@@ -31,10 +31,10 @@
                         <p:commandLink title="#{label.buttonCreate}" actionListener="#{ships.prepareCreate()}" update=":EditForm" oncomplete="PF('EditDialog').show()" styleClass="ui-icon ui-icon-plus" style="float: left; margin: 2">
                             <p:resetInput target=":EditForm"/>
                         </p:commandLink>
-                        <p:commandLink id="updateAction" title="#{label.buttonEdit}" actionListener="#{ships.prepareEdit()}" update=":EditForm" oncomplete="PF('EditDialog').show()" styleClass="ui-icon ui-icon-pencil" style="float: left; margin: 2" disabled="#{ships.currentEntity == null}">
+                        <p:commandLink id="updateAction" title="#{label.buttonEdit}" actionListener="#{ships.prepareEdit()}" update=":EditForm" oncomplete="PF('EditDialog').show()" styleClass="ui-icon ui-icon-pencil" style="float: left; margin: 2" disabled="#{ships.form.currentEntity == null}">
                             <p:resetInput target=":EditForm"/>
                         </p:commandLink>                      
-                        <p:commandLink id="removeAction" title="#{label.buttonRemove}" actionListener="#{ships.remove()}" update=":growl,dataList" styleClass="ui-icon ui-icon-trash" style="float: left; margin: 2" disabled="#{ships.currentEntity == null}">
+                        <p:commandLink id="removeAction" title="#{label.buttonRemove}" actionListener="#{ships.remove()}" update=":growl,dataList" styleClass="ui-icon ui-icon-trash" style="float: left; margin: 2" disabled="#{ships.form.currentEntity == null}">
                             <p:confirm header="#{label.confirmationDialogTitle}" message="#{label.confirmationAction}" icon="ui-icon-alert" />
                         </p:commandLink>
                     </f:facet>
@@ -97,31 +97,31 @@
                   header="#{label.rowData}">
             <h:form id="EditForm">
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{ships.currentEntity != null}">
+                    <p:panelGrid columns="2" rendered="#{ships.form.currentEntity != null}">
                         <p:outputLabel for="shipImoCode" value="#{label.shipImoCode}"/>
-                        <p:inputText id="shipImoCode" size="10" maxlength="10" value="#{ships.currentEntity.imoCode}" title="#{label.shipImoCode}"/>
+                        <p:inputText id="shipImoCode" size="10" maxlength="10" value="#{ships.form.currentEntity.imoCode}" title="#{label.shipImoCode}"/>
 
                         <p:outputLabel for="name" value="#{label.shipName}"/>
-                        <p:inputText id="name" size="50" maxlength="50" value="#{ships.currentEntity.name}" title="#{label.shipName}"/>   
+                        <p:inputText id="name" size="50" maxlength="50" value="#{ships.form.currentEntity.name}" title="#{label.shipName}"/>   
                         
                         <p:outputLabel for="grossTons" value="#{label.shipGrossTons}"/>                        
-                        <p:inputNumber id="grossTons" size="6" maxlength="6" value="#{ships.currentEntity.grossTons}" title="#{label.shipGrossTons}" minValue="0" maxValue="200000" decimalPlaces="0"/>
+                        <p:inputNumber id="grossTons" size="6" maxlength="6" value="#{ships.form.currentEntity.grossTons}" title="#{label.shipGrossTons}" minValue="0" maxValue="200000" decimalPlaces="0"/>
                         
                         <p:outputLabel for="dateBuilt" value="#{label.shipDateBuilt}"/>
-                        <p:calendar id="dateBuilt" value="#{ships.currentEntity.dateBuilt}"/>
+                        <p:calendar id="dateBuilt" value="#{ships.form.currentEntity.dateBuilt}"/>
                         
                         <p:outputLabel for="flag" value="#{label.shipFlag}"/>
-                        <p:selectOneMenu id="flag" value="#{ships.currentEntity.flag}" effect="fade" converter="#{countryConverter}">
+                        <p:selectOneMenu id="flag" value="#{ships.form.currentEntity.flag}" effect="fade" converter="#{countryConverter}">
                             <f:selectItems value="#{ships.allCountries}" var="countryValue" itemLabel="#{countryValue.name}" itemValue="#{countryValue}"/>
                         </p:selectOneMenu>
                         
                         <p:outputLabel for="shipType" value="#{label.shipShipType}"/>
-                        <p:selectOneMenu id="shipType" value="#{ships.currentEntity.shipType}" effect="fade" converter="#{shipTypeConverter}">
+                        <p:selectOneMenu id="shipType" value="#{ships.form.currentEntity.shipType}" effect="fade" converter="#{shipTypeConverter}">
                             <f:selectItems value="#{ships.allShipTypes}" var="shipTypeValue" itemLabel="#{shipTypeValue.description}" itemValue="#{shipTypeValue}"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{ships.create()}" value="#{label.buttonSave}" styleClass="ui-priority-primary" icon="ui-icon-disk" update="display,:ListForm:dataList,:growl" oncomplete="if (args &amp;&amp; !args.validationFailed &amp;&amp; !args.errorDetected) PF('EditDialog').hide()" rendered="#{ships.creating}"/>
-                    <p:commandButton actionListener="#{ships.update()}" value="#{label.buttonUpdate}" styleClass="ui-priority-primary" icon="ui-icon-disk" update="display,:ListForm:dataList,:growl" oncomplete="if (args &amp;&amp; !args.validationFailed &amp;&amp; !args.errorDetected) PF('EditDialog').hide()" rendered="#{ships.editing}"/>
+                    <p:commandButton actionListener="#{ships.create()}" value="#{label.buttonSave}" styleClass="ui-priority-primary" icon="ui-icon-disk" update="display,:ListForm:dataList,:growl" oncomplete="if (args &amp;&amp; !args.validationFailed &amp;&amp; !args.errorDetected) PF('EditDialog').hide()" rendered="#{ships.form.creating}"/>
+                    <p:commandButton actionListener="#{ships.update()}" value="#{label.buttonUpdate}" styleClass="ui-priority-primary" icon="ui-icon-disk" update="display,:ListForm:dataList,:growl" oncomplete="if (args &amp;&amp; !args.validationFailed &amp;&amp; !args.errorDetected) PF('EditDialog').hide()" rendered="#{ships.form.editing}"/>
                     <p:commandButton value="#{label.buttonCancel}" icon="ui-icon-cancel" oncomplete="PF('EditDialog').hide()"/>
                 </h:panelGroup>
             </h:form>

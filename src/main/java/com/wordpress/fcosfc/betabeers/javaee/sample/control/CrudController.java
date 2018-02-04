@@ -1,11 +1,10 @@
 package com.wordpress.fcosfc.betabeers.javaee.sample.control;
 
+import com.wordpress.fcosfc.betabeers.javaee.sample.control.form.CrudForm;
 import com.wordpress.fcosfc.betabeers.javaee.sample.util.JsfUtil;
 import com.wordpress.fcosfc.betabeers.javaee.sample.facade.CrudFacade;
 import com.wordpress.fcosfc.betabeers.javaee.sample.util.ExceptionManager;
-import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 
@@ -17,16 +16,10 @@ import javax.annotation.PostConstruct;
  * @author Paco Saucedo
  * @param <T>
  */
-public abstract class AbstractController<T> {
+public abstract class CrudController<T> {
     
-    private List<T> elements;
-    private List<T> filteredElements;
-    private T currentEntity;
-    private boolean creating;
-    private boolean editing;
-
-    protected abstract void refreshData();
-
+    public abstract CrudForm getForm();
+    
     protected abstract T getNewEntity();
 
     protected abstract CrudFacade getFacade();
@@ -46,58 +39,23 @@ public abstract class AbstractController<T> {
         }
     }
 
-    public List<T> getElements() {
-        return elements;
+    protected void refreshData() {
+        getForm().setElements(getFacade().findAll());
+        getForm().setFilteredElements(null);
     }
-
-    public void setElements(List<T> elements) {
-        this.elements = elements;
-    }
-
-    public List<T> getFilteredElements() {
-        return filteredElements;
-    }
-
-    public void setFilteredElements(List<T> filteredElements) {
-        this.filteredElements = filteredElements;
-    }
-
-    public T getCurrentEntity() {
-        return currentEntity;
-    }
-
-    public void setCurrentEntity(T currentEntity) {
-        this.currentEntity = currentEntity;
-    }
-
-    public boolean isCreating() {
-        return creating;
-    }
-
-    public void setCreating(boolean creating) {
-        this.creating = creating;
-    }
-
-    public boolean isEditing() {
-        return editing;
-    }
-
-    public void setEditing(boolean editing) {
-        this.editing = editing;
-    }
-
+    
     public String prepareCreate() {
-        setCurrentEntity(getNewEntity());
-        setCreating(true);
-        setEditing(false);
+        getForm().setCurrentEntity(getNewEntity());
+        getForm().setCreating(true);
+        getForm().setEditing(false);
 
         return null;
     }
 
     public String create() {
         try {
-            getFacade().create(getCurrentEntity());
-            setCurrentEntity(null);
+            getFacade().create(getForm().getCurrentEntity());
+            getForm().setCurrentEntity(null);
             refreshData();
 
             JsfUtil.addSuccessMessage(
@@ -111,17 +69,17 @@ public abstract class AbstractController<T> {
     }
 
     public String prepareEdit() {
-        setEditing(true);
-        setCreating(false);
+        getForm().setEditing(true);
+        getForm().setCreating(false);
 
         return null;
     }
 
     public String update() {
         try {
-            getFacade().update(getCurrentEntity());
-            setCurrentEntity(null);
-            setEditing(false);
+            getFacade().update(getForm().getCurrentEntity());
+            getForm().setCurrentEntity(null);
+            getForm().setEditing(false);
             refreshData();
 
             JsfUtil.addSuccessMessage(
@@ -136,9 +94,9 @@ public abstract class AbstractController<T> {
 
     public String remove() {
         try {
-            getFacade().remove(getCurrentEntity());
-            setCreating(false);
-            setEditing(false);
+            getFacade().remove(getForm().getCurrentEntity());
+            getForm().setCreating(false);
+            getForm().setEditing(false);
             refreshData();
 
             JsfUtil.addSuccessMessage(

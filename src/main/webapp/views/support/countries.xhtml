@@ -11,17 +11,17 @@
         <h:form id="ListForm">
             <p:panel header="#{label.countriesTitle}">
                 <p:dataTable id="dataList" 
-                             value="#{countries.elements}" 
+                             value="#{countries.form.elements}" 
                              var="item"
                              selectionMode="single" 
-                             selection="#{countries.currentEntity}"
+                             selection="#{countries.form.currentEntity}"
                              paginatorTemplate="{ActionButtons} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {exportButtons}"
                              paginator="true"
                              rowKey="#{item.isoCode}"
                              rows="20"
                              rowsPerPageTemplate="10,20,30,40,50"
                              emptyMessage="#{label.noData}"
-                             filteredValue="#{countries.filteredElements}" 
+                             filteredValue="#{countries.form.filteredElements}" 
                              >
 
                     <p:ajax event="rowSelect"   update="updateAction removeAction"/>
@@ -31,10 +31,10 @@
                         <p:commandLink title="#{label.buttonCreate}" actionListener="#{countries.prepareCreate()}" update=":EditForm" oncomplete="PF('EditDialog').show()" styleClass="ui-icon ui-icon-plus" style="float: left; margin: 2">
                             <p:resetInput target=":EditForm"/>
                         </p:commandLink>
-                        <p:commandLink id="updateAction" title="#{label.buttonEdit}" actionListener="#{countries.prepareEdit()}" update=":EditForm" oncomplete="PF('EditDialog').show()" styleClass="ui-icon ui-icon-pencil" style="float: left; margin: 2" disabled="#{countries.currentEntity == null}">
+                        <p:commandLink id="updateAction" title="#{label.buttonEdit}" actionListener="#{countries.prepareEdit()}" update=":EditForm" oncomplete="PF('EditDialog').show()" styleClass="ui-icon ui-icon-pencil" style="float: left; margin: 2" disabled="#{countries.form.currentEntity == null}">
                             <p:resetInput target=":EditForm"/>
                         </p:commandLink>                      
-                        <p:commandLink id="removeAction" title="#{label.buttonRemove}" actionListener="#{countries.remove()}" update=":growl,dataList" styleClass="ui-icon ui-icon-trash" style="float: left; margin: 2" disabled="#{countries.currentEntity == null}">
+                        <p:commandLink id="removeAction" title="#{label.buttonRemove}" actionListener="#{countries.remove()}" update=":growl,dataList" styleClass="ui-icon ui-icon-trash" style="float: left; margin: 2" disabled="#{countries.form.currentEntity == null}">
                             <p:confirm header="#{label.confirmationDialogTitle}" message="#{label.confirmationAction}" icon="ui-icon-alert" />
                         </p:commandLink>
                     </f:facet>
@@ -77,15 +77,15 @@
                   header="#{label.rowData}">
             <h:form id="EditForm">
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{countries.currentEntity != null}">
+                    <p:panelGrid columns="2" rendered="#{countries.form.currentEntity != null}">
                         <p:outputLabel for="countryIsoCode" value="#{label.countryIsoCode}"/>
-                        <p:inputText id="countryIsoCode" size="2" maxlength="2" value="#{countries.currentEntity.isoCode}" title="#{label.countryIsoCode}" disabled="#{countries.editing}"/>
+                        <p:inputText id="countryIsoCode" size="2" maxlength="2" value="#{countries.form.currentEntity.isoCode}" title="#{label.countryIsoCode}" disabled="#{countries.form.editing}"/>
 
                         <p:outputLabel for="name" value="#{label.countryName}"/>
-                        <p:inputText id="name" size="100" maxlength="100" value="#{countries.currentEntity.name}" title="#{label.countryName}"/>                        
+                        <p:inputText id="name" size="100" maxlength="100" value="#{countries.form.currentEntity.name}" title="#{label.countryName}"/>                        
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{countries.create()}" value="#{label.buttonSave}" styleClass="ui-priority-primary" icon="ui-icon-disk" update="display,:ListForm:dataList,:growl" oncomplete="if (args &amp;&amp; !args.validationFailed &amp;&amp; !args.errorDetected) PF('EditDialog').hide()" rendered="#{countries.creating}"/>
-                    <p:commandButton actionListener="#{countries.update()}" value="#{label.buttonUpdate}" styleClass="ui-priority-primary" icon="ui-icon-disk" update="display,:ListForm:dataList,:growl" oncomplete="if (args &amp;&amp; !args.validationFailed &amp;&amp; !args.errorDetected) PF('EditDialog').hide()" rendered="#{countries.editing}"/>
+                    <p:commandButton actionListener="#{countries.create()}" value="#{label.buttonSave}" styleClass="ui-priority-primary" icon="ui-icon-disk" update="display,:ListForm:dataList,:growl" oncomplete="if (args &amp;&amp; !args.validationFailed &amp;&amp; !args.errorDetected) PF('EditDialog').hide()" rendered="#{countries.form.creating}"/>
+                    <p:commandButton actionListener="#{countries.update()}" value="#{label.buttonUpdate}" styleClass="ui-priority-primary" icon="ui-icon-disk" update="display,:ListForm:dataList,:growl" oncomplete="if (args &amp;&amp; !args.validationFailed &amp;&amp; !args.errorDetected) PF('EditDialog').hide()" rendered="#{countries.form.editing}"/>
                     <p:commandButton value="#{label.buttonCancel}" icon="ui-icon-cancel" oncomplete="PF('EditDialog').hide()"/>
                 </h:panelGroup>
             </h:form>
