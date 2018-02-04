@@ -22,7 +22,7 @@ import org.junit.runner.RunWith;
  * @author Paco Saucedo
  */
 @RunWith(Arquillian.class)
-public class ShipFacadeTest {
+public class ShipFacadeIntegrationTest {
     
     private static final Long SHIP_ID = -2L;
     private static final String SHIP_NAME = "ALBAYCIN";

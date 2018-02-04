@@ -19,7 +19,7 @@ import org.junit.runner.RunWith;
  * @author Paco Saucedo
  */
 @RunWith(Arquillian.class)
-public class ShipTypeFacadeTest {
+public class ShipTypeFacadeIntegrationTest {
     
     private static final String SHIP_TYPE_CODE = "BLK";
     private static final String SHIP_TYPE_DESCRIPTION = "Bulk Carrier";

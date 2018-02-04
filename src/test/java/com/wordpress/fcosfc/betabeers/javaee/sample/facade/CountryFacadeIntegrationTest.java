@@ -19,7 +19,7 @@ import org.junit.runner.RunWith;
  * @author Paco Saucedo
  */
 @RunWith(Arquillian.class)
-public class CountryFacadeTest {
+public class CountryFacadeIntegrationTest {
 
     private static final String COUNTRY_ISO_CODE = "PT";
     private static final String COUNTRY_NAME = "Portugal";
