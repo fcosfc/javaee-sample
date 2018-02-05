@@ -9,19 +9,18 @@ import com.wordpress.fcosfc.betabeers.javaee.sample.util.cdi.SampleResourceBundl
 import java.io.Serializable;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
- * Non CDI life cycle managed bean example. Java EE 7 has a CDI ViewScoped annotation.
+ * Controller example.
  * 
- * Ejemplo de ciclo de vida estándar JSF, no CDI. Java EE 7 tiene este ciclo de vida como CDI.
+ * Ejemplo de controlador de la interacción entre el backend y el frontend.
  * 
  * @author Paco Saucedo
  */
-@ManagedBean
-@ViewScoped
+@Named
+@javax.faces.view.ViewScoped
 public class ShipTypes extends CrudController<ShipType> implements Serializable {
 
     private static final long serialVersionUID = 1935122046950251201L;
@@ -37,7 +36,7 @@ public class ShipTypes extends CrudController<ShipType> implements Serializable 
     
     @Inject
     @SampleResourceBundle
-    private ResourceBundle resourceBundle;
+    transient private ResourceBundle resourceBundle;
     
     @Inject
     private ExceptionManager exceptionManager;    

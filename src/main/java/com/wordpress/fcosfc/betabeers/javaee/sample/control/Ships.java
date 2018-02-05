@@ -17,8 +17,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -26,16 +24,19 @@ import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
 
 import javax.inject.Inject;
+import javax.inject.Named;
+
+
 
 /**
- * Non CDI life cycle managed bean example. Java EE 7 has a CDI ViewScoped annotation.
+ * Controller example.
  * 
- * Ejemplo de ciclo de vida estándar JSF, no CDI. Java EE 7 tiene este ciclo de vida como CDI.
- *
+ * Ejemplo de controlador de la interacción entre el backend y el frontend.
+ * 
  * @author Paco Saucedo
  */
-@ManagedBean
-@ViewScoped
+@Named
+@javax.faces.view.ViewScoped
 public class Ships extends CrudController<Ship> implements Serializable {
 
     private static final long serialVersionUID = 1905122041950251207L;
@@ -48,7 +49,7 @@ public class Ships extends CrudController<Ship> implements Serializable {
     
     @Inject
     @SampleResourceBundle
-    private ResourceBundle resourceBundle;
+    transient private ResourceBundle resourceBundle;
     
     @Inject
     private ExceptionManager exceptionManager;

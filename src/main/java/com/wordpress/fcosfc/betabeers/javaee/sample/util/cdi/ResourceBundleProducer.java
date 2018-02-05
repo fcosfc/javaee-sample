@@ -1,6 +1,7 @@
 package com.wordpress.fcosfc.betabeers.javaee.sample.util.cdi;
 
 import java.util.ResourceBundle;
+import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Produces;
 
 /**
@@ -10,6 +11,7 @@ import javax.enterprise.inject.Produces;
  * 
  * @author Paco Saucedo
  */
+@Dependent
 public class ResourceBundleProducer {
     
     private static final String MESSAGES_BUNDLE

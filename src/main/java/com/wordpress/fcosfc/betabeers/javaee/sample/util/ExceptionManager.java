@@ -1,23 +1,28 @@
 package com.wordpress.fcosfc.betabeers.javaee.sample.util;
 
 import com.wordpress.fcosfc.betabeers.javaee.sample.util.cdi.SampleResourceBundle;
+import java.io.Serializable;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 /**
  *
  * @author Paco Saucedo
  */
-public class ExceptionManager {
+@Dependent
+public class ExceptionManager implements Serializable {
+
+    private static final long serialVersionUID = 4444172041950253457L;
 
     @Inject
     private Logger logger;
 
     @Inject
     @SampleResourceBundle
-    private ResourceBundle resourceBundle;
+    transient private ResourceBundle resourceBundle;
 
     public void manageException(Exception ex) {
         Throwable cause = ex.getCause();
