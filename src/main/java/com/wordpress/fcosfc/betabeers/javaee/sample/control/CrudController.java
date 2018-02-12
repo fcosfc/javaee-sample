@@ -5,7 +5,6 @@ import com.wordpress.fcosfc.betabeers.javaee.sample.util.JsfUtil;
 import com.wordpress.fcosfc.betabeers.javaee.sample.facade.CrudFacade;
 import com.wordpress.fcosfc.betabeers.javaee.sample.util.ExceptionManager;
 import java.util.ResourceBundle;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 
 /**
@@ -18,75 +17,83 @@ import javax.annotation.PostConstruct;
  */
 public abstract class CrudController<T> {
     
-    public abstract CrudForm getForm();
-    
-    protected abstract T getNewEntity();
+    private final CrudForm form;
 
-    protected abstract CrudFacade getFacade();
-
-    protected abstract Logger getLogger();
+    private final CrudFacade facade;
     
-    protected abstract ResourceBundle getResourceBundle();
+    private final ResourceBundle resourceBundle;
     
-    protected abstract ExceptionManager getExceptionManager();
-
+    private final ExceptionManager exceptionManager;
+    
+    protected abstract T getNewEntity();    
+    
+    public CrudController(CrudForm form, 
+            CrudFacade facade, 
+            ResourceBundle resourceBundle, 
+            ExceptionManager exceptionManager) {
+        this.form = form;
+        this.facade = facade;
+        this.resourceBundle = resourceBundle;
+        this.exceptionManager = exceptionManager;
+    }
+    
     @PostConstruct
     protected void init() {
         try {
             refreshData();
         } catch (Exception ex) {
-            getExceptionManager().manageException(ex);
+            exceptionManager.manageException(ex);
         }
     }
 
     protected void refreshData() {
-        getForm().setElements(getFacade().findAll());
-        getForm().setFilteredElements(null);
+        form.setElements(facade.findAll());
+        form.setFilteredElements(null);
     }
     
     public String prepareCreate() {
-        getForm().setCurrentEntity(getNewEntity());
-        getForm().setCreating(true);
-        getForm().setEditing(false);
+        form.setCurrentEntity(getNewEntity());
+        form.setCreating(true);
+        form.setEditing(false);
 
         return null;
     }
 
     public String create() {
         try {
-            getFacade().create(getForm().getCurrentEntity());
-            getForm().setCurrentEntity(null);
+            facade.create(form.getCurrentEntity());
+            form.setCurrentEntity(null);
             refreshData();
 
             JsfUtil.addSuccessMessage(
-                    getResourceBundle()
+                    resourceBundle
                     .getString("messageRecordCreated"));
         } catch (Exception ex) {
-            getExceptionManager().manageException(ex);
+            exceptionManager.manageException(ex);
         }
 
         return null;
     }
 
     public String prepareEdit() {
-        getForm().setEditing(true);
-        getForm().setCreating(false);
+        form.setEditing(true);
+        form.setCreating(false);
 
         return null;
     }
 
     public String update() {
         try {
-            getFacade().update(getForm().getCurrentEntity());
-            getForm().setCurrentEntity(null);
-            getForm().setEditing(false);
+            facade.update(form.getCurrentEntity());
+            form.setCurrentEntity(null);
+            form.setEditing(false);
             refreshData();
 
             JsfUtil.addSuccessMessage(
-                    getResourceBundle()
+                    resourceBundle
                     .getString("messageRecordUpdated"));
         } catch (Exception ex) {
-            getExceptionManager().manageException(ex);
+            exceptionManager.manageException(ex);
         }
 
         return null;
@@ -94,19 +101,35 @@ public abstract class CrudController<T> {
 
     public String remove() {
         try {
-            getFacade().remove(getForm().getCurrentEntity());
-            getForm().setCreating(false);
-            getForm().setEditing(false);
+            facade.remove(form.getCurrentEntity());
+            form.setCreating(false);
+            form.setEditing(false);
             refreshData();
 
             JsfUtil.addSuccessMessage(
-                    getResourceBundle()
+                    resourceBundle
                     .getString("messageRecordRemoved"));
         } catch (Exception ex) {
-            getExceptionManager().manageException(ex);
+            exceptionManager.manageException(ex);
         }
 
         return null;
     }
-    
+
+    public CrudForm getForm() {
+        return form;
+    }
+
+    protected CrudFacade getFacade() {
+        return facade;
+    }
+
+    protected ResourceBundle getResourceBundle() {
+        return resourceBundle;
+    }
+
+    protected ExceptionManager getExceptionManager() {
+        return exceptionManager;
+    }    
+     
 }

@@ -22,7 +22,7 @@ public class ExceptionManager implements Serializable {
 
     @Inject
     @SampleResourceBundle
-    transient private ResourceBundle resourceBundle;
+    private transient ResourceBundle resourceBundle;
 
     public void manageException(Exception ex) {
         Throwable cause = ex.getCause();

@@ -4,7 +4,6 @@ import com.wordpress.fcosfc.betabeers.javaee.sample.control.form.ShipsForm;
 import com.wordpress.fcosfc.betabeers.javaee.sample.entity.Country;
 import com.wordpress.fcosfc.betabeers.javaee.sample.entity.Ship;
 import com.wordpress.fcosfc.betabeers.javaee.sample.entity.ShipType;
-import com.wordpress.fcosfc.betabeers.javaee.sample.facade.CrudFacade;
 import com.wordpress.fcosfc.betabeers.javaee.sample.facade.CountryFacade;
 import com.wordpress.fcosfc.betabeers.javaee.sample.facade.ShipFacade;
 import com.wordpress.fcosfc.betabeers.javaee.sample.facade.ShipTypeFacade;
@@ -22,11 +21,10 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
+import javax.faces.view.ViewScoped;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-
-
 
 /**
  * Controller example.
@@ -36,27 +34,11 @@ import javax.inject.Named;
  * @author Paco Saucedo
  */
 @Named
-@javax.faces.view.ViewScoped
+@ViewScoped
 public class Ships extends CrudController<Ship> implements Serializable {
 
     private static final long serialVersionUID = 1905122041950251207L;
-    
-    @Inject
-    private ShipsForm form;
-    
-    @Inject
-    private Logger logger;
-    
-    @Inject
-    @SampleResourceBundle
-    transient private ResourceBundle resourceBundle;
-    
-    @Inject
-    private ExceptionManager exceptionManager;
-
-    @Inject
-    private ShipFacade shipFacade;
-
+        
     @Inject
     private CountryFacade countryFacade;
 
@@ -65,6 +47,14 @@ public class Ships extends CrudController<Ship> implements Serializable {
 
     private List<Country> allCountries;
     private List<ShipType> allShipTypes;
+    
+    @Inject
+    public Ships(ShipsForm form, 
+            ShipFacade facade, 
+            @SampleResourceBundle ResourceBundle resourceBundle, 
+            ExceptionManager exceptionManager) {
+        super(form, facade, resourceBundle, exceptionManager);
+    }
 
     @PostConstruct
     @Override
@@ -74,38 +64,8 @@ public class Ships extends CrudController<Ship> implements Serializable {
             allCountries = countryFacade.findAll();
             allShipTypes = shipTypeFacade.findAll();
         } catch (Exception ex) {
-            exceptionManager.manageException(ex);
+            getExceptionManager().manageException(ex);
         }
-    }
-    
-    @Override
-    public ShipsForm getForm() {
-        return form;
-    }
-
-    @Override
-    protected Ship getNewEntity() {
-        return new Ship();
-    }
-
-    @Override
-    protected CrudFacade getFacade() {
-        return shipFacade;
-    }
-
-    @Override
-    protected Logger getLogger() {
-        return logger;
-    }
-    
-    @Override
-    protected ResourceBundle getResourceBundle() {
-        return resourceBundle;
-    }
-    
-    @Override
-    protected ExceptionManager getExceptionManager() {
-        return exceptionManager; 
     }
 
     public List<Country> getAllCountries() {
@@ -114,6 +74,11 @@ public class Ships extends CrudController<Ship> implements Serializable {
 
     public List<ShipType> getAllShipTypes() {
         return allShipTypes;
+    }
+
+    @Override
+    protected Ship getNewEntity() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @FacesConverter(forClass = ShipType.class)
@@ -194,7 +159,7 @@ public class Ships extends CrudController<Ship> implements Serializable {
         try {
             return shipTypeFacade.find(shipTypeCode);
         } catch (Exception ex) {
-            exceptionManager.manageException(ex);
+            getExceptionManager().manageException(ex);
         }
 
         return null;
@@ -204,7 +169,7 @@ public class Ships extends CrudController<Ship> implements Serializable {
         try {
             return countryFacade.find(isoCode);
         } catch (Exception ex) {
-            exceptionManager.manageException(ex);
+            getExceptionManager().manageException(ex);
         }
 
         return null;
