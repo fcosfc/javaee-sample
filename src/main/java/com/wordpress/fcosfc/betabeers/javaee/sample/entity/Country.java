@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "COUNTRIES")
 @XmlRootElement
 @Cacheable
-public class Country implements Serializable {
+public class Country implements Serializable, RestEntity {
 
     @Id
     @Column(name = "ISO_CODE", length = 2)
@@ -47,6 +47,11 @@ public class Country implements Serializable {
 
     public void setIsoCode(String isoCode) {
         this.isoCode = isoCode;
+    }
+
+    @Override
+    public String getId() {
+        return isoCode;
     }
 
     public String getName() {

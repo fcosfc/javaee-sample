@@ -27,9 +27,9 @@ public class ApplicationConfig extends Application {
      * If required, comment out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
-        resources.add(com.wordpress.fcosfc.betabeers.javaee.sample.resource.rest.CountryRestFacade.class);
-        resources.add(com.wordpress.fcosfc.betabeers.javaee.sample.resource.rest.ShipRestFacade.class);
-        resources.add(com.wordpress.fcosfc.betabeers.javaee.sample.resource.rest.ShipTypeRestFacade.class);
+        resources.add(com.wordpress.fcosfc.betabeers.javaee.sample.resource.rest.CountryRestResource.class);
+        resources.add(com.wordpress.fcosfc.betabeers.javaee.sample.resource.rest.ShipRestResource.class);
+        resources.add(com.wordpress.fcosfc.betabeers.javaee.sample.resource.rest.ShipTypeRestResource.class);
     }
     
 }

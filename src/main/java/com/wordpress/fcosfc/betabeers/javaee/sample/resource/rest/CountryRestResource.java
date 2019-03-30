@@ -3,6 +3,7 @@ package com.wordpress.fcosfc.betabeers.javaee.sample.resource.rest;
 import com.wordpress.fcosfc.betabeers.javaee.sample.entity.Country;
 import com.wordpress.fcosfc.betabeers.javaee.sample.facade.CountryFacade;
 import com.wordpress.fcosfc.betabeers.javaee.sample.facade.CrudFacade;
+import java.util.logging.Logger;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Path;
@@ -16,7 +17,10 @@ import javax.ws.rs.Path;
  */
 @ApplicationScoped
 @Path("country")
-public class CountryRestFacade extends CrudRestFacade<Country> {
+public class CountryRestResource extends CrudRestResource<Country> {
+    
+    @Inject 
+    private Logger logger;
     
     @Inject
     protected CountryFacade countryFacade;
@@ -24,6 +28,11 @@ public class CountryRestFacade extends CrudRestFacade<Country> {
     @Override
     public CrudFacade<Country> getCrudFacade() {
         return countryFacade;
+    }
+
+    @Override
+    public Logger getLogger() {
+        return logger;
     }
        
 }

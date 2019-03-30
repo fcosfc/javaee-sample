@@ -33,7 +33,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Ship.FindAll", query = "SELECT s FROM Ship s ORDER BY s.name"),
     @NamedQuery(name = "Ship.FindByNameFilter", query = "SELECT s FROM Ship s WHERE upper(s.name) like upper(:nameFilter) ORDER BY s.name")})
-public class Ship implements Serializable {
+public class Ship implements Serializable, RestEntity {
     
     @Id
     @GeneratedValue
@@ -88,6 +88,11 @@ public class Ship implements Serializable {
 
     public void setShipId(Long shipId) {
         this.shipId = shipId;
+    }
+
+    @Override
+    public String getId() {
+        return shipId.toString();
     }
 
     public Integer getImoCode() {

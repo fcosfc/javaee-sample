@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @XmlRootElement
 @Cacheable
-public class ShipType implements Serializable {
+public class ShipType implements Serializable, RestEntity {
     
     @Id
     private String shipTypeCode;
@@ -41,6 +41,11 @@ public class ShipType implements Serializable {
 
     public void setShipTypeCode(String shipTypeCode) {
         this.shipTypeCode = shipTypeCode;
+    }
+
+    @Override
+    public String getId() {
+        return shipTypeCode;
     }
 
     public String getDescription() {
