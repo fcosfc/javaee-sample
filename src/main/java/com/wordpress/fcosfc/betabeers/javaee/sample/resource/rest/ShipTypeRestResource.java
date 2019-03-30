@@ -9,9 +9,9 @@ import javax.inject.Inject;
 import javax.ws.rs.Path;
 
 /**
- * ShipType entity REST facade. 
+ * ShipType REST resource. 
  * 
- * Fachada del recurso REST para la entidad ShipType.
+ * Recurso REST para los tipos de buque.
  * 
  * @author Paco
  */

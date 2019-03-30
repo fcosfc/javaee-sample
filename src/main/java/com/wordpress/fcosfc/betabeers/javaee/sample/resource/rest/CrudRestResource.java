@@ -21,9 +21,9 @@ import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
 /**
- * Abstract REST facade.
+ * Abstract REST resource.
  *
- * Fachada abstracta REST.
+ * Recurso REST abstracto.
  *
  * @author Paco Saucedo
  * @param <T>

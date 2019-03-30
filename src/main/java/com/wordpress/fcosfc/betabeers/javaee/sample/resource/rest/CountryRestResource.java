@@ -9,9 +9,9 @@ import javax.inject.Inject;
 import javax.ws.rs.Path;
 
 /**
- * Country entity REST facade.
+ * Country REST resource.
  * 
- * Fachada del recurso REST para la entidad Country.
+ * Recurso REST para la entidad pais.
  * 
  * @author Paco Saucedo
  */
