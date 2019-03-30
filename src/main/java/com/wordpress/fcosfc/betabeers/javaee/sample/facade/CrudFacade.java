@@ -24,12 +24,12 @@ public abstract class CrudFacade<T> {
 
     protected abstract EntityManager getEntityManager();
 
-    public void create(T entity) {
-        getEntityManager().persist(entity);
+    public T create(T entity) {
+        return getEntityManager().merge(entity);
     }
 
-    public void update(T entity) {
-        getEntityManager().merge(entity);
+    public T update(T entity) {
+        return getEntityManager().merge(entity);
     }
 
     public void remove(T entity) {
