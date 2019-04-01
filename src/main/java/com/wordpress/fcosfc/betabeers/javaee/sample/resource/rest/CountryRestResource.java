@@ -1,8 +1,9 @@
 package com.wordpress.fcosfc.betabeers.javaee.sample.resource.rest;
 
+import com.wordpress.fcosfc.betabeers.javaee.sample.dto.CountryDTO;
 import com.wordpress.fcosfc.betabeers.javaee.sample.entity.Country;
-import com.wordpress.fcosfc.betabeers.javaee.sample.facade.CountryFacade;
-import com.wordpress.fcosfc.betabeers.javaee.sample.facade.CrudFacade;
+import com.wordpress.fcosfc.betabeers.javaee.sample.service.CountriesService;
+import com.wordpress.fcosfc.betabeers.javaee.sample.service.CrudService;
 import java.util.logging.Logger;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -17,17 +18,17 @@ import javax.ws.rs.Path;
  */
 @ApplicationScoped
 @Path("country")
-public class CountryRestResource extends CrudRestResource<Country> {
+public class CountryRestResource extends CrudRestResource<Country, CountryDTO> {
     
     @Inject 
     private Logger logger;
     
     @Inject
-    protected CountryFacade countryFacade;
+    protected CountriesService countriesService;
 
     @Override
-    public CrudFacade<Country> getCrudFacade() {
-        return countryFacade;
+    public CrudService<Country, CountryDTO> getCrudService() {
+        return countriesService;
     }
 
     @Override

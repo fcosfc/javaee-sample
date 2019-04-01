@@ -1,5 +1,8 @@
 package com.wordpress.fcosfc.betabeers.javaee.sample.facade;
 
+import com.wordpress.fcosfc.betabeers.javaee.sample.repository.CountriesRepository;
+import com.wordpress.fcosfc.betabeers.javaee.sample.repository.ShipTypesRepository;
+import com.wordpress.fcosfc.betabeers.javaee.sample.repository.ShipsRepository;
 import com.wordpress.fcosfc.betabeers.javaee.sample.entity.Country;
 import com.wordpress.fcosfc.betabeers.javaee.sample.entity.Ship;
 import com.wordpress.fcosfc.betabeers.javaee.sample.entity.ShipType;
@@ -33,19 +36,19 @@ public class ShipFacadeIntegrationTest {
     private static final Integer FILTERED_SHIP_LIST_SIZE = 3;
     
     @Inject
-    private ShipFacade shipFacade;
+    private ShipsRepository shipFacade;
     
     @Inject
-    private ShipTypeFacade shipTypeFacade;
+    private ShipTypesRepository shipTypeFacade;
     
     @Inject
-    private CountryFacade countryFacade;
+    private CountriesRepository countryFacade;
     
     @Deployment
     public static WebArchive deployment() {
         return JavaEESampleTestDeployment.deployment()                
                 .addPackage(com.wordpress.fcosfc.betabeers.javaee.sample.entity.Ship.class.getPackage())
-                .addPackage(com.wordpress.fcosfc.betabeers.javaee.sample.facade.CrudFacade.class.getPackage());
+                .addPackage(com.wordpress.fcosfc.betabeers.javaee.sample.repository.CrudRepository.class.getPackage());
     }
 
     @Test

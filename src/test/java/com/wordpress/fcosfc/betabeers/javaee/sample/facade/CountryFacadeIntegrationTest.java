@@ -1,5 +1,6 @@
 package com.wordpress.fcosfc.betabeers.javaee.sample.facade;
 
+import com.wordpress.fcosfc.betabeers.javaee.sample.repository.CountriesRepository;
 import com.wordpress.fcosfc.betabeers.javaee.sample.entity.Country;
 import com.wordpress.fcosfc.betabeers.javaee.sample.test.JavaEESampleTestDeployment;
 import javax.inject.Inject;
@@ -32,14 +33,14 @@ public class CountryFacadeIntegrationTest {
     private static final Integer FILTERED_COUNTRY_LIST_SIZE = 2;
     
     @Inject
-    private CountryFacade countryFacade;
+    private CountriesRepository countryFacade;
     
     @Deployment
     public static WebArchive deployment() {
         return JavaEESampleTestDeployment.deployment()                
                 .addClass(com.wordpress.fcosfc.betabeers.javaee.sample.entity.Country.class)
-                .addClass(com.wordpress.fcosfc.betabeers.javaee.sample.facade.CrudFacade.class)
-                .addClass(com.wordpress.fcosfc.betabeers.javaee.sample.facade.CountryFacade.class);
+                .addClass(com.wordpress.fcosfc.betabeers.javaee.sample.repository.CrudRepository.class)
+                .addClass(com.wordpress.fcosfc.betabeers.javaee.sample.repository.CountriesRepository.class);
     }
     
     @Test

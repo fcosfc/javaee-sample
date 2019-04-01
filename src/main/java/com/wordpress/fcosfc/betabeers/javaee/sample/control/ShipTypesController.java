@@ -1,8 +1,8 @@
 package com.wordpress.fcosfc.betabeers.javaee.sample.control;
 
 import com.wordpress.fcosfc.betabeers.javaee.sample.control.form.ShipTypesForm;
-import com.wordpress.fcosfc.betabeers.javaee.sample.entity.ShipType;
-import com.wordpress.fcosfc.betabeers.javaee.sample.facade.ShipTypeFacade;
+import com.wordpress.fcosfc.betabeers.javaee.sample.dto.ShipTypeDTO;
+import com.wordpress.fcosfc.betabeers.javaee.sample.service.ShipTypesService;
 import com.wordpress.fcosfc.betabeers.javaee.sample.util.ExceptionManager;
 import com.wordpress.fcosfc.betabeers.javaee.sample.util.cdi.SampleResourceBundle;
 import java.io.Serializable;
@@ -18,23 +18,23 @@ import javax.inject.Named;
  * 
  * @author Paco Saucedo
  */
-@Named
+@Named("shipTypes")
 @ViewScoped
-public class ShipTypes extends CrudController<ShipType> implements Serializable {
+public class ShipTypesController extends CrudController<ShipTypeDTO> implements Serializable {
 
     private static final long serialVersionUID = 1935122046950251201L;
 
     @Inject
-    public ShipTypes(ShipTypesForm form, 
-            ShipTypeFacade facade, 
+    public ShipTypesController(ShipTypesForm form, 
+            ShipTypesService service, 
             @SampleResourceBundle ResourceBundle resourceBundle, 
             ExceptionManager exceptionManager) {
-        super(form, facade, resourceBundle, exceptionManager);
+        super(form, service, resourceBundle, exceptionManager);
     }         
        
     @Override
-    protected ShipType getNewEntity() {
-        return new ShipType();
+    protected ShipTypeDTO getNewEntity() {
+        return new ShipTypeDTO();
     }
     
 }

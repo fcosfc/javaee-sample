@@ -1,7 +1,8 @@
 package com.wordpress.fcosfc.betabeers.javaee.sample.resource.rest;
 
-import com.wordpress.fcosfc.betabeers.javaee.sample.entity.RestEntity;
-import com.wordpress.fcosfc.betabeers.javaee.sample.facade.CrudFacade;
+import com.wordpress.fcosfc.betabeers.javaee.sample.dto.AbstractDTO;
+import com.wordpress.fcosfc.betabeers.javaee.sample.entity.AbstractEntity;
+import com.wordpress.fcosfc.betabeers.javaee.sample.service.CrudService;
 import java.net.URI;
 import java.util.List;
 import java.util.logging.Level;
@@ -27,22 +28,23 @@ import javax.ws.rs.core.UriInfo;
  *
  * @author Paco Saucedo
  * @param <T>
+ * @param <K>
  */
-public abstract class CrudRestResource<T extends RestEntity> {
+public abstract class CrudRestResource<T extends AbstractEntity, K extends AbstractDTO> {
 
-    public abstract CrudFacade<T> getCrudFacade();
+    public abstract CrudService<T,K> getCrudService();
     
     public abstract Logger getLogger();
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response create(T entity, @Context UriInfo uriInfo) {
+    public Response create(K dto, @Context UriInfo uriInfo) {
         try {
-            entity = getCrudFacade().create(entity);
+            dto = getCrudService().create(dto);
 
             return Response.created(
                     getURI(uriInfo,
-                            entity.getId()))
+                            dto.getId()))
                     .build();
         } catch (Exception ex) {
             getLogger().log(Level.SEVERE, ex.getMessage(), ex);
@@ -56,9 +58,10 @@ public abstract class CrudRestResource<T extends RestEntity> {
     @PUT
     @Path("{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response edit(@PathParam("id") String id, T entity) {
+    public Response edit(@PathParam("id") String id, K dto) {
         try {
-            getCrudFacade().update(entity);
+            dto.setId(id);
+            getCrudService().update(dto);
 
             return Response.ok().build();
         } catch (Exception ex) {
@@ -74,7 +77,7 @@ public abstract class CrudRestResource<T extends RestEntity> {
     @Path("{id}")
     public Response remove(@PathParam("id") String id) {
         try {
-            getCrudFacade().remove(getCrudFacade().find(id));
+            getCrudService().remove(id);
 
             return Response.noContent().build();
         } catch (Exception ex) {
@@ -91,9 +94,9 @@ public abstract class CrudRestResource<T extends RestEntity> {
     @Produces(MediaType.APPLICATION_JSON)
     public Response find(@PathParam("id") String id) {
         try {
-            T entity = getCrudFacade().find(id);
+            K dto = getCrudService().find(id);
 
-            return Response.ok(entity).build();
+            return Response.ok(dto).build();
         } catch (Exception ex) {
             getLogger().log(Level.SEVERE, ex.getMessage(), ex);
             
@@ -107,9 +110,9 @@ public abstract class CrudRestResource<T extends RestEntity> {
     @Produces(MediaType.APPLICATION_JSON)
     public Response findAll() {
         try {
-            List<T> entityList = getCrudFacade().findAll();
+            List<K> dtoList = getCrudService().findAll();
 
-            return Response.ok(entityList).build();
+            return Response.ok(dtoList).build();
         } catch (Exception ex) {
             getLogger().log(Level.SEVERE, ex.getMessage(), ex);
             

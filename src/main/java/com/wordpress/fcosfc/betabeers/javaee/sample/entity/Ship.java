@@ -1,6 +1,5 @@
 package com.wordpress.fcosfc.betabeers.javaee.sample.entity;
 
-import com.wordpress.fcosfc.betabeers.javaee.sample.validation.ImoCode;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
@@ -12,28 +11,22 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
-import javax.persistence.Version;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Full JPA entity example, with table/columns definitions, bean validations and named queries.
+ * Full JPA entity example, with table/columns definitions and named queries.
  * 
- * Ejemplo completo de entidad JPA, con definiciones de tabla/columnas, validaciones y consultas almacenadas.
+ * Ejemplo completo de entidad JPA, con definiciones de tabla/columnas y consultas almacenadas.
  * 
  * @author Paco Saucedo
  */
 @Entity
 @Table(name = "SHIPS")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Ship.FindAll", query = "SELECT s FROM Ship s ORDER BY s.name"),
     @NamedQuery(name = "Ship.FindByNameFilter", query = "SELECT s FROM Ship s WHERE upper(s.name) like upper(:nameFilter) ORDER BY s.name")})
-public class Ship implements Serializable, RestEntity {
+public class Ship extends AbstractEntity implements Serializable {
+
+    private static final long serialVersionUID = 9195481274266995235L;
     
     @Id
     @GeneratedValue
@@ -41,24 +34,16 @@ public class Ship implements Serializable, RestEntity {
     private Long shipId;
     
     @Column(name = "IMO_CODE", nullable = false, unique = true)
-    @NotNull
-    @ImoCode
     private Integer imoCode;
     
     @Column(name = "NAME", nullable = false, length = 50)
-    @NotNull
-    @Size(min = 2, max = 50)
     private String name;
     
     @Column(name = "GROSS_TONS", nullable = false)
-    @NotNull
-    @Min(1)
-    @Max(200000)
     private Integer grossTons;
     
     @Temporal(javax.persistence.TemporalType.DATE)
     @Column(name = "DATE_BUILT")
-    @Past
     private Date dateBuilt;
     
     @ManyToOne(optional = false)
@@ -66,9 +51,6 @@ public class Ship implements Serializable, RestEntity {
     
     @ManyToOne(optional = false)
     private ShipType shipType;
-    
-    @Version
-    private Long version;
 
     public Ship() {
     }
@@ -88,11 +70,6 @@ public class Ship implements Serializable, RestEntity {
 
     public void setShipId(Long shipId) {
         this.shipId = shipId;
-    }
-
-    @Override
-    public String getId() {
-        return shipId.toString();
     }
 
     public Integer getImoCode() {
@@ -141,10 +118,6 @@ public class Ship implements Serializable, RestEntity {
 
     public void setShipType(ShipType shipType) {
         this.shipType = shipType;
-    }
-
-    public Long getVersion() {
-        return version;
     }
 
     @Override

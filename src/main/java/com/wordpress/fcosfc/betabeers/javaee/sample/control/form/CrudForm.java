@@ -1,5 +1,6 @@
 package com.wordpress.fcosfc.betabeers.javaee.sample.control.form;
 
+import com.wordpress.fcosfc.betabeers.javaee.sample.dto.AbstractDTO;
 import java.util.List;
 
 /**
@@ -8,37 +9,37 @@ import java.util.List;
  * Estructura de datos abstracta para un formulario CRUD
  * 
  * @author Paco Saucedo
- * @param <T>
+ * @param <K>
  */
-public abstract class CrudForm<T> {
+public abstract class CrudForm<K extends AbstractDTO> {
     
-    private List<T> elements;
-    private List<T> filteredElements;
-    private T currentEntity;
+    private List<K> elements;
+    private List<K> filteredElements;
+    private K currentEntity;
     private boolean creating;
     private boolean editing;
 
-    public List<T> getElements() {
+    public List<K> getElements() {
         return elements;
     }
 
-    public void setElements(List<T> elements) {
+    public void setElements(List<K> elements) {
         this.elements = elements;
     }
 
-    public List<T> getFilteredElements() {
+    public List<K> getFilteredElements() {
         return filteredElements;
     }
 
-    public void setFilteredElements(List<T> filteredElements) {
+    public void setFilteredElements(List<K> filteredElements) {
         this.filteredElements = filteredElements;
     }
 
-    public T getCurrentEntity() {
+    public K getCurrentEntity() {
         return currentEntity;
     }
 
-    public void setCurrentEntity(T currentEntity) {
+    public void setCurrentEntity(K currentEntity) {
         this.currentEntity = currentEntity;
     }
 

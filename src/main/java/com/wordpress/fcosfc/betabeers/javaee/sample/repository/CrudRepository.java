@@ -1,4 +1,4 @@
-package com.wordpress.fcosfc.betabeers.javaee.sample.facade;
+package com.wordpress.fcosfc.betabeers.javaee.sample.repository;
 
 import java.util.List;
 import javax.persistence.criteria.CriteriaQuery;
@@ -7,18 +7,18 @@ import javax.persistence.criteria.Root;
 import javax.persistence.EntityManager;
 
 /**
-* Abstract facade for persistence management. JPA operations with examples of the Criteria API.
+* Abstract repository for persistence management. JPA operations with examples of the Criteria API.
 * 
-* Fachada abstracta para gestión de persistencia. Operaciones JPA con ejemplos de la Criteria API.
+* Repositorio abstracto para gestión de persistencia. Operaciones JPA con ejemplos de la Criteria API.
 *
 * @author Paco Saucedo
  * @param <T>
 */
-public abstract class CrudFacade<T> {
+public abstract class CrudRepository<T> {
     
     private final Class<T> entityClass;
     
-    public CrudFacade(Class<T> entityClass) {
+    public CrudRepository(Class<T> entityClass) {
         this.entityClass = entityClass;
     }
 

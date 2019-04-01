@@ -6,22 +6,20 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Version;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Basic JPA entity example, with JAXB and cache annotations
+ * Basic JPA entity example, with cache annotations
  *
- * Ejemplo básico de entidad JPA, con anotaciones para la serialización JAXB y
- * caché.
+ * Ejemplo básico de entidad JPA, con anotaciones para gestión de caché.
  *
  * @author Paco Saucedo
  */
 @Entity
 @Table(name = "COUNTRIES")
-@XmlRootElement
 @Cacheable
-public class Country implements Serializable, RestEntity {
+public class Country extends AbstractEntity implements Serializable {
+
+    private static final long serialVersionUID = -5212121096197712475L;
 
     @Id
     @Column(name = "ISO_CODE", length = 2)
@@ -29,9 +27,6 @@ public class Country implements Serializable, RestEntity {
 
     @Column(nullable = false, length = 100)
     private String name;
-
-    @Version
-    private Long version;
 
     public Country() {
     }
@@ -49,21 +44,12 @@ public class Country implements Serializable, RestEntity {
         this.isoCode = isoCode;
     }
 
-    @Override
-    public String getId() {
-        return isoCode;
-    }
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Long getVersion() {
-        return version;
     }
 
     @Override

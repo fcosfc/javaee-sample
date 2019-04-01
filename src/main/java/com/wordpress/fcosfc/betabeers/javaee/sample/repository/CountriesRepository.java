@@ -1,4 +1,4 @@
-package com.wordpress.fcosfc.betabeers.javaee.sample.facade;
+package com.wordpress.fcosfc.betabeers.javaee.sample.repository;
 
 import com.wordpress.fcosfc.betabeers.javaee.sample.entity.Country;
 import java.util.List;
@@ -7,19 +7,19 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 /**
- * Country entity facade. EJB example with example of the Persistence Query Language.
+ * Country entity repository. EJB example with example of the Persistence Query Language.
  * 
- * Fachada para el manejo de la entidad Country. Es un EJB con ejemplos del Persistence Query Language.
+ * Repositorio para el manejo de la entidad Country. Es un EJB con ejemplos del Persistence Query Language.
  * 
  * @author Paco Saucedo
  */
 @Stateless
-public class CountryFacade extends CrudFacade<Country> {
+public class CountriesRepository extends CrudRepository<Country> {
     
     @PersistenceContext
     private EntityManager em;
 
-    public CountryFacade() {
+    public CountriesRepository() {
         super(Country.class);
     }
     

@@ -1,12 +1,12 @@
 package com.wordpress.fcosfc.betabeers.javaee.sample.control;
 
 import com.wordpress.fcosfc.betabeers.javaee.sample.control.form.ShipsForm;
-import com.wordpress.fcosfc.betabeers.javaee.sample.entity.Country;
-import com.wordpress.fcosfc.betabeers.javaee.sample.entity.Ship;
-import com.wordpress.fcosfc.betabeers.javaee.sample.entity.ShipType;
-import com.wordpress.fcosfc.betabeers.javaee.sample.facade.CountryFacade;
-import com.wordpress.fcosfc.betabeers.javaee.sample.facade.ShipFacade;
-import com.wordpress.fcosfc.betabeers.javaee.sample.facade.ShipTypeFacade;
+import com.wordpress.fcosfc.betabeers.javaee.sample.dto.CountryDTO;
+import com.wordpress.fcosfc.betabeers.javaee.sample.dto.ShipDTO;
+import com.wordpress.fcosfc.betabeers.javaee.sample.dto.ShipTypeDTO;
+import com.wordpress.fcosfc.betabeers.javaee.sample.service.CountriesService;
+import com.wordpress.fcosfc.betabeers.javaee.sample.service.ShipTypesService;
+import com.wordpress.fcosfc.betabeers.javaee.sample.service.ShipsService;
 import com.wordpress.fcosfc.betabeers.javaee.sample.util.ExceptionManager;
 import com.wordpress.fcosfc.betabeers.javaee.sample.util.cdi.SampleResourceBundle;
 import java.io.Serializable;
@@ -28,32 +28,32 @@ import javax.inject.Named;
 
 /**
  * Controller example.
- * 
+ *
  * Ejemplo de controlador de la interacción entre el backend y el frontend.
- * 
+ *
  * @author Paco Saucedo
  */
-@Named
+@Named("ships")
 @ViewScoped
-public class Ships extends CrudController<Ship> implements Serializable {
+public class ShipsController extends CrudController<ShipDTO> implements Serializable {
 
     private static final long serialVersionUID = 1905122041950251207L;
-        
-    @Inject
-    private CountryFacade countryFacade;
 
     @Inject
-    private ShipTypeFacade shipTypeFacade;
+    private CountriesService countriesService;
 
-    private List<Country> allCountries;
-    private List<ShipType> allShipTypes;
-    
     @Inject
-    public Ships(ShipsForm form, 
-            ShipFacade facade, 
-            @SampleResourceBundle ResourceBundle resourceBundle, 
+    private ShipTypesService shipTypesService;
+
+    private List<CountryDTO> allCountries;
+    private List<ShipTypeDTO> allShipTypes;
+
+    @Inject
+    public ShipsController(ShipsForm form,
+            ShipsService service,
+            @SampleResourceBundle ResourceBundle resourceBundle,
             ExceptionManager exceptionManager) {
-        super(form, facade, resourceBundle, exceptionManager);
+        super(form, service, resourceBundle, exceptionManager);
     }
 
     @PostConstruct
@@ -61,27 +61,27 @@ public class Ships extends CrudController<Ship> implements Serializable {
     protected void init() {
         super.init();
         try {
-            allCountries = countryFacade.findAll();
-            allShipTypes = shipTypeFacade.findAll();
+            allCountries = countriesService.findAll();
+            allShipTypes = shipTypesService.findAll();
         } catch (Exception ex) {
             getExceptionManager().manageException(ex);
         }
     }
 
-    public List<Country> getAllCountries() {
+    public List<CountryDTO> getAllCountries() {
         return allCountries;
     }
 
-    public List<ShipType> getAllShipTypes() {
+    public List<ShipTypeDTO> getAllShipTypes() {
         return allShipTypes;
     }
 
     @Override
-    protected Ship getNewEntity() {
-        return new Ship();
+    protected ShipDTO getNewEntity() {
+        return new ShipDTO();
     }
 
-    @FacesConverter(forClass = ShipType.class)
+    @FacesConverter(forClass = ShipTypeDTO.class)
     public static class ShipTypeConverter implements Converter {
 
         @Inject
@@ -94,13 +94,11 @@ public class Ships extends CrudController<Ship> implements Serializable {
             }
 
             try {
-                Ships ships = (Ships) context.getApplication().getELResolver().
-                        getValue(context.getELContext(), null, "ships");
-
-                return ships.getShipType(value);
+                return getShipsController(context).getShipType(value);
             } catch (Exception ex) {
                 logger.log(Level.SEVERE, null, ex);
-                throw new ConverterException(new FacesMessage(value + "not valid"), ex);
+
+                throw new ConverterException(new FacesMessage(value + " not valid"), ex);
             }
         }
 
@@ -110,15 +108,15 @@ public class Ships extends CrudController<Ship> implements Serializable {
                 return null;
             }
 
-            if (value instanceof ShipType) {
-                return ((ShipType) value).getShipTypeCode();
+            if (value instanceof ShipTypeDTO) {
+                return ((ShipTypeDTO) value).getShipTypeCode();
             } else {
                 return null;
             }
         }
     }
 
-    @FacesConverter(forClass = Country.class)
+    @FacesConverter(forClass = CountryDTO.class)
     public static class CountryConverter implements Converter {
 
         @Inject
@@ -131,13 +129,11 @@ public class Ships extends CrudController<Ship> implements Serializable {
             }
 
             try {
-                Ships ships = (Ships) context.getApplication().getELResolver().
-                        getValue(context.getELContext(), null, "ships");
-
-                return ships.getCountry(value);
+                return getShipsController(context).getCountry(value);
             } catch (Exception ex) {
                 logger.log(Level.SEVERE, null, ex);
-                throw new ConverterException(new FacesMessage(value + "not valid"), ex);
+
+                throw new ConverterException(new FacesMessage(value + " not valid"), ex);
             }
         }
 
@@ -147,17 +143,22 @@ public class Ships extends CrudController<Ship> implements Serializable {
                 return null;
             }
 
-            if (value instanceof Country) {
-                return ((Country) value).getIsoCode();
+            if (value instanceof CountryDTO) {
+                return ((CountryDTO) value).getIsoCode();
             } else {
                 return null;
             }
         }
     }
 
-    protected ShipType getShipType(String shipTypeCode) {
+    protected static ShipsController getShipsController(FacesContext context) {
+        return (ShipsController) context.getApplication().getELResolver().
+                getValue(context.getELContext(), null, "ships");
+    }
+
+    protected ShipTypeDTO getShipType(String shipTypeCode) {
         try {
-            return shipTypeFacade.find(shipTypeCode);
+            return shipTypesService.find(shipTypeCode);
         } catch (Exception ex) {
             getExceptionManager().manageException(ex);
         }
@@ -165,9 +166,9 @@ public class Ships extends CrudController<Ship> implements Serializable {
         return null;
     }
 
-    protected Country getCountry(String isoCode) {
+    protected CountryDTO getCountry(String isoCode) {
         try {
-            return countryFacade.find(isoCode);
+            return countriesService.find(isoCode);
         } catch (Exception ex) {
             getExceptionManager().manageException(ex);
         }

@@ -1,4 +1,4 @@
-package com.wordpress.fcosfc.betabeers.javaee.sample.facade;
+package com.wordpress.fcosfc.betabeers.javaee.sample.repository;
 
 import com.wordpress.fcosfc.betabeers.javaee.sample.entity.ShipType;
 import java.util.List;
@@ -7,19 +7,19 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 /**
- * Ship type entity facade. EJB example with example of the Persistence Query Language.
+ * Ship type entity repository. EJB example with example of the Persistence Query Language.
  * 
- * Fachada para el manejo de la entidad ShipType. Es un EJB con ejemplos del Persistence Query Language.
+ * Repositorio para el manejo de la entidad ShipType. Es un EJB con ejemplos del Persistence Query Language.
  * 
  * @author Paco Saucedo
  */
 @Stateless
-public class ShipTypeFacade extends CrudFacade<ShipType> {
+public class ShipTypesRepository extends CrudRepository<ShipType> {
     
     @PersistenceContext
     private EntityManager em;
 
-    public ShipTypeFacade() {
+    public ShipTypesRepository() {
         super(ShipType.class);
     }
     

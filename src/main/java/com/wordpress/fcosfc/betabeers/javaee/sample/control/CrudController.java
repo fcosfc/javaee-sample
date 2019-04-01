@@ -1,8 +1,9 @@
 package com.wordpress.fcosfc.betabeers.javaee.sample.control;
 
 import com.wordpress.fcosfc.betabeers.javaee.sample.control.form.CrudForm;
+import com.wordpress.fcosfc.betabeers.javaee.sample.dto.AbstractDTO;
 import com.wordpress.fcosfc.betabeers.javaee.sample.util.JsfUtil;
-import com.wordpress.fcosfc.betabeers.javaee.sample.facade.CrudFacade;
+import com.wordpress.fcosfc.betabeers.javaee.sample.service.CrudService;
 import com.wordpress.fcosfc.betabeers.javaee.sample.util.ExceptionManager;
 import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
@@ -13,26 +14,26 @@ import javax.annotation.PostConstruct;
  * Clase abstracta para el soporte en la presentación de formularios CRUD.
  *
  * @author Paco Saucedo
- * @param <T>
+ * @param <K>
  */
-public abstract class CrudController<T> {
+public abstract class CrudController<K extends AbstractDTO> {
     
     private final CrudForm form;
 
-    private final CrudFacade facade;
+    private final CrudService service;
     
     private final ResourceBundle resourceBundle;
     
     private final ExceptionManager exceptionManager;
     
-    protected abstract T getNewEntity();    
+    protected abstract K getNewEntity();    
     
     public CrudController(CrudForm form, 
-            CrudFacade facade, 
+            CrudService service, 
             ResourceBundle resourceBundle, 
             ExceptionManager exceptionManager) {
         this.form = form;
-        this.facade = facade;
+        this.service = service;
         this.resourceBundle = resourceBundle;
         this.exceptionManager = exceptionManager;
     }
@@ -47,7 +48,7 @@ public abstract class CrudController<T> {
     }
 
     protected void refreshData() {
-        form.setElements(facade.findAll());
+        form.setElements(service.findAll());
         form.setFilteredElements(null);
     }
     
@@ -61,7 +62,7 @@ public abstract class CrudController<T> {
 
     public String create() {
         try {
-            facade.create(form.getCurrentEntity());
+            service.create(form.getCurrentEntity());
             form.setCurrentEntity(null);
             refreshData();
 
@@ -84,7 +85,7 @@ public abstract class CrudController<T> {
 
     public String update() {
         try {
-            facade.update(form.getCurrentEntity());
+            service.update(form.getCurrentEntity());
             form.setCurrentEntity(null);
             form.setEditing(false);
             refreshData();
@@ -101,7 +102,7 @@ public abstract class CrudController<T> {
 
     public String remove() {
         try {
-            facade.remove(form.getCurrentEntity());
+            service.remove(form.getCurrentEntity().getId());
             form.setCreating(false);
             form.setEditing(false);
             refreshData();
@@ -120,8 +121,8 @@ public abstract class CrudController<T> {
         return form;
     }
 
-    protected CrudFacade getFacade() {
-        return facade;
+    protected CrudService getService() {
+        return service;
     }
 
     protected ResourceBundle getResourceBundle() {

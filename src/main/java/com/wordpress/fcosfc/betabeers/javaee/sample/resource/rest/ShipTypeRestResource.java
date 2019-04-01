@@ -1,8 +1,9 @@
 package com.wordpress.fcosfc.betabeers.javaee.sample.resource.rest;
 
+import com.wordpress.fcosfc.betabeers.javaee.sample.dto.ShipTypeDTO;
 import com.wordpress.fcosfc.betabeers.javaee.sample.entity.ShipType;
-import com.wordpress.fcosfc.betabeers.javaee.sample.facade.CrudFacade;
-import com.wordpress.fcosfc.betabeers.javaee.sample.facade.ShipTypeFacade;
+import com.wordpress.fcosfc.betabeers.javaee.sample.service.CrudService;
+import com.wordpress.fcosfc.betabeers.javaee.sample.service.ShipTypesService;
 import java.util.logging.Logger;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -17,22 +18,22 @@ import javax.ws.rs.Path;
  */
 @ApplicationScoped
 @Path("shiptype")
-public class ShipTypeRestResource extends CrudRestResource<ShipType> {
+public class ShipTypeRestResource extends CrudRestResource<ShipType, ShipTypeDTO> {
     
     @Inject 
     private Logger logger;
     
     @Inject
-    protected ShipTypeFacade shipTypeFacade;
+    protected ShipTypesService shipTypesService;
 
     @Override
-    public CrudFacade<ShipType> getCrudFacade() {
-        return shipTypeFacade;
+    public CrudService<ShipType, ShipTypeDTO> getCrudService() {
+        return shipTypesService;
     }
 
     @Override
     public Logger getLogger() {
         return logger;
-    }
+    }    
         
 }
