@@ -33,13 +33,13 @@ public class ShipsRepositoryIntegrationTest {
     private static final Integer FILTERED_SHIP_LIST_SIZE = 3;
     
     @Inject
-    private ShipsRepository shipFacade;
+    private ShipsRepository shipsRepository;
     
     @Inject
-    private ShipTypesRepository shipTypeFacade;
+    private ShipTypesRepository shipTypesRepository;
     
     @Inject
-    private CountriesRepository countryFacade;
+    private CountriesRepository countriesRepository;
     
     @Deployment
     public static WebArchive deployment() {
@@ -51,9 +51,9 @@ public class ShipsRepositoryIntegrationTest {
     @Test
     @InSequence(2)
     public void testCreate() throws Exception {
-        ShipType containerShip = shipTypeFacade.find("CON");
-        Country spain = countryFacade.find("ES");        
-        shipFacade.create(new Ship(9703291, 
+        ShipType containerShip = shipTypesRepository.find("CON");
+        Country spain = countriesRepository.find("ES");        
+        shipsRepository.create(new Ship(9703291, 
                 "MSC Oscar",
                 192237,
                 Calendar.getInstance().getTime(),
@@ -65,9 +65,9 @@ public class ShipsRepositoryIntegrationTest {
     @Test
     @InSequence(3)
     public void testUpdate() throws Exception {
-        Ship ship = shipFacade.find(SHIP_ID);
+        Ship ship = shipsRepository.find(SHIP_ID);
         ship.setName(SHIP_NAME);
-        shipFacade.update(ship);
+        shipsRepository.update(ship);
     }
 
     @Test
@@ -75,17 +75,17 @@ public class ShipsRepositoryIntegrationTest {
     public void testFind() throws Exception {
         Assert.assertEquals("Wrong ship found",
                 SHIP_NAME,
-                shipFacade.find(SHIP_ID).getName());
+                shipsRepository.find(SHIP_ID).getName());
     }
 
     @Test
     @InSequence(5)
     public void testRemove() throws Exception {
-        Ship ship = shipFacade.find(SHIP_ID);
-        shipFacade.remove(ship);
+        Ship ship = shipsRepository.find(SHIP_ID);
+        shipsRepository.remove(ship);
         Assert.assertEquals("No ship expected after removing the item",
                 null,
-                shipFacade.find(SHIP_ID));
+                shipsRepository.find(SHIP_ID));
     }
 
     @Test
@@ -93,7 +93,7 @@ public class ShipsRepositoryIntegrationTest {
     public void testFindAll() throws Exception {
         Assert.assertEquals("Wrong number of ships found",
                 SHIP_LIST_SIZE,
-                (Integer) shipFacade.findAll().size());
+                (Integer) shipsRepository.findAll().size());
     }
 
     @Test
@@ -101,7 +101,7 @@ public class ShipsRepositoryIntegrationTest {
     public void testFindRange() throws Exception {
         Assert.assertEquals("Wrong number of ships found in range query",
                 RANGE_SHIP_LIST_SIZE,
-                (Integer) shipFacade.findRange(new int[] {0, 2}).size());
+                (Integer) shipsRepository.findRange(new int[] {0, 2}).size());
     }
 
     @Test
@@ -109,13 +109,13 @@ public class ShipsRepositoryIntegrationTest {
     public void testFindByFilter() throws Exception {
         Assert.assertEquals("Wrong number of ships found in no filter query",
                 SHIP_LIST_SIZE,
-                (Integer) shipFacade.findByFilter("%").size());
+                (Integer) shipsRepository.findByFilter("%").size());
         Assert.assertEquals("Wrong number of ships found in filtered query",
                 FILTERED_SHIP_LIST_SIZE,
-                (Integer) shipFacade.findByFilter(FILTER).size()); 
+                (Integer) shipsRepository.findByFilter(FILTER).size()); 
         Assert.assertEquals("Wrong order of ships found in filtered query",
                 FIRST_SHIP_IN_FILTERED_LIST,
-                shipFacade.findByFilter(FILTER).get(0).getName());        
+                shipsRepository.findByFilter(FILTER).get(0).getName());        
     }
 
     @Test
@@ -123,7 +123,7 @@ public class ShipsRepositoryIntegrationTest {
     public void testCount() throws Exception {
         Assert.assertEquals("Wrong count of ships",
                 SHIP_LIST_SIZE,
-                (Integer) shipFacade.count());
+                (Integer) shipsRepository.count());
     }
     
 }

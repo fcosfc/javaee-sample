@@ -31,7 +31,7 @@ public class ShipTypesRepositoryIntegrationTest {
     private static final Integer FILTERED_SHIP_TYPE_LIST_SIZE = 2;
     
     @Inject
-    private ShipTypesRepository shipTypeFacade;
+    private ShipTypesRepository shipTypesRepository;
     
     @Deployment
     public static WebArchive deployment() {
@@ -43,15 +43,15 @@ public class ShipTypesRepositoryIntegrationTest {
     @Test
     @InSequence(2)
     public void testCreate() throws Exception {
-        shipTypeFacade.create(new ShipType(SHIP_TYPE_CODE, SHIP_TYPE_DESCRIPTION));
+        shipTypesRepository.create(new ShipType(SHIP_TYPE_CODE, SHIP_TYPE_DESCRIPTION));
     }
 
     @Test
     @InSequence(3)
     public void testUpdate() throws Exception {
-        ShipType bulkCarrier = shipTypeFacade.find(SHIP_TYPE_CODE);
+        ShipType bulkCarrier = shipTypesRepository.find(SHIP_TYPE_CODE);
         bulkCarrier.setDescription(SHIP_TYPE_DESCRIPTION_UPDATED);
-        shipTypeFacade.update(bulkCarrier);
+        shipTypesRepository.update(bulkCarrier);
     }
 
     @Test
@@ -59,17 +59,17 @@ public class ShipTypesRepositoryIntegrationTest {
     public void testFind() throws Exception {
         Assert.assertEquals("Wrong ship type found",
                 SHIP_TYPE_DESCRIPTION_UPDATED,
-                shipTypeFacade.find(SHIP_TYPE_CODE).getDescription());
+                shipTypesRepository.find(SHIP_TYPE_CODE).getDescription());
     }
 
     @Test
     @InSequence(5)
     public void testRemove() throws Exception {
-        ShipType bulkCarrier = shipTypeFacade.find(SHIP_TYPE_CODE);
-        shipTypeFacade.remove(bulkCarrier);
+        ShipType bulkCarrier = shipTypesRepository.find(SHIP_TYPE_CODE);
+        shipTypesRepository.remove(bulkCarrier);
         Assert.assertEquals("No ship type expected after removing the item",
                 null,
-                shipTypeFacade.find(SHIP_TYPE_CODE));
+                shipTypesRepository.find(SHIP_TYPE_CODE));
     }
 
     @Test
@@ -77,7 +77,7 @@ public class ShipTypesRepositoryIntegrationTest {
     public void testFindAll() throws Exception {
         Assert.assertEquals("Wrong number of ship types found", 
                 SHIP_TYPE_LIST_SIZE,
-                (Integer) shipTypeFacade.findAll().size());
+                (Integer) shipTypesRepository.findAll().size());
     }
 
     @Test
@@ -85,7 +85,7 @@ public class ShipTypesRepositoryIntegrationTest {
     public void testFindRange() throws Exception {
         Assert.assertEquals("Wrong number of ship types found in range query",
                 RANGE_SHIP_TYPE_LIST_SIZE,
-                (Integer) shipTypeFacade.findRange(new int[] {0, 1}).size());
+                (Integer) shipTypesRepository.findRange(new int[] {0, 1}).size());
     }
 
     @Test
@@ -93,13 +93,13 @@ public class ShipTypesRepositoryIntegrationTest {
     public void testFindByFilter() throws Exception {
         Assert.assertEquals("Wrong number of ship types found in no filter query",
                 SHIP_TYPE_LIST_SIZE,
-                (Integer) shipTypeFacade.findByFilter("%").size());
+                (Integer) shipTypesRepository.findByFilter("%").size());
         Assert.assertEquals("Wrong number of ship types found in filtered query",
                 FILTERED_SHIP_TYPE_LIST_SIZE,
-                (Integer) shipTypeFacade.findByFilter(FILTER).size()); 
+                (Integer) shipTypesRepository.findByFilter(FILTER).size()); 
         Assert.assertEquals("Wrong order of ship types found in filtered query",
                 FIRST_SHIP_TYPE_IN_FILTERED_LIST,
-                shipTypeFacade.findByFilter(FILTER).get(0).getDescription());        
+                shipTypesRepository.findByFilter(FILTER).get(0).getDescription());        
     }
 
     @Test
@@ -107,7 +107,7 @@ public class ShipTypesRepositoryIntegrationTest {
     public void testCount() throws Exception {
         Assert.assertEquals("Wrong count of ship types",
                 SHIP_TYPE_LIST_SIZE,
-                (Integer) shipTypeFacade.count());
+                (Integer) shipTypesRepository.count());
     }
     
 }

@@ -32,7 +32,7 @@ public class CountriesRespositoryIntegrationTest {
     private static final Integer FILTERED_COUNTRY_LIST_SIZE = 2;
     
     @Inject
-    private CountriesRepository countryFacade;
+    private CountriesRepository countriesRepository;
     
     @Deployment
     public static WebArchive deployment() {
@@ -44,15 +44,15 @@ public class CountriesRespositoryIntegrationTest {
     @Test
     @InSequence(2)
     public void testCreate() throws Exception {
-        countryFacade.create(new Country(COUNTRY_ISO_CODE, COUNTRY_NAME));
+        countriesRepository.create(new Country(COUNTRY_ISO_CODE, COUNTRY_NAME));
     }
     
     @Test
     @InSequence(3)
     public void testUpdate() throws Exception {        
-        Country portugal = countryFacade.find(COUNTRY_ISO_CODE);
+        Country portugal = countriesRepository.find(COUNTRY_ISO_CODE);
         portugal.setName(COUNTRY_NAME_UPDATED);
-        countryFacade.update(portugal);
+        countriesRepository.update(portugal);
     }
     
     @Test
@@ -60,17 +60,17 @@ public class CountriesRespositoryIntegrationTest {
     public void testFind() throws Exception {
         Assert.assertEquals("Wrong country found", 
                 COUNTRY_NAME_UPDATED, 
-                countryFacade.find(COUNTRY_ISO_CODE).getName());
+                countriesRepository.find(COUNTRY_ISO_CODE).getName());
     }
     
     @Test
     @InSequence(5)
     public void testRemove() throws Exception {
-        Country portugal = countryFacade.find(COUNTRY_ISO_CODE);
-        countryFacade.remove(portugal);
+        Country portugal = countriesRepository.find(COUNTRY_ISO_CODE);
+        countriesRepository.remove(portugal);
         Assert.assertEquals("No country expected after removing the item", 
                 null, 
-                countryFacade.find(COUNTRY_ISO_CODE));
+                countriesRepository.find(COUNTRY_ISO_CODE));
     }
     
     @Test
@@ -78,10 +78,10 @@ public class CountriesRespositoryIntegrationTest {
     public void testFindAll() throws Exception {
         Assert.assertEquals("Wrong number of countries found", 
                 COUNTRY_LIST_SIZE, 
-                (Integer) countryFacade.findAll().size());
+                (Integer) countriesRepository.findAll().size());
         Assert.assertEquals("Countries list in wrong order",
                 FIRST_COUNTRY_NAME_IN_LIST,
-                countryFacade.findAll().get(0).getName());
+                countriesRepository.findAll().get(0).getName());
     }
     
     @Test
@@ -89,7 +89,7 @@ public class CountriesRespositoryIntegrationTest {
     public void testFindRange() throws Exception {
         Assert.assertEquals("Wrong number of coutries found in range query",
                 RANGE_COUNTRY_LIST_SIZE, 
-                (Integer) countryFacade.findRange(new int[] {2, 4}).size());
+                (Integer) countriesRepository.findRange(new int[] {2, 4}).size());
     }
     
     @Test
@@ -97,13 +97,13 @@ public class CountriesRespositoryIntegrationTest {
     public void testFindByFilter() throws Exception {
         Assert.assertEquals("Wrong number of countries found in no filter query",
                 COUNTRY_LIST_SIZE, 
-                (Integer) countryFacade.findByFilter("%").size());
+                (Integer) countriesRepository.findByFilter("%").size());
         Assert.assertEquals("Wrong number of countries found in filtered query",
                 FILTERED_COUNTRY_LIST_SIZE,
-                (Integer) countryFacade.findByFilter(FILTER).size()); 
+                (Integer) countriesRepository.findByFilter(FILTER).size()); 
         Assert.assertEquals("Wrong order of countries found in filtered query",
                 FIRST_COUNTRY_NAME_IN_FILTERED_LIST, 
-                countryFacade.findByFilter(FILTER).get(0).getName());        
+                countriesRepository.findByFilter(FILTER).get(0).getName());        
     }
     
     @Test
@@ -111,7 +111,7 @@ public class CountriesRespositoryIntegrationTest {
     public void testCount() throws Exception {
         Assert.assertEquals("Wrong count of countries",
                 COUNTRY_LIST_SIZE,
-                (Integer) countryFacade.count());
+                (Integer) countriesRepository.count());
     }
 
 }
