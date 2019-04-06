@@ -7,6 +7,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -38,7 +39,7 @@ public abstract class CrudRestResource<T extends AbstractEntity, K extends Abstr
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response create(K dto, @Context UriInfo uriInfo) {
+    public Response create(@Valid K dto, @Context UriInfo uriInfo) {
         try {
             dto = getCrudService().create(dto);
 
@@ -58,7 +59,7 @@ public abstract class CrudRestResource<T extends AbstractEntity, K extends Abstr
     @PUT
     @Path("{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response edit(@PathParam("id") String id, K dto) {
+    public Response edit(@PathParam("id") String id, @Valid K dto) {
         try {
             dto.setId(id);
             getCrudService().update(dto);
