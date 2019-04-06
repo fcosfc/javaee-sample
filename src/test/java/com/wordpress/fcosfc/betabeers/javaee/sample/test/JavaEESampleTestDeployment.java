@@ -17,6 +17,8 @@ public class JavaEESampleTestDeployment {
                 .addAsResource("META-INF/persistence.xml")
                 .addAsResource("import.sql")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
-                .addAsWebInfResource("javaee-sample-test-ds.xml");
+                .addAsWebInfResource("javaee-sample-test-ds.xml")
+                .addClass(com.wordpress.fcosfc.betabeers.javaee.sample.entity.AbstractEntity.class)
+                .addClass(com.wordpress.fcosfc.betabeers.javaee.sample.repository.CrudRepository.class);
     }
 }
