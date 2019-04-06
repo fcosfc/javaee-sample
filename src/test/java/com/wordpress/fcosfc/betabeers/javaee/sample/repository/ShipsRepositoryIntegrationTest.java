@@ -1,8 +1,5 @@
 package com.wordpress.fcosfc.betabeers.javaee.sample.repository;
 
-import com.wordpress.fcosfc.betabeers.javaee.sample.repository.CountriesRepository;
-import com.wordpress.fcosfc.betabeers.javaee.sample.repository.ShipTypesRepository;
-import com.wordpress.fcosfc.betabeers.javaee.sample.repository.ShipsRepository;
 import com.wordpress.fcosfc.betabeers.javaee.sample.entity.Country;
 import com.wordpress.fcosfc.betabeers.javaee.sample.entity.Ship;
 import com.wordpress.fcosfc.betabeers.javaee.sample.entity.ShipType;

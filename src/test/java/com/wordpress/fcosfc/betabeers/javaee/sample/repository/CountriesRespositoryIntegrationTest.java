@@ -1,6 +1,5 @@
 package com.wordpress.fcosfc.betabeers.javaee.sample.repository;
 
-import com.wordpress.fcosfc.betabeers.javaee.sample.repository.CountriesRepository;
 import com.wordpress.fcosfc.betabeers.javaee.sample.entity.Country;
 import com.wordpress.fcosfc.betabeers.javaee.sample.test.JavaEESampleTestDeployment;
 import javax.inject.Inject;
