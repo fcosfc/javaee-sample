@@ -28,6 +28,11 @@
     
     <repositories>
         <repository>
+            <id>jboss</id>
+            <name>JBoss Repository</name>
+            <url>https://repository.jboss.org/nexus/content/repositories/snapshots</url>
+        </repository>
+        <repository>
             <id>Primefaces</id>
             <name>Primefaces Repository</name>
             <url>http://repository.primefaces.org</url>
